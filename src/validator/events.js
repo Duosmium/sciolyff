@@ -89,7 +89,7 @@ export default yup.object().shape({
     )
     .test(
       "canonical-event",
-      "non-canonical event: ${value}",
+      "TODO: this is a warning: non-canonical event: ${value}",
       async (value) => await canonical([value], "events.csv")
     )
     .required(),

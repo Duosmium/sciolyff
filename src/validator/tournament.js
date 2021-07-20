@@ -89,7 +89,7 @@ export default yup.object().shape({
       // but recommended for states and regionals
       ["States", "Regionals"].includes(level)
         ? schema.required(
-            "TODO: change me (if you see this please let me know)"
+            `TODO: this is a warning: field 'bids:' recommended for level: ${level}`
           )
         : schema.oneOf(
             [undefined, null],
