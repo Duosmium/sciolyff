@@ -1,10 +1,15 @@
 import * as yup from "yup";
 
+// get grandparent from context
+const root = (context) => context.from[1].value;
+
 // helper functions
-const teamCount = (teams) => teams.filter((team) => !team.exhibition).length;
-const schoolsCount = (teams) =>
-  teams
-    .map((team) => [team.school, team.city, team.state])
+const teamCount = (context) =>
+  root(context)["Teams"].filter((team) => !team.exhibition).length;
+
+const schoolsCount = (context) =>
+  root(context)
+    ["Teams"].map((team) => [team.school, team.city, team.state])
     // dedupe by only keeping the first occurance
     .filter((school, index, self) => self.indexOf(school) === index).length;
 
@@ -55,7 +60,7 @@ export default yup.object().shape({
         value
           ? value <=
             Math.min(
-              teamCount(context.from[1].value["Teams"]),
+              teamCount(context),
               context.parent["maximum place"] || Infinity
             )
           : true
@@ -68,8 +73,7 @@ export default yup.object().shape({
     .test(
       "trophies-in-range",
       "trophies: larger than team count",
-      (value, context) =>
-        value ? value <= teamCount(context.from[1].value["Teams"]) : true
+      (value, context) => (value ? value <= teamCount(context) : true)
     )
     .notRequired(),
   bids: yup
@@ -78,7 +82,7 @@ export default yup.object().shape({
     .positive()
     .min(1)
     .test("bids-in-range", "bids: larger than school count", (value, context) =>
-      value ? value <= schoolsCount(context.from[1].value["Teams"]) : true
+      value ? value <= schoolsCount(context) : true
     )
     .when("level", (level, schema) =>
       // bids invalid for invitationals/nationals
@@ -132,8 +136,7 @@ export default yup.object().shape({
     .test(
       "max-place-in-range",
       "maximum place: larger than team count",
-      (value, context) =>
-        value ? value <= teamCount(context.from[1].value["Teams"]) : true
+      (value, context) => (value ? value <= teamCount(context) : true)
     )
     .notRequired(),
   "per-event n": yup

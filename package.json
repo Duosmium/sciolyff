@@ -28,6 +28,7 @@
   ],
   "dependencies": {
     "js-yaml": "^4.1.0",
+    "neat-csv": "^6.0.1",
     "yup": "^0.32.9"
   },
   "devDependencies": {
