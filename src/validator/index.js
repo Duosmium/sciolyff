@@ -38,7 +38,11 @@ tests.forEach((filename) => {
         console.log("valid!");
       })
       .catch((err) => {
-        console.error(err);
+        console.error({
+          tournament: err.value.Tournament,
+          message: err.errors,
+          params: err.params,
+        });
       });
   } catch (e) {
     console.log(e);
