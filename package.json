@@ -27,7 +27,7 @@
     "duosmium"
   ],
   "dependencies": {
-    "js-yaml": "^3.14.1",
+    "js-yaml": "^4.1.0",
     "yup": "^0.32.9"
   },
   "devDependencies": {
