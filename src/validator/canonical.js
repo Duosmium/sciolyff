@@ -41,6 +41,6 @@ function fetchData(file) {
 
 export default async function (name, file) {
   const data = await fetchData(file);
-  const res = data.some((row) => row.every((el) => name.includes(el)));
+  const res = data.some((row) => row.every((el, i) => name[i] === el));
   return res;
 }
