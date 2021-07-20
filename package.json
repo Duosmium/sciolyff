@@ -1,0 +1,42 @@
+{
+  "name": "sciolyff",
+  "version": "1.0.0",
+  "description": "A file format for Science Olympiad tournament results.",
+  "main": "src/index.js",
+  "scripts": {
+    "lint": "prettier --check . && eslint .",
+    "fix": "prettier --write . && eslint . --fix",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Duosmium/sciolyff-js.git"
+  },
+  "keywords": [
+    "sciolyff",
+    "scioly",
+    "science olympiad",
+    "duosmium"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Duosmium/sciolyff-js/issues"
+  },
+  "homepage": "https://github.com/Duosmium/sciolyff-js#readme",
+  "dependencies": {
+    "yup": "^0.32.9"
+  },
+  "devDependencies": {
+    "eslint": "^7.31.0",
+    "eslint-config-prettier": "^8.3.0",
+    "husky": "^7.0.1",
+    "lint-staged": "^11.0.1",
+    "prettier": "2.3.2"
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix",
+    "*.{js,css,md}": "prettier --write"
+  }
+}
