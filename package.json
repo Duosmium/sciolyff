@@ -2,16 +2,23 @@
   "name": "sciolyff",
   "version": "1.0.0",
   "description": "A file format for Science Olympiad tournament results.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Duosmium",
   "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Duosmium/sciolyff-js.git"
+  },
+  "homepage": "https://github.com/Duosmium/sciolyff-js#readme",
+  "bugs": {
+    "url": "https://github.com/Duosmium/sciolyff-js/issues"
+  },
   "scripts": {
     "lint": "prettier --check . && eslint .",
     "fix": "prettier --write . && eslint . --fix",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "husky install"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Duosmium/sciolyff-js.git"
   },
   "keywords": [
     "sciolyff",
@@ -19,13 +26,8 @@
     "science olympiad",
     "duosmium"
   ],
-  "author": "",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Duosmium/sciolyff-js/issues"
-  },
-  "homepage": "https://github.com/Duosmium/sciolyff-js#readme",
   "dependencies": {
+    "js-yaml": "^3.14.1",
     "yup": "^0.32.9"
   },
   "devDependencies": {
