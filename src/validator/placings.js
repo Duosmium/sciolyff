@@ -1,5 +1,7 @@
 import * as yup from "yup";
 
+import rawsSchema from "./raws.js";
+
 // get grandparent from context
 const root = (context) => context.from[1].value;
 
@@ -102,7 +104,7 @@ export default yup.object().shape({
     ),
   raw: yup
     .object()
-    .shape({})
+    .shape(rawsSchema)
     .notRequired()
     .when(
       ["participated", "disqualified", "unknown"],
