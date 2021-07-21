@@ -1,28 +1,23 @@
-import https from "https";
-import csv from "neat-csv";
+import fetchPoly from "node-fetch";
+import fetchRetry from "fetch-retry";
 
-// create async get function
-function get(url) {
-  return new Promise((resolve, reject) => {
-    https
-      .get(url, (res) => {
-        let data = "";
-        res.on("data", (chunk) => {
-          data += chunk;
-        });
-        res.on("end", () => {
-          resolve(data);
-        });
-      })
-      .on("error", reject);
-  });
-}
+const fetch = fetchRetry(fetchPoly, {
+  retries: 3,
+  retryDelay: function (attempt) {
+    return Math.pow(2, attempt) * 500; // 500, 1000, 2000
+  },
+});
+
+import csv from "neat-csv";
 
 const base = "https://duosmium.org/results/";
 function fetchData(file) {
   const inner = async (file) => {
     const url = new URL(file, base);
-    const data = await get(url);
+
+    const resp = await fetch(url);
+    const data = await resp.text();
+
     const parsed = (await csv(data, { headers: false })).map((row) =>
       Object.values(row)
     );
