@@ -92,7 +92,7 @@ export default yup.object().shape({
             `TODO: this is a warning: field 'bids:' recommended for level: ${level}`
           )
         : schema.oneOf(
-            [undefined, null],
+            [undefined],
             `bids: does not make sense for level: ${level}`
           )
     ),
@@ -104,7 +104,7 @@ export default yup.object().shape({
       bids !== undefined && bids !== null
         ? schema.notRequired()
         : schema.oneOf(
-            [undefined, null],
+            [undefined],
             "field 'bids per school:' not relevant without field 'bids:'"
           )
     ),
@@ -115,7 +115,7 @@ export default yup.object().shape({
       name !== undefined && name !== null
         ? schema.notRequired()
         : schema.oneOf(
-            [undefined, null],
+            [undefined],
             "field 'short name:' not relevant without field 'name:'"
           )
     )
@@ -150,7 +150,7 @@ export default yup.object().shape({
     .when(["start date", "end date"], (start, end, schema) =>
       start && end
         ? schema.oneOf(
-            [undefined, null],
+            [undefined],
             "date: does not make sense if start and end dates are provided"
           )
         : schema.required(
