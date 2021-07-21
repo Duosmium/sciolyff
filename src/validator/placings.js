@@ -102,10 +102,9 @@ export default yup.object().shape({
           (team) => team.number === context.parent.team && team.exhibition
         )
     ),
-  raw: yup
-    .object()
-    .shape(rawsSchema)
+  raw: rawsSchema
     .notRequired()
+    .default(undefined)
     .when(
       ["participated", "disqualified", "unknown"],
       (participated, disqualified, unknown, schema) =>
