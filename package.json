@@ -24,7 +24,7 @@
     "clean": "rm -rf dist",
     "lint": "eslint .",
     "format": "prettier --check .",
-    "fix": "prettier --write . && eslint . --fix",
+    "fix": "prettier --write . && eslint --fix .",
     "build": "tsc",
     "prepare": "husky install"
   },
@@ -55,7 +55,9 @@
     "typescript": "^4.3.5"
   },
   "lint-staged": {
-    "*.{js,ts}": "eslint --cache --fix",
-    "*.{js,ts,css,md}": "prettier --write"
+    "*": [
+      "prettier --write",
+      "eslint --cache --fix"
+    ]
   }
 }
