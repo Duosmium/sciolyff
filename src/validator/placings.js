@@ -18,7 +18,7 @@ export default yup.object().shape({
     )
     .test(
       "unique-event-and-team",
-      "duplicate placing with 'team: TODO: ${teamnumber}' and 'event: ${value}'",
+      "duplicate placing",
       (value, context) =>
         root(context)["Placings"].filter(
           (place) => place.event === value && place.team === context.parent.team

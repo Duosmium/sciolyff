@@ -1,4 +1,5 @@
 import * as yup from "yup";
+import { getIn } from "yup/lib/util/reach.js";
 
 import yaml from "js-yaml";
 import fs from "fs";
@@ -33,7 +34,6 @@ export default async function valid(repOrYaml, abortEarly = false) {
         valid: false,
         success: false,
         readable: "Failed to parse YAML.",
-        errors: [e],
       };
     }
   }
@@ -47,22 +47,38 @@ export default async function valid(repOrYaml, abortEarly = false) {
       valid: true,
       success: true,
       readable: "The SciOlyFF file passed the validation!",
-      errors: [],
     };
   } catch (e) {
     if (e.name === "ValidationError") {
+      const warningsOnly = e.errors.every((msg) => msg.startsWith("$$warn$$"));
+      const processedErrors = e.inner.map(
+        (err) =>
+          (err.errors[0].startsWith("$$warn$$")
+            ? "WARNING (still valid SciolyFF): " +
+              err.errors[0].replace("$$warn$$", "").trimStart()
+            : "ERROR (invalid SciolyFF): " + err.errors[1]) +
+          " at:\n" +
+          JSON.stringify(getIn(schema, err.path, rep).parent, undefined, 4)
+      );
+      if (warningsOnly) {
+        return {
+          valid: true,
+          success: true,
+          readable:
+            "Valid SciOlyFF!\n\nWarnings:\n" + processedErrors.join("\n\n"),
+        };
+      }
       return {
         valid: false,
         success: true,
-        readable: "",
-        errors: e.inner,
+        readable:
+          "Invalid SciOlyFF!\n\nSee Errors:\n" + processedErrors.join("\n\n"),
       };
     } else {
       return {
         valid: false,
         success: false,
         readable: "An unexpected error occurred",
-        errors: [e],
       };
     }
   }
@@ -75,11 +91,13 @@ export default async function valid(repOrYaml, abortEarly = false) {
 }
 
 const tests = [
-  "examples/2018-12-08_liso_invitational_b.yaml",
+  // "examples/2018-12-08_liso_invitational_b.yaml",
   "examples/2020-02-01_solon_invitational_c.yaml",
-  "examples/2019-03-16_WI_states_b.yaml",
-  "examples/2017-05-20_nationals_c.yaml",
+  // "examples/2019-03-16_WI_states_b.yaml",
+  // "examples/2017-05-20_nationals_c.yaml",
 ];
 tests.forEach((filename) => {
-  valid(fs.readFileSync(filename, "utf8")).then((res) => console.log(res));
+  valid(fs.readFileSync(filename, "utf8")).then((res) =>
+    console.log(res.readable)
+  );
 });

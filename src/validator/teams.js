@@ -32,7 +32,7 @@ export default yup.object().shape({
     .trim()
     .test(
       "canonical-school-name",
-      "TODO: warning: non-canonical school ${value}",
+      "$$warn$$ non-canonical school ${value}",
       async (value, context) =>
         await canonical(
           [value, context.parent.city, context.parent.state],
@@ -55,7 +55,7 @@ export default yup.object().shape({
     )
     .test(
       "in-track-if-possible",
-      "TODO: this is a warning: missing track for team TODO: teamnumber",
+      "$$warn$$ missing track for team",
       (value, context) =>
         value ||
         !root(context)["Tracks"] ||
@@ -81,7 +81,7 @@ export default yup.object().shape({
     )
     .test(
       "unnecessary-suffix",
-      "TODO: this is a warning: possible unnecessary suffix: ${value}",
+      "$$warn$$ possible unnecessary suffix: ${value}",
       (value, context) =>
         value
           ? root(context)["Teams"].filter(
@@ -96,18 +96,15 @@ export default yup.object().shape({
   city: yup
     .string()
     .trim()
-    .test(
-      "unambiguous-city",
-      "TODO: display team numbers?: city for team is ambiguous",
-      (value, context) =>
-        value
-          ? true
-          : !root(context)["Teams"].some(
-              (team) =>
-                team.city &&
-                team.school === context.parent.school &&
-                team.state === context.parent.state
-            )
+    .test("unambiguous-city", "city for team is ambiguous", (value, context) =>
+      value
+        ? true
+        : !root(context)["Teams"].some(
+            (team) =>
+              team.city &&
+              team.school === context.parent.school &&
+              team.state === context.parent.state
+          )
     )
     .notRequired(),
   disqualified: yup.boolean().notRequired(),
