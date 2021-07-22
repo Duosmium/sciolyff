@@ -6,21 +6,24 @@ import canonical from "./canonical.js";
 const root = (context) => context.from[1].value;
 
 // helper functions
-const placingsByPlace = (context, eventName) =>
-  root(context)["Placings"].reduce((acc, placing) => {
-    if (placing.place && placing.event === eventName) {
-      acc[placing.place]
-        ? acc[placing.place].push(placing)
-        : (acc[placing.place] = [placing]);
-    }
-    return acc;
-  }, {});
-const placesWithExpandedTies = (context, eventName) =>
+const placingsByPlace = (context, eventName: string) =>
+  (root(context)["Placings"] as any[]).reduce(
+    (acc: Record<number, any[]>, placing) => {
+      if (placing.place && placing.event === eventName) {
+        acc[placing.place]
+          ? acc[placing.place].push(placing)
+          : (acc[placing.place] = [placing]);
+      }
+      return acc;
+    },
+    {}
+  );
+const placesWithExpandedTies = (context, eventName: string) =>
   // e.g. [6, 6, 8] -> [6, 7, 8]
   Object.entries(placingsByPlace(context, eventName))
-    .map((place, placings) =>
+    .map(([place, placings]) =>
       Array(placings.length)
-        .fill()
+        .fill(0)
         .map((_, i) => parseInt(place) + i)
     )
     .flat();
@@ -48,7 +51,7 @@ export default yup.object().shape({
       "ties-marked",
       "event: ${value} has unmarked ties",
       (value, context) =>
-        Object.values(placingsByPlace(context, value)).filter(
+        Object.values(placingsByPlace(context, value as string)).filter(
           (placings) => placings.filter((p) => !p.tie).length > 1
         ).length === 0
     )
@@ -56,7 +59,7 @@ export default yup.object().shape({
       "ties-paired",
       "event: ${value} has unpaired ties",
       (value, context) =>
-        Object.values(placingsByPlace(context, value)).filter(
+        Object.values(placingsByPlace(context, value as string)).filter(
           (placings) => placings.filter((p) => !p.tie).length > 1
         ).length === 0
     )
@@ -64,11 +67,11 @@ export default yup.object().shape({
       "no-gaps-in-places",
       "event: ${value} has gaps in place",
       (value, context) => {
-        const places = placesWithExpandedTies(context, value);
+        const places = placesWithExpandedTies(context, value as string);
         if (places.length === 0) return true;
 
         const sequential = Array(Math.max(...places) - Math.min(...places) + 1)
-          .fill()
+          .fill(0)
           .map((_, i) => i + Math.min(...places));
         const gaps = places.filter((p) => !sequential.includes(p));
         if (gaps.length === 0) return true;
@@ -90,7 +93,10 @@ export default yup.object().shape({
     .test(
       "canonical-event",
       "$$warn$$ non-canonical event: ${value}",
-      async (value) => await canonical([value], "events.csv")
+      async (value, context) =>
+        context.options?.context?.canonical !== undefined
+          ? await canonical([value], "events.csv")
+          : true
     )
     .required(),
 

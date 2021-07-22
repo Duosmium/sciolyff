@@ -24,7 +24,13 @@ const schema = yup.object().shape({
   Penalties: yup.array().of(penaltySchema).notRequired(),
 });
 
-export default async function valid(repOrYaml, abortEarly = false) {
+export default async function valid(
+  repOrYaml: string | any,
+  options: { abortEarly?: boolean; canonical?: boolean } = {}
+) {
+  const abortEarly = options.abortEarly || false;
+  const canonical = options.canonical || true;
+
   let rep = repOrYaml;
   if (typeof repOrYaml === "string") {
     try {
@@ -42,6 +48,9 @@ export default async function valid(repOrYaml, abortEarly = false) {
     await schema.validate(rep, {
       abortEarly,
       stripUnknown: true,
+      context: {
+        canonical,
+      },
     });
     return {
       valid: true,
@@ -50,15 +59,24 @@ export default async function valid(repOrYaml, abortEarly = false) {
     };
   } catch (e) {
     if (e.name === "ValidationError") {
-      const warningsOnly = e.errors.every((msg) => msg.startsWith("$$warn$$"));
-      const processedErrors = e.inner.map(
+      const typedErr: yup.ValidationError = e;
+      const warningsOnly = typedErr.errors.every((msg) =>
+        msg.startsWith("$$warn$$")
+      );
+      const processedErrors = (
+        typedErr.inner.length > 0 ? typedErr.inner : [typedErr]
+      ).map(
         (err) =>
           (err.errors[0].startsWith("$$warn$$")
             ? "WARNING (still valid SciolyFF): " +
               err.errors[0].replace("$$warn$$", "").trimStart()
-            : "ERROR (invalid SciolyFF): " + err.errors[1]) +
+            : "ERROR (invalid SciolyFF): " + err.errors[0]) +
           " at:\n" +
-          JSON.stringify(getIn(schema, err.path, rep).parent, undefined, 4)
+          JSON.stringify(
+            getIn(schema, err.path || "", rep).parent,
+            undefined,
+            4
+          )
       );
       if (warningsOnly) {
         return {
@@ -85,19 +103,18 @@ export default async function valid(repOrYaml, abortEarly = false) {
   // return {
   //   valid: boolean // is sciolyff valid?
   //   success: boolean // was validation successful?
-  //   readable: string // human readable error messages
-  //   errors: [] // array of error objects
+  //   readable: string // human readable error message
   // };
 }
 
-const tests = [
-  // "examples/2018-12-08_liso_invitational_b.yaml",
-  "examples/2020-02-01_solon_invitational_c.yaml",
-  // "examples/2019-03-16_WI_states_b.yaml",
-  // "examples/2017-05-20_nationals_c.yaml",
-];
-tests.forEach((filename) => {
-  valid(fs.readFileSync(filename, "utf8")).then((res) =>
-    console.log(res.readable)
-  );
-});
+// const tests = [
+//   "examples/2018-12-08_liso_invitational_b.yaml",
+//   // "examples/2020-02-01_solon_invitational_c.yaml",
+//   // "examples/2019-03-16_WI_states_b.yaml",
+//   // "examples/2017-05-20_nationals_c.yaml",
+// ];
+// tests.forEach((filename) => {
+//   valid(fs.readFileSync(filename, "utf8"), { canonical: true }).then((res) =>
+//     console.log(res.readable)
+//   );
+// });

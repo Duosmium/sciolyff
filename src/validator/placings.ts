@@ -43,6 +43,7 @@ export default yup.object().shape({
     .notRequired()
     .when(
       ["participated", "disqualified", "unknown"],
+      // @ts-ignore: looks like https://github.com/jquense/yup/issues/1417
       (participated, disqualified, unknown, schema) =>
         participated === false || disqualified || unknown
           ? schema.oneOf([undefined], "having a place does not make sense")

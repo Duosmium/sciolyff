@@ -147,6 +147,7 @@ export default yup.object().shape({
   "n offset": yup.number().integer().min(-teamCount).notRequired(),
   date: yup
     .date()
+    // @ts-ignore: looks like https://github.com/jquense/yup/issues/1417
     .when(["start date", "end date"], (start, end, schema) =>
       start && end
         ? schema.oneOf(

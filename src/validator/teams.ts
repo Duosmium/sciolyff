@@ -34,10 +34,12 @@ export default yup.object().shape({
       "canonical-school-name",
       "$$warn$$ non-canonical school ${value}",
       async (value, context) =>
-        await canonical(
-          [value, context.parent.city, context.parent.state],
-          "events.csv"
-        )
+        context.options?.context?.canonical !== undefined
+          ? await canonical(
+              [value, context.parent.city || "", context.parent.state],
+              "schools.csv"
+            )
+          : true
     )
     .required(),
   state: yup.string().trim().required(),
@@ -57,7 +59,7 @@ export default yup.object().shape({
       "in-track-if-possible",
       "$$warn$$ missing track for team",
       (value, context) =>
-        value ||
+        !!value ||
         !root(context)["Tracks"] ||
         root(context)["Tracks"].length === 0
     )
