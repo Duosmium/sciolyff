@@ -22,7 +22,8 @@
   },
   "scripts": {
     "clean": "rm -rf dist",
-    "lint": "prettier --check . && eslint .",
+    "lint": "eslint .",
+    "format": "prettier --check .",
     "fix": "prettier --write . && eslint . --fix",
     "build": "tsc",
     "prepare": "husky install"
@@ -44,6 +45,8 @@
   "devDependencies": {
     "@types/js-yaml": "^4.0.2",
     "@types/node-fetch": "^2.5.11",
+    "@typescript-eslint/eslint-plugin": "^4.28.4",
+    "@typescript-eslint/parser": "^4.28.4",
     "eslint": "^7.31.0",
     "eslint-config-prettier": "^8.3.0",
     "husky": "^7.0.1",
