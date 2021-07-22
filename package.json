@@ -4,9 +4,13 @@
   "description": "A file format for Science Olympiad tournament results.",
   "license": "MIT",
   "author": "Duosmium",
-  "main": "./src/index.js",
+  "files": [
+    "dist/**/*"
+  ],
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
   "bin": {
-    "sciolyff-js": "./bin/cli.js"
+    "sciolyff-js": "dist/bin/cli.js"
   },
   "repository": {
     "type": "git",
@@ -17,9 +21,9 @@
     "url": "https://github.com/Duosmium/sciolyff-js/issues"
   },
   "scripts": {
+    "clean": "rm -rf dist",
     "lint": "prettier --check . && eslint .",
     "fix": "prettier --write . && eslint . --fix",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "prepare": "husky install"
   },
@@ -48,7 +52,7 @@
     "typescript": "^4.3.5"
   },
   "lint-staged": {
-    "*.js": "eslint --cache --fix",
-    "*.{js,css,md}": "prettier --write"
+    "*.{js,ts}": "eslint --cache --fix",
+    "*.{js,ts,css,md}": "prettier --write"
   }
 }
