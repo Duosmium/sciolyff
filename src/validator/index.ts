@@ -33,6 +33,7 @@ export default async function valid(
 ): Promise<{
   valid: boolean; // is sciolyff valid?
   success: boolean; // was validation successful?
+  validWithWarnings: boolean; // are there warnings (if valid)?
   readable: string; // human readable error message
 }> {
   const abortEarly = options.abortEarly ?? false;
@@ -50,6 +51,7 @@ export default async function valid(
       return {
         valid: false,
         success: false,
+        validWithWarnings: false,
         readable: "Failed to parse YAML.",
       };
     }
@@ -66,6 +68,7 @@ export default async function valid(
     return {
       valid: true,
       success: true,
+      validWithWarnings: false,
       readable: "The SciOlyFF file passed the validation!",
     };
   } catch (e) {
@@ -88,6 +91,7 @@ export default async function valid(
         return {
           valid: true,
           success: true,
+          validWithWarnings: true,
           readable:
             "Valid SciOlyFF!\n\nWarnings:\n" + processedErrors.join("\n\n"),
         };
@@ -95,6 +99,7 @@ export default async function valid(
       return {
         valid: false,
         success: true,
+        validWithWarnings: false,
         readable:
           "Invalid SciOlyFF!\n\nSee Errors:\n" + processedErrors.join("\n\n"),
       };
@@ -102,6 +107,7 @@ export default async function valid(
       return {
         valid: false,
         success: false,
+        validWithWarnings: false,
         readable: "An unexpected error occurred",
       };
     }
