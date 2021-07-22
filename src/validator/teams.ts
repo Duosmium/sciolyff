@@ -27,7 +27,6 @@ export default yup.object().shape({
     .required(),
   school: yup
     .string()
-    .trim()
     .test(
       "canonical-school-name",
       "$$warn$$ non-canonical school ${value}",
@@ -40,13 +39,13 @@ export default yup.object().shape({
           : true
     )
     .required(),
-  state: yup.string().trim().required(),
+  state: yup.string().required(),
 
   // optional
-  "school abbreviation": yup.string().trim().notRequired(),
+  "school abbreviation": yup.string().notRequired(),
   track: yup
     .string()
-    .trim()
+
     .test(
       "matching-track",
       "'track ${value}' does not match any name in 'section Track'",
@@ -64,7 +63,7 @@ export default yup.object().shape({
     .notRequired(),
   suffix: yup
     .string()
-    .trim()
+
     .test(
       "unique-suffix",
       "duplicate suffix from same school: ${value}",
@@ -95,7 +94,7 @@ export default yup.object().shape({
     .notRequired(),
   city: yup
     .string()
-    .trim()
+
     .test("unambiguous-city", "city for team is ambiguous", (value, context) =>
       value
         ? true

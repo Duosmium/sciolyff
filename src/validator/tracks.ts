@@ -12,7 +12,6 @@ export default yup.object().shape({
   // always required
   name: yup
     .string()
-    .trim()
     .test(
       "unique-track-name",
       "duplicate track name: ${value}",

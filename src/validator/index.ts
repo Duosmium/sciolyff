@@ -58,7 +58,7 @@ export default async function valid(
   try {
     await sciolyffSchema.validate(rep, {
       abortEarly,
-      stripUnknown: true,
+      strict: true,
       context: {
         canonical,
       },

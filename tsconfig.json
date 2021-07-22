@@ -7,7 +7,7 @@
     "strict": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "lib": ["es2021"],
+    "lib": ["es2021"]
   },
   "include": ["src", "bin"],
   "exclude": ["node_modules", "dist"]

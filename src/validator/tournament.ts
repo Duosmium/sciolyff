@@ -17,37 +17,30 @@ export default yup.object().shape({
   location: yup.string().required(),
   level: yup
     .string()
-    .trim()
     .oneOf(["Invitational", "Regionals", "States", "Nationals"])
     .required(),
-  division: yup.string().trim().oneOf(["A", "B", "C"]).required(),
+  division: yup.string().oneOf(["A", "B", "C"]).required(),
   year: yup.number().integer().required(),
 
   // possibly optional keys
-  name: yup
-    .string()
-    .trim()
-    .when("level", (level, schema) =>
-      // name is optional for states and nationals
-      ["States", "Nationals"].includes(level)
-        ? schema.notRequired()
-        : schema.required(
-            "name for Tournament required " +
-              `('level: ${level}' is not States or Nationals)`
-          )
-    ),
-  state: yup
-    .string()
-    .trim()
-    .when("level", (level, schema) =>
-      // state required for non-nationals
-      level === "Nationals"
-        ? schema.notRequired()
-        : schema.required(
-            "state for Tournament required " +
-              `('level: ${level}' is not Nationals)`
-          )
-    ),
+  name: yup.string().when("level", (level, schema) =>
+    // name is optional for states and nationals
+    ["States", "Nationals"].includes(level)
+      ? schema.notRequired()
+      : schema.required(
+          "name for Tournament required " +
+            `('level: ${level}' is not States or Nationals)`
+        )
+  ),
+  state: yup.string().when("level", (level, schema) =>
+    // state required for non-nationals
+    level === "Nationals"
+      ? schema.notRequired()
+      : schema.required(
+          "state for Tournament required " +
+            `('level: ${level}' is not Nationals)`
+        )
+  ),
   medals: yup
     .number()
     .integer()
@@ -109,7 +102,6 @@ export default yup.object().shape({
     ),
   "short name": yup
     .string()
-    .trim()
     .when("name", (name, schema) =>
       name !== undefined && name !== null
         ? schema.notRequired()
@@ -138,12 +130,16 @@ export default yup.object().shape({
       (value, context) => (value ? value <= teamCount(context) : true)
     )
     .notRequired(),
-  "per-event n": yup
-    .string()
-    .trim()
-    .oneOf(["place", "participation"])
+  "per-event n": yup.string().oneOf(["place", "participation"]).notRequired(),
+  "n offset": yup
+    .number()
+    .integer()
+    .test(
+      "n-offset-minimum",
+      "n offset is too small",
+      (value, context) => !value || value > -teamCount(context)
+    )
     .notRequired(),
-  "n offset": yup.number().integer().min(-teamCount).notRequired(),
   date: yup
     .date()
     // @ts-ignore: looks like https://github.com/jquense/yup/issues/1417
@@ -163,7 +159,8 @@ export default yup.object().shape({
     .test(
       "valid-date",
       "start date cannot be set if date is set",
-      (value, context) => !context.parent.date || !value
+      (value, context) =>
+        !context.parent.date || !value || (context.parent["end date"] && value)
     )
     .notRequired(),
   "end date": yup
@@ -171,7 +168,10 @@ export default yup.object().shape({
     .test(
       "valid-date",
       "end date cannot be set if date is set",
-      (value, context) => !context.parent.date || !value
+      (value, context) =>
+        !context.parent.date ||
+        !value ||
+        (context.parent["start date"] && value)
     )
     .notRequired(),
   "awards date": yup.date().notRequired(),

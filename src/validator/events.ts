@@ -27,7 +27,6 @@ export default yup.object().shape({
   // always required
   name: yup
     .string()
-    .trim()
     .test(
       "unique-event-name",
       "duplicate event name: ${value}",
@@ -98,5 +97,5 @@ export default yup.object().shape({
   // optional
   trial: yup.boolean().notRequired().default(false),
   trialed: yup.boolean().notRequired().default(false),
-  scoring: yup.string().trim().oneOf(["high", "low"]).notRequired(),
+  scoring: yup.string().oneOf(["high", "low"]).notRequired(),
 });

@@ -7,7 +7,6 @@ export default yup.object().shape({
   // always required
   event: yup
     .string()
-    .trim()
     .test(
       "matching-event",
       "'event: ${value}' in Placings does not match any event in Events",
