@@ -3,7 +3,7 @@
 import { program } from "commander";
 import { version } from "../package.json";
 import fs from "fs";
-import sciolyff from "../src/index.js";
+import sciolyff from "../src";
 
 program
   .version(version)

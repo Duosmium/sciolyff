@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-import canonical from "./canonical.js";
+import canonical from "./canonical";
 
 // get grandparent from context
 const root = (context) => context.from[1].value;

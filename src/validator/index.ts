@@ -1,16 +1,15 @@
 import * as yup from "yup";
-import { getIn } from "yup/lib/util/reach.js";
+import { getIn } from "yup/lib/util/reach";
 
 import yaml from "js-yaml";
-import fs from "fs";
 
-import tournamentSchema from "./tournament.js";
-import eventSchema from "./events.js";
-import teamSchema from "./teams.js";
-import placingSchema from "./placings.js";
+import tournamentSchema from "./tournament";
+import eventSchema from "./events";
+import teamSchema from "./teams";
+import placingSchema from "./placings";
 
-import trackSchema from "./tracks.js";
-import penaltySchema from "./penalties.js";
+import trackSchema from "./tracks";
+import penaltySchema from "./penalties";
 
 const schema = yup.object().shape({
   // required

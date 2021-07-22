@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-import rawsSchema from "./raws.js";
+import rawsSchema from "./raws";
 
 // get grandparent from context
 const root = (context) => context.from[1].value;
