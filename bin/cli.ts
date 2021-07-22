@@ -11,14 +11,15 @@ program
   .argument("<file>", "file to check")
   .option("-n, --no-canon", "Disable canonical name checks.")
   .option("-a, --abort", "Abort on first error.")
-  .action((file, options) => {
+  .action((file: string, options: { abort: boolean; canon: boolean }) => {
     fs.readFile(file, "utf-8", (err, data) => {
       if (!err) {
         sciolyff
           .valid(data, { abortEarly: options.abort, canonical: options.canon })
           .then((res) => {
             console.log(res.readable);
-          });
+          })
+          .catch((err) => console.log(err));
       }
     });
   })

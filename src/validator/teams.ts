@@ -1,9 +1,7 @@
 import * as yup from "yup";
 
 import canonical from "./canonical";
-
-// get grandparent from context
-const root = (context) => context.from[1].value;
+import { root } from "./helpers";
 
 export default yup.object().shape({
   // always required

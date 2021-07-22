@@ -1,13 +1,12 @@
 import * as yup from "yup";
 
-// get grandparent from context
-const root = (context) => context.from[1].value;
+import { root } from "./helpers";
 
 // helper functions
-const teamCount = (context) =>
+const teamCount = (context: yup.TestContext) =>
   root(context)["Teams"].filter((team) => !team.exhibition).length;
 
-const schoolsCount = (context) =>
+const schoolsCount = (context: yup.TestContext) =>
   root(context)
     ["Teams"].map((team) => [team.school, team.city, team.state])
     // dedupe by only keeping the first occurance

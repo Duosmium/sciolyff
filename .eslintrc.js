@@ -10,7 +10,7 @@ module.exports = {
   extends: [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
-    // "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "prettier",
   ],
   parserOptions: {
@@ -25,4 +25,18 @@ module.exports = {
       },
     ],
   },
+  overrides: [
+    {
+      files: ["src/validator/**/*"],
+      excludedFiles: ["src/validator/index.ts", "src/validator/canonical.ts"],
+      rules: {
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-unsafe-member-access": "off",
+        "@typescript-eslint/no-unsafe-call": "off",
+        "@typescript-eslint/no-unsafe-return": "off",
+        "@typescript-eslint/no-unsafe-assignment": "off",
+        "@typescript-eslint/restrict-template-expressions": "off",
+      },
+    },
+  ],
 };

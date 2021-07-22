@@ -1,7 +1,6 @@
 import * as yup from "yup";
 
-// get grandparent from context
-const root = (context) => context.from[1].value;
+import { root } from "./helpers";
 
 export default yup.object().shape({
   team: yup

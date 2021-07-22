@@ -1,24 +1,19 @@
 import * as yup from "yup";
 
 import canonical from "./canonical";
-
-// get grandparent from context
-const root = (context) => context.from[1].value;
+import { root } from "./helpers";
 
 // helper functions
-const placingsByPlace = (context, eventName: string) =>
-  (root(context)["Placings"] as any[]).reduce(
-    (acc: Record<number, any[]>, placing) => {
-      if (placing.place && placing.event === eventName) {
-        acc[placing.place]
-          ? acc[placing.place].push(placing)
-          : (acc[placing.place] = [placing]);
-      }
-      return acc;
-    },
-    {}
-  );
-const placesWithExpandedTies = (context, eventName: string) =>
+const placingsByPlace = (context: yup.TestContext, eventName: string) =>
+  root(context)["Placings"].reduce((acc: Record<number, any>, placing) => {
+    if (placing.place && placing.event === eventName) {
+      acc[placing.place]
+        ? acc[placing.place].push(placing)
+        : (acc[placing.place] = [placing]);
+    }
+    return acc;
+  }, {});
+const placesWithExpandedTies = (context: yup.TestContext, eventName: string) =>
   // e.g. [6, 6, 8] -> [6, 7, 8]
   Object.entries(placingsByPlace(context, eventName))
     .map(([place, placings]) =>
@@ -52,7 +47,7 @@ export default yup.object().shape({
       "event: ${value} has unmarked ties",
       (value, context) =>
         Object.values(placingsByPlace(context, value as string)).filter(
-          (placings) => placings.filter((p) => !p.tie).length > 1
+          (placings: any[]) => placings.filter((p) => !p.tie).length > 1
         ).length === 0
     )
     .test(
@@ -60,7 +55,7 @@ export default yup.object().shape({
       "event: ${value} has unpaired ties",
       (value, context) =>
         Object.values(placingsByPlace(context, value as string)).filter(
-          (placings) => placings.filter((p) => !p.tie).length > 1
+          (placings: any[]) => placings.filter((p) => !p.tie).length > 1
         ).length === 0
     )
     .test(

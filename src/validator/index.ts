@@ -11,7 +11,8 @@ import placingSchema from "./placings";
 import trackSchema from "./tracks";
 import penaltySchema from "./penalties";
 
-const schema = yup.object().shape({
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+export const sciolyffSchema = yup.object().shape({
   // required
   Tournament: tournamentSchema.required(),
   Events: yup.array().of(eventSchema).required(),
@@ -22,18 +23,29 @@ const schema = yup.object().shape({
   Tracks: yup.array().of(trackSchema).notRequired(),
   Penalties: yup.array().of(penaltySchema).notRequired(),
 });
+/* eslint-enable @typescript-eslint/no-unsafe-assignment */
 
 export default async function valid(
-  repOrYaml: string | any,
+  // yaml.load() returns string | object, so we allow that in this case
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  repOrYaml: string | object,
   options: { abortEarly?: boolean; canonical?: boolean } = {}
-) {
+): Promise<{
+  valid: boolean; // is sciolyff valid?
+  success: boolean; // was validation successful?
+  readable: string; // human readable error message
+}> {
   const abortEarly = options.abortEarly || false;
   const canonical = options.canonical || true;
 
   let rep = repOrYaml;
   if (typeof repOrYaml === "string") {
     try {
-      rep = yaml.load(repOrYaml);
+      const loaded = yaml.load(repOrYaml) ?? {};
+      if (typeof loaded === "number") {
+        throw new Error("Invalid YAML");
+      }
+      rep = loaded;
     } catch (e) {
       return {
         valid: false,
@@ -44,7 +56,7 @@ export default async function valid(
   }
 
   try {
-    await schema.validate(rep, {
+    await sciolyffSchema.validate(rep, {
       abortEarly,
       stripUnknown: true,
       context: {
@@ -57,14 +69,9 @@ export default async function valid(
       readable: "The SciOlyFF file passed the validation!",
     };
   } catch (e) {
-    if (e.name === "ValidationError") {
-      const typedErr: yup.ValidationError = e;
-      const warningsOnly = typedErr.errors.every((msg) =>
-        msg.startsWith("$$warn$$")
-      );
-      const processedErrors = (
-        typedErr.inner.length > 0 ? typedErr.inner : [typedErr]
-      ).map(
+    if (e instanceof yup.ValidationError) {
+      const warningsOnly = e.errors.every((msg) => msg.startsWith("$$warn$$"));
+      const processedErrors = (e.inner.length > 0 ? e.inner : [e]).map(
         (err) =>
           (err.errors[0].startsWith("$$warn$$")
             ? "WARNING (still valid SciolyFF): " +
@@ -72,7 +79,7 @@ export default async function valid(
             : "ERROR (invalid SciolyFF): " + err.errors[0]) +
           " at:\n" +
           JSON.stringify(
-            getIn(schema, err.path || "", rep).parent,
+            getIn(sciolyffSchema, err.path || "", rep).parent,
             undefined,
             4
           )
@@ -99,11 +106,6 @@ export default async function valid(
       };
     }
   }
-  // return {
-  //   valid: boolean // is sciolyff valid?
-  //   success: boolean // was validation successful?
-  //   readable: string // human readable error message
-  // };
 }
 
 // const tests = [

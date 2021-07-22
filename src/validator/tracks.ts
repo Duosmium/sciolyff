@@ -1,10 +1,9 @@
 import * as yup from "yup";
 
-// get grandparent from context
-const root = (context) => context.from[1].value;
+import { root } from "./helpers";
 
 // helper functions
-const teamCount = (context, trackName) =>
+const teamCount = (context: yup.TestContext, trackName: string) =>
   root(context)["Teams"].filter(
     (team) => team.track === trackName && !team.exhibition
   ).length;

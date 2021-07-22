@@ -37,7 +37,10 @@ const fetchData = (() => {
   };
 })();
 
-export default async function (name: (string | undefined)[], file: string) {
+export default async function canonical(
+  name: (string | undefined)[],
+  file: string
+): Promise<boolean> {
   const data = await fetchData(file);
   const res = data.some(
     (row) => row.length > 0 && row.every((el, i) => el === (name[i] || ""))

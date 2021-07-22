@@ -1,9 +1,7 @@
 import * as yup from "yup";
 
 import rawsSchema from "./raws";
-
-// get grandparent from context
-const root = (context) => context.from[1].value;
+import { root } from "./helpers";
 
 export default yup.object().shape({
   // always required
@@ -108,6 +106,7 @@ export default yup.object().shape({
     .default(undefined)
     .when(
       ["participated", "disqualified", "unknown"],
+      // @ts-ignore: looks like https://github.com/jquense/yup/issues/1417
       (participated, disqualified, unknown, schema) =>
         participated === false || disqualified || unknown
           ? schema.oneOf([undefined], "having raw section does not make sense")
@@ -116,7 +115,7 @@ export default yup.object().shape({
     .test(
       "no-mix-of-raws-and-places",
       "cannot mix 'raw:' and 'place:' in same file",
-      (value, context) =>
+      (value: any, context: yup.TestContext) =>
         !value ||
         root(context)["Placings"].every(
           (placing) => placing.place === undefined
