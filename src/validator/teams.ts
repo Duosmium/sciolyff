@@ -32,7 +32,7 @@ export default yup.object().shape({
       "canonical-school-name",
       "$$warn$$ non-canonical school ${value}",
       async (value, context) =>
-        context.options?.context?.canonical !== undefined
+        context.options?.context?.canonical
           ? await canonical(
               [value, context.parent.city || "", context.parent.state],
               "schools.csv"

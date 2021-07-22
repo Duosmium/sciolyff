@@ -35,8 +35,8 @@ export default async function valid(
   success: boolean; // was validation successful?
   readable: string; // human readable error message
 }> {
-  const abortEarly = options.abortEarly || false;
-  const canonical = options.canonical || true;
+  const abortEarly = options.abortEarly ?? false;
+  const canonical = options.canonical ?? true;
 
   let rep = repOrYaml;
   if (typeof repOrYaml === "string") {
