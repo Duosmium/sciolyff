@@ -4,7 +4,10 @@ import canonical from "./canonical";
 import { root } from "./helpers";
 
 // helper functions
-const placingsByPlace = (context: yup.TestContext, eventName: string) =>
+const placingsByPlace = (
+  context: yup.TestContext,
+  eventName: string
+): Record<number, any> =>
   root(context)["Placings"].reduce((acc: Record<number, any>, placing) => {
     if (placing.place && placing.event === eventName) {
       acc[placing.place]
