@@ -21,4 +21,8 @@ export default class Penalty implements Model<PenaltyRep> {
 
     this.team = interpreter.teams.find((t) => t.number === this.rep.team);
   }
+
+  linkComputed(): void {
+    return;
+  }
 }

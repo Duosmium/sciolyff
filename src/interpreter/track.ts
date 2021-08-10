@@ -40,6 +40,12 @@ export default class Track implements Model<TrackRep> {
     this.penalties = interpreter.penalties.filter(
       (p) => p.team?.trackName === this.rep.name
     );
+  }
+
+  linkComputed(): void {
+    if (!this.tournament || !this.teams || !this.placings || !this.penalties) {
+      throw new Error("things are undefined");
+    }
 
     this.medals = this.rep.medals ?? this.tournament.medals;
     this.trophies = this.rep.trophies ?? this.tournament.trophies;

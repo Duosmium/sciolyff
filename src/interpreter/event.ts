@@ -36,6 +36,13 @@ export default class Event implements Model<EventRep> {
     this.tournament = interpreter.tournament;
 
     this.placings = interpreter.placings.filter((p) => p.event === this);
+  }
+
+  linkComputed(): void {
+    if (!this.tournament || !this.placings) {
+      throw new Error("things are undefined");
+    }
+
     this.placingsByTeam = this.placings.reduce((acc, p) => {
       acc.set(p.team as Team, p);
       return acc;
@@ -47,9 +54,9 @@ export default class Event implements Model<EventRep> {
       .sort(Raw.sortKey);
 
     this.maximumPlace =
-      this.tournament?.perEventN !== undefined
+      this.tournament.perEventN !== undefined
         ? this.perEventMaximumPlace()
-        : this.placings?.length;
+        : this.placings.length;
   }
 
   placingFor(team: Team): Placing | undefined {

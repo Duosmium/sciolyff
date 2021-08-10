@@ -61,6 +61,12 @@ export default class Placing implements Model<PlacingRep> {
       (e) => e.name === this.rep.event
     ) as Event;
     this.team = interpreter.teams.find((t) => t.number === this.rep.team);
+  }
+
+  linkComputed(): void {
+    if (!this.tournament || !this.event || !this.team) {
+      throw new Error("things are undefined");
+    }
 
     this.raw = this.hasRaw
       ? new Raw(this.rep.raw, this.event.lowScoreWins)
@@ -74,13 +80,13 @@ export default class Placing implements Model<PlacingRep> {
       ? (this.event.raws?.findIndex((r) => r === this.raw) ?? 0) + 1
       : this.rep.place;
     this.trackPlace =
-      (this.team?.track?.placings
+      (this.team.track?.placings
         ?.filter((p) => p.event === this.event)
         ?.sort((a, b) => (a.place as number) - (b.place as number))
         ?.findIndex((p) => p === this) ?? 0) + 1;
 
     this.droppedAsPartOfWorstPlacings =
-      this.team?.worstPlacingsToBeDropped?.includes(this) ?? false;
+      this.team.worstPlacingsToBeDropped?.includes(this) ?? false;
 
     this.initiallyConsideredForTeamPoints = !(
       this.event.trial ||
@@ -92,7 +98,7 @@ export default class Placing implements Model<PlacingRep> {
       !this.droppedAsPartOfWorstPlacings;
 
     this.isolatedPoints = (() => {
-      const maxPlace = this.team?.track?.maximumPlace as number;
+      const maxPlace = this.team.track?.maximumPlace as number;
       const n = maxPlace + (this.tournament.nOffset as number);
       if (this.disqualified) return n + 2;
       if (this.didNotParticipate) return n + 1;
@@ -100,7 +106,7 @@ export default class Placing implements Model<PlacingRep> {
       return Math.min(this.calculatePoints(false), maxPlace);
     })();
     this.isolatedTrackPoints = (() => {
-      const maxPlace = this.team?.track?.maximumPlace as number;
+      const maxPlace = this.team.track?.maximumPlace as number;
       const n = maxPlace + (this.tournament.nOffset as number);
       if (this.disqualified) return n + 2;
       if (this.didNotParticipate) return n + 1;
@@ -119,10 +125,10 @@ export default class Placing implements Model<PlacingRep> {
       !(this.exhibitionPlacingsBehind(false) === 0);
 
     this.pointsLimitedByMaximumPlace =
-      this.tournament.hasCustomMaximumPlace &&
+      this.tournament?.hasCustomMaximumPlace &&
       (this.unknown ||
         (this.place === undefined &&
-          (this.calculatePoints(false) > (this.event?.maximumPlace as number) ||
+          (this.calculatePoints(false) > (this.event.maximumPlace as number) ||
             (this.calculatePoints(false) === this.event.maximumPlace &&
               this.tie))));
   }
