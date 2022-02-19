@@ -85,9 +85,8 @@ export default class Team implements Model<TeamRep> {
     if (this.track) {
       this.trackRank =
         (this.track.teams
-          ?.sort(
-            (a, b) => (a.trackPoints as number) - (b.trackPoints as number)
-          )
+          ?.slice()
+          .sort((a, b) => (a.trackPoints as number) - (b.trackPoints as number))
           .findIndex((t) => t === this) as number) + 1;
 
       this.trackPoints =
