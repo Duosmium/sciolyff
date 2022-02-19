@@ -72,24 +72,28 @@ export default class Team implements Model<TeamRep> {
       !this.tournament ||
       !this.placings ||
       !this.penalties ||
-      !this.placingsByEvent ||
-      !this.track
+      !this.placingsByEvent
     ) {
       throw new Error("things are undefined");
     }
 
     this.rank = (this.tournament.teams?.findIndex((t) => t === this) ?? 0) + 1;
-    this.trackRank =
-      (this.track.teams
-        ?.sort((a, b) => (a.trackPoints as number) - (b.trackPoints as number))
-        .findIndex((t) => t === this) as number) + 1;
-
     this.points =
       this.placings.reduce((sum, p) => sum + (p.points ?? 0), 0) +
       this.penalties.reduce((sum, p) => sum + (p.points ?? 0), 0);
-    this.trackPoints =
-      this.placings.reduce((sum, p) => sum + (p.trackPoints ?? 0), 0) +
-      this.penalties.reduce((sum, p) => sum + (p.points ?? 0), 0);
+
+    if (this.track) {
+      this.trackRank =
+        (this.track.teams
+          ?.sort(
+            (a, b) => (a.trackPoints as number) - (b.trackPoints as number)
+          )
+          .findIndex((t) => t === this) as number) + 1;
+
+      this.trackPoints =
+        this.placings.reduce((sum, p) => sum + (p.trackPoints ?? 0), 0) +
+        this.penalties.reduce((sum, p) => sum + (p.points ?? 0), 0);
+    }
 
     this.earnedBid = (() => {
       const rank = this.tournament.teamsEligibleForBids?.findIndex(

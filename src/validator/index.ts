@@ -1,5 +1,5 @@
 import * as yup from "yup";
-import { getIn } from "yup/lib/util/reach";
+import { getIn } from "yup/lib/util/reach.js";
 
 import yaml from "js-yaml";
 
@@ -26,9 +26,7 @@ export const sciolyffSchema = yup.object().shape({
 /* eslint-enable @typescript-eslint/no-unsafe-assignment */
 
 export default async function valid(
-  // yaml.load() returns string | object, so we allow that in this case
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  repOrYaml: string | object,
+  repOrYaml: string | Record<string, unknown>,
   options: { abortEarly?: boolean; canonical?: boolean } = {}
 ): Promise<{
   valid: boolean; // is sciolyff valid?
@@ -42,7 +40,7 @@ export default async function valid(
   let rep = repOrYaml;
   if (typeof repOrYaml === "string") {
     try {
-      const loaded = yaml.load(repOrYaml) ?? {};
+      const loaded = (yaml.load(repOrYaml) as Record<string, unknown>) ?? {};
       if (typeof loaded === "number") {
         throw new Error("Invalid YAML");
       }

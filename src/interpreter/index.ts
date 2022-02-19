@@ -124,7 +124,7 @@ export default class Interpreter {
     Constructor extends new (rep: Rep) => Model,
     Model
   >(array: Rep[], objectClass: Constructor): Model[] {
-    if (array.length === 0) {
+    if (!array || array.length === 0) {
       return [];
     }
     return array.map((rep) => new objectClass(rep));
