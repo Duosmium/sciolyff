@@ -1,9 +1,9 @@
 {
   "name": "sciolyff",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "A file format for Science Olympiad tournament results.",
   "license": "MIT",
-  "author": "Duosmium",
+  "author": "Duosmium Results (https://www.duosmium.org/results/)",
   "type": "module",
   "engines": {
     "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
@@ -11,10 +11,12 @@
   "files": [
     "dist/**/*"
   ],
-  "exports": "./dist/src/index.js",
+  "exports": {
+    ".": "./dist/src/index.js"
+  },
   "types": "./dist/src/index.d.ts",
   "bin": {
-    "sciolyff-js": "dist/bin/cli.js"
+    "sciolyff-js": "./dist/bin/cli.js"
   },
   "repository": {
     "type": "git",
