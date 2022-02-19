@@ -39,8 +39,8 @@ export default yup.object().shape({
         value
           ? value <=
             Math.min(
-              teamCount(context, context.parent.name),
-              context.parent["maximum place"] || Infinity
+              teamCount(context, context.parent.name as string),
+              (context.parent["maximum place"] as number) || Infinity
             )
           : true
     )
@@ -52,7 +52,9 @@ export default yup.object().shape({
       "trophies-in-range",
       "trophies: larger than team count",
       (value, context) =>
-        value ? value <= teamCount(context, context.parent.name) : true
+        value
+          ? value <= teamCount(context, context.parent.name as string)
+          : true
     )
     .min(1)
     .notRequired(),
@@ -64,7 +66,9 @@ export default yup.object().shape({
       "maximum-place-in-range",
       "maximum place: larger than team count",
       (value, context) =>
-        value ? value <= teamCount(context, context.parent.name) : true
+        value
+          ? value <= teamCount(context, context.parent.name as string)
+          : true
     )
     .notRequired(),
 });

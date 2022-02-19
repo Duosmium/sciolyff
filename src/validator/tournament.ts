@@ -12,6 +12,8 @@ const schoolsCount = (context: yup.TestContext) =>
     // dedupe by only keeping the first occurance
     .filter((school, index, self) => self.indexOf(school) === index).length;
 
+type CompetitionLevel = "Invitational" | "Regionals" | "States" | "Nationals";
+
 export default yup.object().shape({
   // always required keys
   location: yup.string().required(),
@@ -23,7 +25,7 @@ export default yup.object().shape({
   year: yup.number().integer().required(),
 
   // possibly optional keys
-  name: yup.string().when("level", (level, schema) =>
+  name: yup.string().when("level", (level: CompetitionLevel, schema) =>
     // name is optional for states and nationals
     ["States", "Nationals"].includes(level)
       ? schema.notRequired()
@@ -53,7 +55,7 @@ export default yup.object().shape({
           ? value <=
             Math.min(
               teamCount(context),
-              context.parent["maximum place"] || Infinity
+              (context.parent["maximum place"] as number) || Infinity
             )
           : true
     )
@@ -76,7 +78,7 @@ export default yup.object().shape({
     .test("bids-in-range", "bids: larger than school count", (value, context) =>
       value ? value <= schoolsCount(context) : true
     )
-    .when("level", (level, schema) =>
+    .when("level", (level: CompetitionLevel, schema) =>
       // bids invalid for invitationals/nationals
       // but recommended for states and regionals
       ["States", "Regionals"].includes(level)

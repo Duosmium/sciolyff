@@ -119,5 +119,5 @@ export default yup.object().shape({
         root(context)["Placings"].every(
           (placing) => placing.place === undefined
         )
-    ),
+    ) as typeof rawsSchema,
 });

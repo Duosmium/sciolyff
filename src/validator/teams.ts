@@ -33,7 +33,11 @@ export default yup.object().shape({
       async (value, context) =>
         context.options?.context?.canonical
           ? await canonical(
-              [value, context.parent.city || "", context.parent.state],
+              [
+                value,
+                (context.parent.city as string) || "",
+                context.parent.state as string,
+              ],
               "schools.csv"
             )
           : true

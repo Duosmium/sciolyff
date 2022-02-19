@@ -83,7 +83,7 @@ export default yup.object().shape({
         Math.min(
           ...root(context)
             ["Placings"].filter((placing) => placing.event === value)
-            .map((placing) => placing.place)
+            .map((placing) => placing.place as number)
             .filter((p) => p !== undefined)
         ) === 1
     )
