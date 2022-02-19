@@ -7,7 +7,11 @@ SciolyFF powers [Duosmium Results](https://www.duosmium.com/results/), a tournam
 ## Installation
 
 ```
+<<<<<<< HEAD
 npm install sciolyff
+=======
+npm install @duosmium/sciolyff
+>>>>>>> 86f2010552430fb7282b836e76946ab587fb9772
 ```
 
 ## Usage
@@ -63,7 +67,11 @@ The `Interpreter` class can be used to parse SciolyFF.
 
 ```js
 import fs from "fs";
+<<<<<<< HEAD
 import sciolyff from "sciolyff";
+=======
+import sciolyff from "@duosmium/sciolyff";
+>>>>>>> 86f2010552430fb7282b836e76946ab587fb9772
 
 const file = fs.readFileSync("2022-01-08_national_invitational_c.yaml", "utf8");
 const interpreter = new sciolyff.Interpreter(file);
