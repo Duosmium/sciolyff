@@ -166,6 +166,6 @@ export default class Interpreter {
     const result = a.trialEventMedalCounts
       .map((aCount, i) => bCounts[i] - aCount)
       .find((diff) => diff !== 0);
-    return result ? result : this.breakSecondTie(a, b);
+    return result ? result : a.number - b.number;
   }
 }
