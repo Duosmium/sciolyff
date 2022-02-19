@@ -1,9 +1,15 @@
 #!/usr/bin/env node
 
 import { program } from "commander";
-import { version } from "../package.json";
+
 import fs from "fs";
 import sciolyff from "../src/index.js";
+
+const { version } = JSON.parse(
+  fs.readFileSync("package.json", { encoding: "utf-8" })
+) as {
+  version: string;
+};
 
 program
   .version(version)
