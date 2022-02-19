@@ -1,12 +1,12 @@
 import type { Asserts } from "yup";
 
-import tournamentSchema from "../validator/tournament";
-import eventSchema from "../validator/events";
-import teamSchema from "../validator/teams";
-import placingSchema from "../validator/placings";
-import trackSchema from "../validator/tracks";
-import penaltySchema from "../validator/penalties";
-import rawSchema from "../validator/raws";
+import tournamentSchema from "../validator/tournament.js";
+import eventSchema from "../validator/events.js";
+import teamSchema from "../validator/teams.js";
+import placingSchema from "../validator/placings.js";
+import trackSchema from "../validator/tracks.js";
+import penaltySchema from "../validator/penalties.js";
+import rawSchema from "../validator/raws.js";
 
 export type TournamentRep = Asserts<typeof tournamentSchema>;
 export type EventRep = Asserts<typeof eventSchema>;
@@ -26,14 +26,14 @@ export interface SciOlyFF {
   Penalties: PenaltyRep[];
 }
 
-import type InterpreterClass from "./index";
-import type TournamentClass from "./tournament";
-import type EventClass from "./event";
-import type TeamClass from "./team";
-import type PlacingClass from "./placing";
-import type TrackClass from "./track";
-import type PenaltyClass from "./penalty";
-import type RawClass from "./raw";
+import type InterpreterClass from "./index.js";
+import type TournamentClass from "./tournament.js";
+import type EventClass from "./event.js";
+import type TeamClass from "./team.js";
+import type PlacingClass from "./placing.js";
+import type TrackClass from "./track.js";
+import type PenaltyClass from "./penalty.js";
+import type RawClass from "./raw.js";
 
 export type Interpreter = InterpreterClass;
 export type Tournament = TournamentClass;

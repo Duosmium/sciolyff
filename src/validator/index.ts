@@ -3,13 +3,13 @@ import { getIn } from "yup/lib/util/reach";
 
 import yaml from "js-yaml";
 
-import tournamentSchema from "./tournament";
-import eventSchema from "./events";
-import teamSchema from "./teams";
-import placingSchema from "./placings";
+import tournamentSchema from "./tournament.js";
+import eventSchema from "./events.js";
+import teamSchema from "./teams.js";
+import placingSchema from "./placings.js";
 
-import trackSchema from "./tracks";
-import penaltySchema from "./penalties";
+import trackSchema from "./tracks.js";
+import penaltySchema from "./penalties.js";
 
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 export const sciolyffSchema = yup.object().shape({

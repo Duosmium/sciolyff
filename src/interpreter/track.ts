@@ -1,4 +1,4 @@
-import Model from "./model";
+import Model from "./model.js";
 import type {
   TrackRep,
   Interpreter,
@@ -6,7 +6,7 @@ import type {
   Team,
   Placing,
   Penalty,
-} from "./types";
+} from "./types.js";
 
 export default class Track implements Model<TrackRep> {
   rep: TrackRep;

@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-import { root } from "./helpers";
+import { root } from "./helpers.js";
 
 // helper functions
 const teamCount = (context: yup.TestContext) =>

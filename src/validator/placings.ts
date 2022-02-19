@@ -1,7 +1,7 @@
 import * as yup from "yup";
 
-import rawsSchema from "./raws";
-import { root } from "./helpers";
+import rawsSchema from "./raws.js";
+import { root } from "./helpers.js";
 
 export default yup.object().shape({
   // always required

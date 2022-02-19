@@ -1,6 +1,12 @@
-import Model from "./model";
-import Raw from "./raw";
-import type { PlacingRep, Interpreter, Tournament, Event, Team } from "./types";
+import Model from "./model.js";
+import Raw from "./raw.js";
+import type {
+  PlacingRep,
+  Interpreter,
+  Tournament,
+  Event,
+  Team,
+} from "./types.js";
 
 export default class Placing implements Model<PlacingRep> {
   rep: PlacingRep;

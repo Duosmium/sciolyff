@@ -1,4 +1,4 @@
-import Model from "./model";
+import Model from "./model.js";
 import type {
   TournamentRep,
   Interpreter,
@@ -7,7 +7,7 @@ import type {
   Placing,
   Track,
   Penalty,
-} from "./types";
+} from "./types.js";
 
 export default class Tournament implements Model<TournamentRep> {
   rep: TournamentRep;

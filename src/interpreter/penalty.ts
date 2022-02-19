@@ -1,5 +1,5 @@
-import Model from "./model";
-import type { PenaltyRep, Interpreter, Tournament, Team } from "./types";
+import Model from "./model.js";
+import type { PenaltyRep, Interpreter, Tournament, Team } from "./types.js";
 
 export default class Penalty implements Model<PenaltyRep> {
   rep: PenaltyRep;

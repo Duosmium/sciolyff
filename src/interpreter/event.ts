@@ -1,6 +1,12 @@
-import Model from "./model";
-import Raw from "./raw";
-import type { EventRep, Interpreter, Tournament, Placing, Team } from "./types";
+import Model from "./model.js";
+import Raw from "./raw.js";
+import type {
+  EventRep,
+  Interpreter,
+  Tournament,
+  Placing,
+  Team,
+} from "./types.js";
 
 export default class Event implements Model<EventRep> {
   rep: EventRep;

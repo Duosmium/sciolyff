@@ -1,4 +1,4 @@
-import type { RawRep } from "./types";
+import type { RawRep } from "./types.js";
 
 export default class Raw {
   rep: RawRep;

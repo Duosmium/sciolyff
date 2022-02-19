@@ -1,4 +1,4 @@
-import Model from "./model";
+import Model from "./model.js";
 import type {
   TeamRep,
   Interpreter,
@@ -7,7 +7,7 @@ import type {
   Placing,
   Penalty,
   Event,
-} from "./types";
+} from "./types.js";
 
 export default class Team implements Model<TeamRep> {
   rep: TeamRep;

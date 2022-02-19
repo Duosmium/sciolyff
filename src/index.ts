@@ -1,3 +1,3 @@
-import valid from "./validator";
+import valid from "./validator/index.js";
 
 export default { valid };

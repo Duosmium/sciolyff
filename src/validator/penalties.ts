@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-import { root } from "./helpers";
+import { root } from "./helpers.js";
 
 export default yup.object().shape({
   team: yup

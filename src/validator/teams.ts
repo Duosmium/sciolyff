@@ -1,7 +1,7 @@
 import * as yup from "yup";
 
-import canonical from "./canonical";
-import { root } from "./helpers";
+import canonical from "./canonical.js";
+import { root } from "./helpers.js";
 
 export default yup.object().shape({
   // always required
