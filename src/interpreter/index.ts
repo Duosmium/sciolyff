@@ -54,12 +54,12 @@ export default class Interpreter {
     });
 
     // link computed properties
+    this.tournament.linkComputed();
     this.penalties.forEach((penalty) => penalty.linkComputed());
-    this.placings.forEach((placing) => placing.linkComputed());
-    this.teams.forEach((team) => team.linkComputed());
     this.tracks.forEach((track) => track.linkComputed());
     this.events.forEach((event) => event.linkComputed());
-    this.tournament.linkComputed();
+    this.placings.forEach((placing) => placing.linkComputed());
+    this.teams.forEach((team) => team.linkComputed());
 
     // sort events naturally
     this.events.sort((a, b) => {

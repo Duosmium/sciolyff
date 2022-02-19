@@ -25,7 +25,7 @@ export default class Placing implements Model<PlacingRep> {
   // computed
   hasRaw: boolean;
   didNotParticipate: boolean;
-  participationOnly: boolean;
+  participationOnly?: boolean;
   droppedAsPartOfWorstPlacings?: boolean;
   raw?: Raw;
   tie?: boolean;
@@ -56,8 +56,6 @@ export default class Placing implements Model<PlacingRep> {
 
     this.hasRaw = rep.raw !== undefined;
     this.didNotParticipate = !this.participated;
-    this.participationOnly =
-      this.participated && !this.disqualified && !this.unknown;
   }
 
   link(interpreter: Interpreter): void {
@@ -91,6 +89,9 @@ export default class Placing implements Model<PlacingRep> {
         ?.sort((a, b) => (a.place as number) - (b.place as number))
         ?.findIndex((p) => p === this) ?? 0) + 1;
 
+    this.participationOnly =
+      this.participated && !this.place && !this.disqualified && !this.unknown;
+
     this.droppedAsPartOfWorstPlacings =
       this.team.worstPlacingsToBeDropped?.includes(this) ?? false;
 
@@ -104,7 +105,7 @@ export default class Placing implements Model<PlacingRep> {
       !this.droppedAsPartOfWorstPlacings;
 
     this.isolatedPoints = (() => {
-      const maxPlace = this.team.track?.maximumPlace as number;
+      const maxPlace = this.event.maximumPlace as number;
       const n = maxPlace + (this.tournament.nOffset as number);
       if (this.disqualified) return n + 2;
       if (this.didNotParticipate) return n + 1;
