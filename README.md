@@ -59,7 +59,7 @@ Options:
 
 ## Parsing
 
-The `Interpreter` class can be used to parse SciolyFF.
+The `Interpreter` class can be used to parse SciolyFF. Validation is not performed, so make sure you're passing in valid SciolyFF (which you can validate with `valid()`).
 
 ```js
 import fs from "fs";
