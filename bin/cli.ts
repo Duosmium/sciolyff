@@ -5,14 +5,7 @@ import { program } from "commander";
 import fs from "fs";
 import sciolyff from "../src/index.js";
 
-const { version } = JSON.parse(
-  fs.readFileSync("package.json", { encoding: "utf-8" })
-) as {
-  version: string;
-};
-
 program
-  .version(version)
   .showHelpAfterError()
   .argument("<file>", "file to check")
   .option("-n, --no-canon", "Disable canonical name checks.")
