@@ -67,11 +67,10 @@ export default class Placing implements Model<PlacingRep> {
     this.team = interpreter.teams.find((t) => t.number === this.rep.team);
   }
 
-  linkComputed(): void {
-    if (!this.tournament || !this.event || !this.team) {
+  computePlaces(): void {
+    if (!this.event) {
       throw new Error("things are undefined");
     }
-
     this.raw = this.hasRaw
       ? new Raw(this.rep.raw, this.event.lowScoreWins)
       : undefined;
@@ -83,6 +82,13 @@ export default class Placing implements Model<PlacingRep> {
     this.place = this.hasRaw
       ? (this.event.raws?.findIndex((r) => r === this.raw) ?? 0) + 1
       : this.rep.place;
+  }
+
+  linkComputed(): void {
+    if (!this.tournament || !this.event || !this.team) {
+      throw new Error("things are undefined");
+    }
+
     this.trackPlace =
       (this.team.track?.placings
         ?.filter((p) => p.event === this.event)

@@ -58,6 +58,7 @@ export default class Interpreter {
     this.penalties.forEach((penalty) => penalty.linkComputed());
     this.tracks.forEach((track) => track.linkComputed());
     this.events.forEach((event) => event.linkComputed());
+    this.placings.forEach((placing) => placing.computePlaces());
     this.placings.forEach((placing) => placing.linkComputed());
     this.teams.forEach((team) => team.linkComputed());
 

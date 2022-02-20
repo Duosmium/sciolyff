@@ -22,9 +22,10 @@ export default class Event implements Model<EventRep> {
   trial: boolean;
   trialed: boolean;
 
-  // computed
   lowScoreWins: boolean;
   highScoreWins: boolean;
+
+  // computed
   maximumPlace?: number;
 
   constructor(rep: EventRep) {
