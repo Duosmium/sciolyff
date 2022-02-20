@@ -77,10 +77,11 @@ export default class Tournament implements Model<TournamentRep> {
 
     this.perEventN = rep["per-event n"];
     this.nOffset = rep["n offset"] ?? 0;
+
     this.date = rep.date;
-    this.startDate = rep["start date"];
-    this.endDate = rep["end date"];
-    this.awardsDate = rep["awards date"];
+    this.startDate = rep["start date"] ?? this.date;
+    this.endDate = rep["end date"] ?? this.startDate;
+    this.awardsDate = rep["awards date"] ?? this.endDate;
   }
 
   public link(interpreter: Interpreter): void {
