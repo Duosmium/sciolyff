@@ -31,9 +31,9 @@
     "lint": "eslint .",
     "format": "prettier --check .",
     "fix": "prettier --write . && eslint --fix .",
-    "build": "tsc",
+    "build": "npm run clean && tsc",
     "prepare": "husky install",
-    "release": "release-it"
+    "release": "npm run build; release-it"
   },
   "keywords": [
     "sciolyff",
