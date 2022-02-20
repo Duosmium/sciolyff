@@ -61,6 +61,7 @@ export default class Interpreter {
     this.placings.forEach((placing) => placing.computePlaces());
     this.placings.forEach((placing) => placing.linkComputed());
     this.teams.forEach((team) => team.linkComputed());
+    this.placings.forEach((placing) => placing.computeDrops());
 
     // sort events naturally
     this.events.sort((a, b) => {
