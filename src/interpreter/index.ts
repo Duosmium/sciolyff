@@ -117,6 +117,7 @@ export default class Interpreter {
         })
         .flatMap((kv) => kv[1])
     );
+    this.teams.forEach((team) => team.computeRanks());
   }
 
   private mapArrayToModels<

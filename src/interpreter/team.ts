@@ -77,7 +77,6 @@ export default class Team implements Model<TeamRep> {
       throw new Error("things are undefined");
     }
 
-    this.rank = (this.tournament.teams?.findIndex((t) => t === this) ?? 0) + 1;
     this.points =
       this.placings.reduce((sum, p) => sum + (p.points ?? 0), 0) +
       this.penalties.reduce((sum, p) => sum + (p.points ?? 0), 0);
@@ -93,17 +92,6 @@ export default class Team implements Model<TeamRep> {
         this.placings.reduce((sum, p) => sum + (p.trackPoints ?? 0), 0) +
         this.penalties.reduce((sum, p) => sum + (p.points ?? 0), 0);
     }
-
-    this.earnedBid = (() => {
-      const rank = this.tournament.teamsEligibleForBids?.findIndex(
-        (t) => t === this
-      );
-      return (
-        rank !== undefined &&
-        rank !== -1 &&
-        rank < (this.tournament.bids as number)
-      );
-    })();
 
     this.worstPlacingsToBeDropped =
       this.tournament.worstPlacingsDropped === 0
@@ -144,6 +132,24 @@ export default class Team implements Model<TeamRep> {
             (p) => p.event?.trial && p.isolatedPoints === i + 1
           ).length as number
       );
+  }
+
+  computeRanks(): void {
+    if (!this.tournament) {
+      throw new Error("things are undefined");
+    }
+    this.rank = (this.tournament.teams?.findIndex((t) => t === this) ?? 0) + 1;
+
+    this.earnedBid = (() => {
+      const rank = this.tournament.teamsEligibleForBids?.findIndex(
+        (t) => t === this
+      );
+      return (
+        rank !== undefined &&
+        rank !== -1 &&
+        rank < (this.tournament.bids as number)
+      );
+    })();
   }
 
   placingFor(event: Event): Placing | undefined {

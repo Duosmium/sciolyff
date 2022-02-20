@@ -140,7 +140,12 @@ export default class Tournament implements Model<TournamentRep> {
   // bids logic
   public get topTeamsPerSchool(): Team[] | undefined {
     return (this._topTeamsPerSchool ||= this.teams?.filter(
-      (t, i, s) => s.indexOf(t) === i
+      (t, i, s) =>
+        s.findIndex(
+          (e) =>
+            `${e.school}|${e.city ?? ""}|${e.state}` ===
+            `${t.school}|${t.city ?? ""}|${t.state}`
+        ) === i
     ));
   }
 
