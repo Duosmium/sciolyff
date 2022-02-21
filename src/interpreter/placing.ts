@@ -91,16 +91,10 @@ export default class Placing implements Model<PlacingRep> {
       : this.rep.place;
   }
 
-  computeTrackPlacesAndIsolatedPoints(): void {
-    if (!this.team || !this.event || !this.tournament) {
+  computeIsolatedPoints(): void {
+    if (!this.event || !this.tournament) {
       throw new Error("things are undefined");
     }
-
-    this.trackPlace =
-      (this.team.track?.placings
-        ?.filter((p) => p.event === this.event)
-        ?.sort((a, b) => (a.place as number) - (b.place as number))
-        ?.findIndex((p) => p === this) ?? 0) + 1;
 
     this.participationOnly =
       this.participated && !this.place && !this.disqualified && !this.unknown;
@@ -113,6 +107,21 @@ export default class Placing implements Model<PlacingRep> {
       if (this.participationOnly || this.unknown) return n;
       return Math.min(this.calculatePoints(false), maxPlace);
     })();
+  }
+
+  computeTrackPlaces(): void {
+    if (!this.team || !this.event || !this.tournament) {
+      throw new Error("things are undefined");
+    }
+
+    this.trackPlace =
+      (this.team.track?.placings
+        ?.filter((p) => p.event === this.event)
+        ?.sort(
+          (a, b) => (a.isolatedPoints as number) - (b.isolatedPoints as number)
+        )
+        ?.findIndex((p) => p === this) ?? 0) + 1;
+
     this.isolatedTrackPoints = (() => {
       if (!this.team.track) return 0;
       const maxPlace = this.team.track.maximumPlace as number;
