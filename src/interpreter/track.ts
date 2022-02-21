@@ -42,8 +42,8 @@ export default class Track implements Model<TrackRep> {
     );
   }
 
-  linkComputed(): void {
-    if (!this.tournament || !this.teams || !this.placings || !this.penalties) {
+  computeMaximumPlace(): void {
+    if (!this.tournament || !this.teams) {
       throw new Error("things are undefined");
     }
 

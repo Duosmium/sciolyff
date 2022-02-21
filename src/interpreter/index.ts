@@ -54,15 +54,24 @@ export default class Interpreter {
     });
 
     // link computed properties
-    this.tournament.linkComputed();
-    this.penalties.forEach((penalty) => penalty.linkComputed());
-    this.tracks.forEach((track) => track.linkComputed());
-    this.events.forEach((event) => event.linkComputed());
+    this.tournament.computeProperties();
+    this.tracks.forEach((track) => track.computeMaximumPlace());
     this.placings.forEach((placing) => placing.computePlaces());
-    this.placings.forEach((placing) => placing.linkComputed());
-    this.teams.forEach((team) => team.linkComputed());
+    this.events.forEach((event) => event.computeMaximumPlace());
+    this.placings.forEach((placing) =>
+      placing.computeTrackPlacesAndIsolatedPoints()
+    );
+    this.teams.forEach((team) => team.computeWorstPlacings());
     this.placings.forEach((placing) => placing.computeDrops());
+    this.placings.forEach((placing) => placing.computePoints());
+    this.teams.forEach((team) => team.computePoints());
+    this.sortEvents();
+    this.sortTeamsByRank();
+    this.teams.forEach((team) => team.computeRanks());
+    this.teams.forEach((team) => team.computeEarnedBid());
+  }
 
+  private sortEvents() {
     // sort events naturally
     this.events.sort((a, b) => {
       // if both events are trialed
@@ -81,8 +90,9 @@ export default class Interpreter {
         return a.trial ? 1 : -1;
       }
     });
+  }
 
-    // sort teams by rank
+  private sortTeamsByRank() {
     this.teams.splice(
       0,
       Infinity,
@@ -119,7 +129,6 @@ export default class Interpreter {
         })
         .flatMap((kv) => kv[1])
     );
-    this.teams.forEach((team) => team.computeRanks());
   }
 
   private mapArrayToModels<

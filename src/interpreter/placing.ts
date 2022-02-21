@@ -65,15 +65,22 @@ export default class Placing implements Model<PlacingRep> {
       (e) => e.name === this.rep.event
     ) as Event;
     this.team = interpreter.teams.find((t) => t.number === this.rep.team);
+
+    this.raw = this.hasRaw
+      ? new Raw(this.rep.raw, this.event.lowScoreWins)
+      : undefined;
+
+    this.initiallyConsideredForTeamPoints = !(
+      this.event.trial ||
+      this.event.trialed ||
+      this.exempt
+    );
   }
 
   computePlaces(): void {
     if (!this.event) {
       throw new Error("things are undefined");
     }
-    this.raw = this.hasRaw
-      ? new Raw(this.rep.raw, this.event.lowScoreWins)
-      : undefined;
 
     this.tie = this.hasRaw
       ? (this.event.raws?.filter((r) => r === this.raw)?.length ?? 0) > 1
@@ -84,8 +91,8 @@ export default class Placing implements Model<PlacingRep> {
       : this.rep.place;
   }
 
-  linkComputed(): void {
-    if (!this.tournament || !this.event || !this.team) {
+  computeTrackPlacesAndIsolatedPoints(): void {
+    if (!this.team || !this.event || !this.tournament) {
       throw new Error("things are undefined");
     }
 
@@ -98,12 +105,6 @@ export default class Placing implements Model<PlacingRep> {
     this.participationOnly =
       this.participated && !this.place && !this.disqualified && !this.unknown;
 
-    this.initiallyConsideredForTeamPoints = !(
-      this.event.trial ||
-      this.event.trialed ||
-      this.exempt
-    );
-
     this.isolatedPoints = (() => {
       const maxPlace = this.event.maximumPlace as number;
       const n = maxPlace + (this.tournament.nOffset as number);
@@ -113,13 +114,32 @@ export default class Placing implements Model<PlacingRep> {
       return Math.min(this.calculatePoints(false), maxPlace);
     })();
     this.isolatedTrackPoints = (() => {
-      const maxPlace = this.team.track?.maximumPlace as number;
+      if (!this.team.track) return 0;
+      const maxPlace = this.team.track.maximumPlace as number;
       const n = maxPlace + (this.tournament.nOffset as number);
       if (this.disqualified) return n + 2;
       if (this.didNotParticipate) return n + 1;
       if (this.participationOnly || this.unknown) return n;
       return Math.min(this.calculatePoints(true), maxPlace);
     })();
+  }
+
+  // compute teams worstPlacingsToBeDropped before running this
+  computeDrops(): void {
+    if (!this.team) {
+      throw new Error("things are undefined");
+    }
+    this.droppedAsPartOfWorstPlacings =
+      this.team.worstPlacingsToBeDropped?.includes(this) ?? false;
+    this.consideredForTeamPoints =
+      this.initiallyConsideredForTeamPoints &&
+      !this.droppedAsPartOfWorstPlacings;
+  }
+
+  computePoints(): void {
+    if (!this.tournament || !this.event) {
+      throw new Error("things are undefined");
+    }
 
     this.points = !this.consideredForTeamPoints ? 0 : this.isolatedPoints;
     this.trackPoints = !this.consideredForTeamPoints
@@ -138,17 +158,6 @@ export default class Placing implements Model<PlacingRep> {
           (this.calculatePoints(false) > (this.event.maximumPlace as number) ||
             (this.calculatePoints(false) === this.event.maximumPlace &&
               this.tie))));
-  }
-
-  computeDrops(): void {
-    if (!this.team) {
-      throw new Error("things are undefined");
-    }
-    this.droppedAsPartOfWorstPlacings =
-      this.team.worstPlacingsToBeDropped?.includes(this) ?? false;
-    this.consideredForTeamPoints =
-      this.initiallyConsideredForTeamPoints &&
-      !this.droppedAsPartOfWorstPlacings;
   }
 
   private calculatePoints(inTrack: boolean): number {

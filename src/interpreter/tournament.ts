@@ -90,18 +90,6 @@ export default class Tournament implements Model<TournamentRep> {
     this.placings = interpreter.placings;
     this.tracks = interpreter.tracks;
     this.penalties = interpreter.penalties;
-  }
-
-  linkComputed(): void {
-    if (
-      !this.events ||
-      !this.teams ||
-      !this.placings ||
-      !this.tracks ||
-      !this.penalties
-    ) {
-      throw new Error("things are undefined");
-    }
 
     this.nonExhibitionTeamsCount = this.teams.filter(
       (t) => !t.exhibition
@@ -115,6 +103,13 @@ export default class Tournament implements Model<TournamentRep> {
 
     this.hasCustomMaximumPlace =
       this.maximumPlace !== this.nonExhibitionTeamsCount;
+  }
+
+  computeProperties(): void {
+    if (!this.placings || !this.tracks) {
+      throw new Error("things are undefined");
+    }
+
     this.hasTies = this.placings.some((p) => p.tie);
     this.hasTiesOutsideOfMaximumPlaces = this.placings.some(
       (p) => p.tie && !p.pointsLimitedByMaximumPlace
