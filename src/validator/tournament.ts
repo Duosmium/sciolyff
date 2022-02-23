@@ -7,10 +7,10 @@ const teamCount = (context: yup.TestContext) =>
   root(context)["Teams"].filter((team) => !team.exhibition).length;
 
 const schoolsCount = (context: yup.TestContext) =>
-  root(context)
-    ["Teams"].map((team) => [team.school, team.city, team.state])
-    // dedupe by only keeping the first occurance
-    .filter((school, index, self) => self.indexOf(school) === index).length;
+  root(context)["Teams"].reduce((acc, team) => {
+    acc.add(`${team.school}|${team.city ?? ""}|${team.state}`);
+    return acc;
+  }, new Set()).size;
 
 type CompetitionLevel = "Invitational" | "Regionals" | "States" | "Nationals";
 
