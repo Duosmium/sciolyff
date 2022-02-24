@@ -6,6 +6,8 @@ import Team from "./team.js";
 import Placing from "./placing.js";
 import Track from "./track.js";
 import Penalty from "./penalty.js";
+import superscore from "./superscore.js";
+
 import type { SciOlyFF } from "./types.js";
 
 export default class Interpreter {
@@ -16,6 +18,8 @@ export default class Interpreter {
   placings: Placing[];
   tracks: Track[];
   penalties: Penalty[];
+
+  _superscored?: SciOlyFF;
 
   constructor(rep: string | SciOlyFF) {
     if (typeof rep === "string") {
@@ -178,5 +182,10 @@ export default class Interpreter {
       .map((aCount, i) => bCounts[i] - aCount)
       .find((diff) => diff !== 0);
     return result ? result : a.number - b.number;
+  }
+
+  // superscore this interpreter
+  public superscore() {
+    return (this._superscored ||= superscore(this));
   }
 }
