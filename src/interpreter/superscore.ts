@@ -5,7 +5,14 @@
 // the exported function returns a `rep` object, which
 // can be passed back into the interpreter class for handling.
 
-import { Interpreter, PlacingRep, SciOlyFF, Team, TeamRep } from "./types";
+import {
+  Interpreter,
+  PlacingRep,
+  SciOlyFF,
+  Team,
+  TeamRep,
+  TournamentRep,
+} from "./types";
 
 const fsn = (t: { school: string; city?: string; state: string }) =>
   `${t.school}|${t.city ?? ""}|${t.state}`;
@@ -38,7 +45,6 @@ export default (interpreter: Interpreter): SciOlyFF => {
   interpreter.placings.forEach((placing) => {
     const event = placing.event?.name as string;
     const school = teamNumbers.get(fsn(placing.team as Team)) as number;
-
     if (!minPlacingsBySchool.has(school)) {
       minPlacingsBySchool.set(school, new Map());
     }
@@ -83,8 +89,16 @@ export default (interpreter: Interpreter): SciOlyFF => {
     }
   }
 
+  const tournamentRep: TournamentRep = {
+    ...interpreter.tournament.rep,
+  };
+
+  tournamentRep["n offset"] =
+    (interpreter.tournament.nOffset as number) +
+    ((interpreter.tournament.teams?.length as number) - teamNumbers.size);
+
   return {
-    Tournament: interpreter.tournament.rep,
+    Tournament: tournamentRep,
     Events: interpreter.events.map((e) => e.rep),
     Teams: teams,
     Placings: placingsRep,
