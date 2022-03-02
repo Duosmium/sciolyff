@@ -19,7 +19,7 @@ export default class Interpreter {
   tracks: Track[];
   penalties: Penalty[];
 
-  _superscored?: SciOlyFF;
+  _superscored?: Interpreter;
 
   constructor(rep: string | SciOlyFF) {
     if (typeof rep === "string") {
@@ -185,7 +185,12 @@ export default class Interpreter {
   }
 
   // superscore this interpreter
-  public superscore() {
-    return (this._superscored ||= superscore(this));
+  public superscore(toInterpreter = false) {
+    this._superscored ||= new Interpreter(superscore(this));
+    if (toInterpreter) {
+      return this._superscored;
+    } else {
+      return this._superscored.rep;
+    }
   }
 }
