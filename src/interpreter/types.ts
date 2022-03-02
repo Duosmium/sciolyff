@@ -17,6 +17,8 @@ export type PenaltyRep = Asserts<typeof penaltySchema>;
 export type RawRep = Asserts<typeof rawSchema>;
 
 export interface SciOlyFF {
+  superscore?: boolean;
+
   Tournament: TournamentRep;
   Events: EventRep[];
   Teams: TeamRep[];

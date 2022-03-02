@@ -22,6 +22,9 @@ export const sciolyffSchema = yup.object().shape({
   // optional
   Tracks: yup.array().of(trackSchema).notRequired(),
   Penalties: yup.array().of(penaltySchema).notRequired(),
+
+  // for internal use
+  superscore: yup.boolean().notRequired(),
 });
 /* eslint-enable @typescript-eslint/no-unsafe-assignment */
 

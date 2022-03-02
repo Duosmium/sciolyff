@@ -18,6 +18,10 @@ const fsn = (t: { school: string; city?: string; state: string }) =>
   `${t.school}|${t.city ?? ""}|${t.state}`;
 
 export default (interpreter: Interpreter): SciOlyFF => {
+  if (interpreter.isSuperscore) {
+    return interpreter.rep;
+  }
+
   const teams = interpreter.tournament.topTeamsPerSchool?.map((t) => ({
     number: t.number,
     school: t.school,
@@ -98,6 +102,8 @@ export default (interpreter: Interpreter): SciOlyFF => {
     ((interpreter.tournament.teams?.length as number) - teamNumbers.size);
 
   return {
+    superscore: true,
+
     Tournament: tournamentRep,
     Events: interpreter.events.map((e) => e.rep),
     Teams: teams,

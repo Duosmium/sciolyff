@@ -15,6 +15,7 @@ export default class Placing implements Model<PlacingRep> {
   tournament?: Tournament;
   event?: Event;
   team?: Team;
+  interpreter?: Interpreter;
 
   // rep properties
   participated: boolean;
@@ -59,6 +60,7 @@ export default class Placing implements Model<PlacingRep> {
   }
 
   link(interpreter: Interpreter): void {
+    this.interpreter = interpreter;
     this.tournament = interpreter.tournament;
 
     this.event = interpreter.events.find(
@@ -105,7 +107,10 @@ export default class Placing implements Model<PlacingRep> {
       if (this.disqualified) return n + 2;
       if (this.didNotParticipate) return n + 1;
       if (this.participationOnly || this.unknown) return n;
-      return Math.min(this.calculatePoints(false), maxPlace);
+      return Math.min(
+        this.calculatePoints(false),
+        this.interpreter?.isSuperscore ? Infinity : maxPlace
+      );
     })();
   }
 
@@ -129,7 +134,10 @@ export default class Placing implements Model<PlacingRep> {
       if (this.disqualified) return n + 2;
       if (this.didNotParticipate) return n + 1;
       if (this.participationOnly || this.unknown) return n;
-      return Math.min(this.calculatePoints(true), maxPlace);
+      return Math.min(
+        this.calculatePoints(true),
+        this.interpreter?.isSuperscore ? Infinity : maxPlace
+      );
     })();
   }
 
