@@ -75,7 +75,7 @@ export default class Event implements Model<EventRep> {
       (this.tournament?.perEventN === "participation"
         ? this.competingTeamsCount()
         : this.placings?.reduce((acc, p) => {
-            return acc > (p.place as number) ? acc : p.place;
+            return acc >= (p.place ?? 0) ? acc : p.place;
           }, 0)) ?? 0
     );
   }
