@@ -52,7 +52,7 @@ export default class Track implements Model<TrackRep> {
 
     this.maximumPlace = Math.min(
       this.teams.filter((t) => !t.exhibition).length,
-      this.tournament.maximumPlace as number
+      this.tournament.maximumPlace ?? Infinity
     );
   }
 }

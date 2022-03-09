@@ -63,7 +63,10 @@ export default class Event implements Model<EventRep> {
     this.maximumPlace =
       this.tournament.perEventN !== undefined
         ? this.perEventMaximumPlace()
-        : this.placings.length;
+        : Math.min(
+            this.placings.length,
+            this.tournament.maximumPlace ?? Infinity
+          );
   }
 
   placingFor(team: Team): Placing | undefined {
