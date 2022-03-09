@@ -21,21 +21,25 @@ export default class Raw {
     this.lostTiebreaker = this.tiebreakerRank > 1;
   }
 
-  static sortKey(this: void, a: Raw, b: Raw): -1 | 0 | 1 {
-    if (a.tier < b.tier) return 1;
-    if (a.tier > b.tier) return -1;
-
+  static sortKey(this: void, a: Raw, b: Raw): number {
     if (a.lowScoreWins !== b.lowScoreWins) {
       throw new Error("raw comparisons must use the same score ordering");
     }
-    const aScore = a.lowScoreWins ? a.score : -a.score;
-    const bScore = b.lowScoreWins ? b.score : -b.score;
-    if (aScore < bScore) return 1;
-    if (aScore > bScore) return -1;
 
-    if (a.tiebreakerRank < b.tiebreakerRank) return 1;
-    if (a.tiebreakerRank > b.tiebreakerRank) return -1;
+    // sort first by tier, then score, then tiebreaker rank
+    // default sort is ascending so we flip the order of score if high score wins
+    return (
+      a.tier - b.tier ||
+      (a.lowScoreWins ? a.score - b.score : b.score - a.score) ||
+      a.tiebreakerRank - b.tiebreakerRank
+    );
+  }
 
-    return 0;
+  static eq(a: Raw, b: Raw): boolean {
+    return (
+      a.score === b.score &&
+      a.tier === b.tier &&
+      a.tiebreakerRank === b.tiebreakerRank
+    );
   }
 }

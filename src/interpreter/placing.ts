@@ -85,11 +85,12 @@ export default class Placing implements Model<PlacingRep> {
     }
 
     this.tie = this.hasRaw
-      ? (this.event.raws?.filter((r) => r === this.raw)?.length ?? 0) > 1
+      ? (this.event.raws?.filter((r) => Raw.eq(r, this.raw as Raw))?.length ??
+          0) > 1
       : this.rep.tie === true;
 
     this.place = this.hasRaw
-      ? (this.event.raws?.findIndex((r) => r === this.raw) ?? 0) + 1
+      ? (this.event.raws?.findIndex((r) => Raw.eq(r, this.raw as Raw)) ?? 0) + 1
       : this.rep.place;
   }
 
