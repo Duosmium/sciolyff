@@ -21,6 +21,8 @@ export default class Raw {
     this.lostTiebreaker = this.tiebreakerRank > 1;
   }
 
+  // `this` is not an actual parameter, but it's used to correctly
+  // type the `this` object thingy (which isn't used)
   static sortKey(this: void, a: Raw, b: Raw): number {
     if (a.lowScoreWins !== b.lowScoreWins) {
       throw new Error("raw comparisons must use the same score ordering");
@@ -35,6 +37,7 @@ export default class Raw {
     );
   }
 
+  // not actually an operator overload but just for convienience
   static eq(a: Raw, b: Raw): boolean {
     return (
       a.score === b.score &&
