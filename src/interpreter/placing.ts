@@ -106,8 +106,8 @@ export default class Placing implements Model<PlacingRep> {
       const maxPlace = this.event.maximumPlace as number;
       const n = maxPlace + (this.tournament.nOffset as number);
       if (this.disqualified) return n + 2;
-      if (this.didNotParticipate) return n + 1;
-      if (this.participationOnly || this.unknown) return n;
+      if (this.didNotParticipate || this.unknown) return n + 1;
+      if (this.participationOnly) return n;
       return Math.min(
         this.calculatePoints(false),
         this.interpreter?.isSuperscore ? Infinity : maxPlace
