@@ -40,7 +40,9 @@ export default class Tournament implements Model<TournamentRep> {
   startDate?: Date;
   endDate?: Date;
   awardsDate?: Date;
-
+  testRelease?: string;
+  histograms?: string;
+  
   // assorted calculated things
   // not sure if these are necessary?
   // just here because they're defined in the ruby version
@@ -48,6 +50,7 @@ export default class Tournament implements Model<TournamentRep> {
   hasTies?: boolean;
   hasTiesOutsideOfMaximumPlaces?: boolean;
   hasTracks?: boolean;
+  
 
   nonExhibitionTeamsCount?: number;
 
@@ -82,6 +85,8 @@ export default class Tournament implements Model<TournamentRep> {
     this.startDate = rep["start date"] ?? this.date;
     this.endDate = rep["end date"] ?? this.startDate;
     this.awardsDate = rep["awards date"] ?? this.endDate;
+    this.testRelease = rep["test release"] ?? "Not Available";
+    this.testRelease = rep["histograms"] ?? "Not Available";
   }
 
   public link(interpreter: Interpreter): void {
