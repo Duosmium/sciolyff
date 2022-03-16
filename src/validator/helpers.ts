@@ -11,5 +11,5 @@ export function root(context: yup.TestContext): {
   [key: string]: any[];
   Tournament: any;
 } {
-  return (context as TestContext).from[1].value;
+  return (context as TestContext).from.slice(-1)[0].value;
 }

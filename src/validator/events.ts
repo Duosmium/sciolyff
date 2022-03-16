@@ -80,6 +80,7 @@ export default yup.object().shape({
       "places-start-at-one",
       "places for event: ${value} don't start at one",
       (value, context) =>
+        root(context)["Placings"].some((placing) => placing.raw) ||
         Math.min(
           ...root(context)
             ["Placings"].filter((placing) => placing.event === value)
