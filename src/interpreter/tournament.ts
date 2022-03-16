@@ -42,7 +42,7 @@ export default class Tournament implements Model<TournamentRep> {
   awardsDate?: Date;
   testRelease?: string;
   histograms?: string;
-  
+
   // assorted calculated things
   // not sure if these are necessary?
   // just here because they're defined in the ruby version
@@ -50,7 +50,6 @@ export default class Tournament implements Model<TournamentRep> {
   hasTies?: boolean;
   hasTiesOutsideOfMaximumPlaces?: boolean;
   hasTracks?: boolean;
-  
 
   nonExhibitionTeamsCount?: number;
 
