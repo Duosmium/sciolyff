@@ -57,7 +57,7 @@ export default yup.object().shape({
       "event: ${value} has unpaired ties",
       (value, context) =>
         Object.values(placingsByPlace(context, value as string)).filter(
-          (placings: any[]) => placings.filter((p) => !p.tie).length > 1
+          (placings: any[]) => placings.filter((p) => p.tie).length === 1
         ).length === 0
     )
     .test(
