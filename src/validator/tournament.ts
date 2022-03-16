@@ -177,4 +177,6 @@ export default yup.object().shape({
     )
     .notRequired(),
   "awards date": yup.date().notRequired(),
+  "test release": yup.string().notRequired().url("test release must be a URL"),
+  histograms: yup.string().notRequired().url("histograms must be a URL"),
 });
