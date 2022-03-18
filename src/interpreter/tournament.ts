@@ -84,8 +84,8 @@ export default class Tournament implements Model<TournamentRep> {
     this.startDate = rep["start date"] ?? this.date;
     this.endDate = rep["end date"] ?? this.startDate;
     this.awardsDate = rep["awards date"] ?? this.endDate;
-    this.testRelease = rep["test release"] ?? "Not Available";
-    this.histograms = rep["histograms"] ?? "Not Available";
+    this.testRelease = rep["test release"];
+    this.histograms = rep["histograms"];
   }
 
   public link(interpreter: Interpreter): void {
