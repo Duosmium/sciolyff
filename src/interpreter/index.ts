@@ -67,7 +67,9 @@ export default class Interpreter {
     this.placings.forEach((placing) => placing.computePlaces());
     this.events.forEach((event) => event.computeMaximumPlace());
     this.placings.forEach((placing) => placing.computeIsolatedPoints());
-    this.placings.forEach((placing) => placing.computeTrackPlaces());
+    if (this.tournament.hasTracks) {
+      this.placings.forEach((placing) => placing.computeTrackPlaces());
+    }
     this.teams.forEach((team) => team.computeWorstPlacings());
     this.placings.forEach((placing) => placing.computeDrops());
     this.placings.forEach((placing) => placing.computePoints());
