@@ -22,6 +22,8 @@ export default class Placing implements Model<PlacingRep> {
   disqualified: boolean;
   exempt: boolean;
   unknown: boolean;
+  explicit: boolean;
+  trackPlace?: number;
 
   // computed
   hasRaw: boolean;
@@ -31,7 +33,6 @@ export default class Placing implements Model<PlacingRep> {
   raw?: Raw;
   tie?: boolean;
   place?: number;
-  trackPlace?: number;
 
   initiallyConsideredForTeamPoints?: boolean;
   consideredForTeamPoints?: boolean;
@@ -54,6 +55,8 @@ export default class Placing implements Model<PlacingRep> {
     this.disqualified = rep.disqualified ?? false;
     this.exempt = rep.exempt ?? false;
     this.unknown = rep.unknown ?? false;
+    this.explicit = rep.explicit ?? false;
+    this.trackPlace = this.explicit ? rep.trackPlace : undefined;
 
     this.hasRaw = rep.raw !== undefined;
     this.didNotParticipate = !this.participated;
@@ -89,9 +92,11 @@ export default class Placing implements Model<PlacingRep> {
           0) > 1
       : this.rep.tie === true;
 
-    this.place = this.hasRaw
-      ? (this.event.raws?.findIndex((r) => Raw.eq(r, this.raw as Raw)) ?? 0) + 1
-      : this.rep.place;
+    this.place =
+      this.explicit || !this.hasRaw
+        ? this.rep.place
+        : (this.event.raws?.findIndex((r) => Raw.eq(r, this.raw as Raw)) ?? 0) +
+          1;
   }
 
   computeIsolatedPoints(): void {
@@ -102,17 +107,19 @@ export default class Placing implements Model<PlacingRep> {
     this.participationOnly =
       this.participated && !this.place && !this.disqualified && !this.unknown;
 
-    this.isolatedPoints = (() => {
-      const maxPlace = this.event.maximumPlace as number;
-      const n = maxPlace + (this.tournament.nOffset as number);
-      if (this.disqualified) return n + 2;
-      if (this.didNotParticipate || this.unknown) return n + 1;
-      if (this.participationOnly) return n;
-      return Math.min(
-        this.calculatePoints(false),
-        this.interpreter?.isSuperscore ? Infinity : maxPlace
-      );
-    })();
+    this.isolatedPoints = this.explicit
+      ? this.place
+      : (() => {
+          const maxPlace = this.event.maximumPlace as number;
+          const n = maxPlace + (this.tournament.nOffset as number);
+          if (this.disqualified) return n + 2;
+          if (this.didNotParticipate || this.unknown) return n + 1;
+          if (this.participationOnly) return n;
+          return Math.min(
+            this.calculatePoints(false),
+            this.interpreter?.isSuperscore ? Infinity : maxPlace
+          );
+        })();
   }
 
   computeTrackPlaces(): void {
@@ -120,7 +127,7 @@ export default class Placing implements Model<PlacingRep> {
       throw new Error("things are undefined");
     }
 
-    this.trackPlace =
+    this.trackPlace ||=
       (this.team.track?.placings
         ?.filter((p) => p.event === this.event)
         ?.sort(
@@ -128,18 +135,20 @@ export default class Placing implements Model<PlacingRep> {
         )
         ?.findIndex((p) => p === this) ?? 0) + 1;
 
-    this.isolatedTrackPoints = (() => {
-      if (!this.team.track) return 0;
-      const maxPlace = this.team.track.maximumPlace as number;
-      const n = maxPlace + (this.tournament.nOffset as number);
-      if (this.disqualified) return n + 2;
-      if (this.didNotParticipate) return n + 1;
-      if (this.participationOnly || this.unknown) return n;
-      return Math.min(
-        this.calculatePoints(true),
-        this.interpreter?.isSuperscore ? Infinity : maxPlace
-      );
-    })();
+    this.isolatedTrackPoints = this.explicit
+      ? this.trackPlace
+      : (() => {
+          if (!this.team.track) return 0;
+          const maxPlace = this.team.track.maximumPlace as number;
+          const n = maxPlace + (this.tournament.nOffset as number);
+          if (this.disqualified) return n + 2;
+          if (this.didNotParticipate) return n + 1;
+          if (this.participationOnly || this.unknown) return n;
+          return Math.min(
+            this.calculatePoints(true),
+            this.interpreter?.isSuperscore ? Infinity : maxPlace
+          );
+        })();
   }
 
   // compute teams worstPlacingsToBeDropped before running this

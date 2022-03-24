@@ -37,15 +37,30 @@ export default yup.object().shape({
   place: yup
     .number()
     .integer()
-    .notRequired()
+    .when("explicit", (explicit, schema) =>
+      explicit
+        ? schema.required("a place is required when using explicit scores")
+        : schema.notRequired()
+    )
     .when(
-      ["participated", "disqualified", "unknown"],
+      ["participated", "disqualified", "unknown", "explicit"],
       // @ts-ignore: looks like https://github.com/jquense/yup/issues/1417
-      (participated, disqualified, unknown, schema) =>
-        participated === false || disqualified || unknown
+      (participated, disqualified, unknown, explicit, schema) =>
+        !explicit && (participated === false || disqualified || unknown)
           ? schema.oneOf([undefined], "having a place does not make sense")
           : schema
     ),
+  trackPlace: yup
+    .number()
+    .integer()
+    .notRequired()
+    .when("explicit", (explicit, schema) =>
+      !explicit
+        ? schema.oneOf([undefined], "explicit must be set to allow trackPlace")
+        : schema
+    ),
+  explicit: yup.boolean().notRequired(),
+
   participated: yup.boolean().notRequired(),
   disqualified: yup
     .boolean()
@@ -106,8 +121,8 @@ export default yup.object().shape({
     .when(
       ["participated", "disqualified", "unknown"],
       // @ts-ignore: looks like https://github.com/jquense/yup/issues/1417
-      (participated, disqualified, unknown, schema) =>
-        participated === false || disqualified || unknown
+      (participated, disqualified, unknown, explicit, schema) =>
+        explicit || participated === false || disqualified || unknown
           ? schema.oneOf([undefined], "having raw section does not make sense")
           : schema
     )
