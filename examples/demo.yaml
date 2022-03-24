@@ -77,14 +77,17 @@ Teams:
 Placings:
   - event: Anatomy and Physiology # must be the name of an event in Events
     team: 58 # a number of a team listed in Teams, unique per event
-    # next four lines are optional if answers are yes-no-no-no-no, respectively
+    # next five lines are optional if answers are yes-no-no-no-no-no, respectively
     participated: true
     disqualified: false
     exempt: false # team does not earn any points for the event if exempt
     unknown: false # only allowed for Trial/Trialed events or exempt placings
     tie: false # if placing has identical place as another placing in the event
-    # next line is optional only if PO, NS, DQ, exempt, or raw
+    explicit: false # use following place value no matter what (no max place cap, calculation from dq/ns)
+    # next line is optional only if PO, NS, DQ, exempt, or raw. if explicit, this is required
     place: 1 # range between 1 and # of teams at tournament, unique per event
+    # next line should not be set if explicit is false
+    track place: 1 # use this for track placing (don't auto calculate from combined)
     # only required if using raw scores
     raw:
       # required
