@@ -42,7 +42,7 @@
     "duosmium"
   ],
   "dependencies": {
-    "commander": "^9.0.0",
+    "commander": "^9.1.0",
     "fetch-retry": "^5.0.2",
     "js-yaml": "^4.1.0",
     "neat-csv": "^7.0.0",
@@ -53,15 +53,15 @@
     "@types/js-yaml": "^4.0.5",
     "@types/node-fetch": "^2.6.1",
     "@types/yup": "^0.29.13",
-    "@typescript-eslint/eslint-plugin": "^5.15.0",
-    "@typescript-eslint/parser": "^5.15.0",
+    "@typescript-eslint/eslint-plugin": "^5.16.0",
+    "@typescript-eslint/parser": "^5.16.0",
     "eslint": "^8.11.0",
     "eslint-config-prettier": "^8.5.0",
     "husky": "^7.0.4",
-    "lint-staged": "^12.3.5",
-    "prettier": "2.5.1",
-    "release-it": "^14.12.5",
-    "typescript": "^4.6.2"
+    "lint-staged": "^12.3.7",
+    "prettier": "2.6.0",
+    "release-it": "^14.13.1",
+    "typescript": "^4.6.3"
   },
   "lint-staged": {
     "*.{js,ts,json,yaml,yml,md}": "prettier --write",
