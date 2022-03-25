@@ -33,6 +33,7 @@ export default class Tournament implements Model<TournamentRep> {
   shortName?: string;
   worstPlacingsDropped?: number;
   exemptPlacings?: number;
+  reverseScoring: boolean;
   maximumPlace?: number;
   perEventN?: string;
   nOffset?: number;
@@ -50,6 +51,8 @@ export default class Tournament implements Model<TournamentRep> {
   hasTies?: boolean;
   hasTiesOutsideOfMaximumPlaces?: boolean;
   hasTracks?: boolean;
+  // for reverse scoring
+  largestPlace?: number;
 
   nonExhibitionTeamsCount?: number;
 
@@ -74,6 +77,7 @@ export default class Tournament implements Model<TournamentRep> {
     this.shortName = rep["short name"];
     this.worstPlacingsDropped = rep["worst placings dropped"] ?? 0;
     this.exemptPlacings = rep["exempt placings"] ?? 0;
+    this.reverseScoring = rep["reverse scoring"] ?? false;
 
     this.maximumPlace = rep["maximum place"];
 
@@ -119,6 +123,10 @@ export default class Tournament implements Model<TournamentRep> {
       (p) => p.tie && !p.pointsLimitedByMaximumPlace
     );
     this.hasTracks = this.tracks.length > 0;
+
+    if (this.reverseScoring) {
+      this.largestPlace = Math.max(...this.placings.map((p) => p.place || 0));
+    }
   }
 
   private calcMedals() {

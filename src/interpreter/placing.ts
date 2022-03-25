@@ -110,6 +110,15 @@ export default class Placing implements Model<PlacingRep> {
     this.isolatedPoints = this.explicit
       ? this.place
       : (() => {
+          if (
+            this.tournament.reverseScoring &&
+            (this.disqualified ||
+              this.didNotParticipate ||
+              this.participationOnly)
+          ) {
+            return 0;
+          }
+
           const maxPlace = this.event.maximumPlace as number;
           const n = maxPlace + (this.tournament.nOffset as number);
           if (this.disqualified) return n + 2;
@@ -131,13 +140,24 @@ export default class Placing implements Model<PlacingRep> {
       (this.team.track?.placings
         ?.filter((p) => p.event === this.event)
         ?.sort(
-          (a, b) => (a.isolatedPoints as number) - (b.isolatedPoints as number)
+          (a, b) =>
+            ((a.isolatedPoints as number) - (b.isolatedPoints as number)) *
+            (this.tournament?.reverseScoring ? -1 : 1)
         )
         ?.findIndex((p) => p === this) ?? 0) + 1;
 
     this.isolatedTrackPoints = this.explicit
       ? this.trackPlace
       : (() => {
+          if (
+            this.tournament.reverseScoring &&
+            (this.disqualified ||
+              this.didNotParticipate ||
+              this.participationOnly)
+          ) {
+            return 0;
+          }
+
           if (!this.team.track) return 0;
           const maxPlace = this.team.track.maximumPlace as number;
           const n = maxPlace + (this.tournament.nOffset as number);
@@ -188,19 +208,15 @@ export default class Placing implements Model<PlacingRep> {
   }
 
   private calculatePoints(inTrack: boolean): number {
-    if (inTrack) {
-      return (
-        this.event?.trial
+    return (
+      this.event?.trial
+        ? inTrack
           ? this.trackPlace
-          : (this.trackPlace as number) - this.exhibitionPlacingsBehind(true)
-      ) as number;
-    } else {
-      return (
-        this.event?.trial
-          ? this.place
-          : (this.place as number) - this.exhibitionPlacingsBehind(false)
-      ) as number;
-    }
+          : this.place
+        : this.tournament?.reverseScoring
+        ? (this.trackPlace as number) + this.exhibitionPlacingsBehind(inTrack)
+        : (this.trackPlace as number) - this.exhibitionPlacingsBehind(inTrack)
+    ) as number;
   }
 
   private exhibitionPlacingsBehind(inTrack: boolean): number {
@@ -211,14 +227,18 @@ export default class Placing implements Model<PlacingRep> {
             (p.exempt || p.team?.exhibition) &&
             p.team?.track === this.team?.track &&
             p.trackPlace &&
-            p.trackPlace < (this.trackPlace as number)
+            (this.tournament?.reverseScoring
+              ? p.trackPlace > (this.trackPlace as number)
+              : p.trackPlace < (this.trackPlace as number))
         ).length) as number;
     } else {
       return (this._exhibitionPlacingsBehind ||= this.event?.placings?.filter(
         (p) =>
           (p.exempt || p.team?.exhibition) &&
           p.place &&
-          p.place < (this.place as number)
+          (this.tournament?.reverseScoring
+            ? p.place > (this.place as number)
+            : p.place < (this.place as number))
       ).length) as number;
     }
   }

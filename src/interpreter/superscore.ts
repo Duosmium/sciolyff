@@ -44,25 +44,26 @@ export default (interpreter: Interpreter): SciOlyFF => {
     return acc;
   }, new Map<string, number>());
 
-  // lowest place of all teams of a school, by event
-  const minPlacingsBySchool = new Map<number, Map<string, number>>();
+  // best place of all teams of a school, by event
+  const bestPlacingsBySchool = new Map<number, Map<string, number>>();
   interpreter.placings.forEach((placing) => {
+    const compare = interpreter.tournament.reverseScoring ? Math.max : Math.min;
     const event = placing.event?.name as string;
     const school = teamNumbers.get(fsn(placing.team as Team)) as number;
-    if (!minPlacingsBySchool.has(school)) {
-      minPlacingsBySchool.set(school, new Map());
+    if (!bestPlacingsBySchool.has(school)) {
+      bestPlacingsBySchool.set(school, new Map());
     }
-    if (!minPlacingsBySchool.get(school)?.has(event)) {
-      minPlacingsBySchool
+    if (!bestPlacingsBySchool.get(school)?.has(event)) {
+      bestPlacingsBySchool
         .get(school)
         ?.set(event, placing.isolatedPoints as number);
     } else {
-      minPlacingsBySchool
+      bestPlacingsBySchool
         .get(school)
         ?.set(
           event,
-          Math.min(
-            minPlacingsBySchool.get(school)?.get(event) as number,
+          compare(
+            bestPlacingsBySchool.get(school)?.get(event) as number,
             placing.isolatedPoints as number
           )
         );
@@ -70,7 +71,7 @@ export default (interpreter: Interpreter): SciOlyFF => {
   });
 
   const placingsRep: PlacingRep[] = [];
-  for (const [teamNumber, eventPlacings] of minPlacingsBySchool) {
+  for (const [teamNumber, eventPlacings] of bestPlacingsBySchool) {
     for (const [event, place] of eventPlacings) {
       const n =
         (eventMaxPlacings.get(event) as number) +
