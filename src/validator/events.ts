@@ -9,10 +9,11 @@ const placingsByPlace = (
   eventName: string
 ): Record<string, any> =>
   root(context)["Placings"].reduce((acc: Record<string, any>, placing) => {
-    if (placing.place && placing.event === eventName) {
-      acc[placing.place]
-        ? acc[placing.place].push(placing)
-        : (acc[placing.place] = [placing]);
+    // match undefined/null with non-strict equality
+    if (placing.place != null && placing.event === eventName) {
+      acc[placing.place.toString()]
+        ? acc[placing.place.toString()].push(placing)
+        : (acc[placing.place.toString()] = [placing]);
     }
     return acc;
   }, {});
@@ -48,22 +49,22 @@ export default yup.object().shape({
       "ties-marked",
       "event: ${value} has unmarked ties",
       (value, context) =>
-        Object.entries(placingsByPlace(context, value as string)).filter(
+        Object.entries(placingsByPlace(context, value as string)).every(
           ([place, placings]: [string, any[]]) =>
             // ignore places with 1 or 0 if using reverse scoring
             root(context)["Tournament"]["reverse scoring"] &&
             (place === "1" || place === "0")
               ? true
-              : placings.filter((p) => !p.tie).length > 1
-        ).length === 0
+              : placings.filter((p) => !p.tie).length <= 1
+        )
     )
     .test(
       "ties-paired",
       "event: ${value} has unpaired ties",
       (value, context) =>
-        Object.values(placingsByPlace(context, value as string)).filter(
-          (placings: any[]) => placings.filter((p) => p.tie).length === 1
-        ).length === 0
+        Object.values(placingsByPlace(context, value as string)).every(
+          (placings: any[]) => placings.filter((p) => p.tie).length !== 1
+        )
     )
     .test(
       "no-gaps-in-places",
