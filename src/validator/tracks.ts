@@ -70,5 +70,10 @@ export default yup.object().shape({
           ? value <= teamCount(context, context.parent.name as string)
           : true
     )
-    .notRequired(),
+    .notRequired()
+    .when("reverse scoring", (reverse, schema) =>
+      reverse
+        ? schema.oneOf([undefined], "no max place with reverse scoring")
+        : schema
+    ),
 });

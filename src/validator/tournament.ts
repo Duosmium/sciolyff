@@ -146,7 +146,15 @@ export default yup.object().shape({
         ? schema.oneOf([undefined], "no max place with reverse scoring")
         : schema
     ),
-  "per-event n": yup.string().oneOf(["place", "participation"]).notRequired(),
+  "per-event n": yup
+    .string()
+    .oneOf(["place", "participation"])
+    .notRequired()
+    .when("reverse scoring", (reverse, schema) =>
+      reverse
+        ? schema.oneOf([undefined], "no per-event n with reverse scoring")
+        : schema
+    ),
   "n offset": yup
     .number()
     .integer()
@@ -155,7 +163,12 @@ export default yup.object().shape({
       "n offset is too small",
       (value, context) => !value || value > -teamCount(context)
     )
-    .notRequired(),
+    .notRequired()
+    .when("reverse scoring", (reverse, schema) =>
+      reverse
+        ? schema.oneOf([undefined], "no n offset with reverse scoring")
+        : schema
+    ),
   date: yup
     .date()
     // @ts-ignore: looks like https://github.com/jquense/yup/issues/1417
