@@ -105,7 +105,10 @@ export default class Placing implements Model<PlacingRep> {
     }
 
     this.participationOnly =
-      this.participated && !this.place && !this.disqualified && !this.unknown;
+      this.participated &&
+      this.place === undefined &&
+      !this.disqualified &&
+      !this.unknown;
 
     this.isolatedPoints = this.explicit
       ? this.place
