@@ -123,6 +123,12 @@ export default class Tournament implements Model<TournamentRep> {
       (p) => p.tie && !p.pointsLimitedByMaximumPlace
     );
     this.hasTracks = this.tracks.length > 0;
+  }
+
+  computeLargestPlace(): void {
+    if (!this.placings) {
+      throw new Error("things are undefined");
+    }
 
     if (this.reverseScoring) {
       this.largestPlace = Math.max(...this.placings.map((p) => p.place || 0));

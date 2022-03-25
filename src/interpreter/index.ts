@@ -65,6 +65,7 @@ export default class Interpreter {
     this.tournament.computeProperties();
     this.tracks.forEach((track) => track.computeMaximumPlace());
     this.placings.forEach((placing) => placing.computePlaces());
+    this.tournament.computeLargestPlace();
     this.events.forEach((event) => event.computeMaximumPlace());
     this.placings.forEach((placing) => placing.computeIsolatedPoints());
     if (this.tournament.hasTracks) {
