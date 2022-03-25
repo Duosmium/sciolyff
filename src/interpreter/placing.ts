@@ -208,14 +208,13 @@ export default class Placing implements Model<PlacingRep> {
   }
 
   private calculatePoints(inTrack: boolean): number {
+    const place = inTrack ? this.trackPlace : this.place;
     return (
       this.event?.trial
-        ? inTrack
-          ? this.trackPlace
-          : this.place
+        ? place
         : this.tournament?.reverseScoring
-        ? (this.trackPlace as number) + this.exhibitionPlacingsBehind(inTrack)
-        : (this.trackPlace as number) - this.exhibitionPlacingsBehind(inTrack)
+        ? (place as number) + this.exhibitionPlacingsBehind(inTrack)
+        : (place as number) - this.exhibitionPlacingsBehind(inTrack)
     ) as number;
   }
 
