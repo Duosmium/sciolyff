@@ -119,12 +119,18 @@ export default yup.object().shape({
     .notRequired()
     .default(undefined)
     .when(
-      ["participated", "disqualified", "unknown"],
+      ["participated", "disqualified", "unknown", "explicit"],
       // @ts-ignore: looks like https://github.com/jquense/yup/issues/1417
       (participated, disqualified, unknown, explicit, schema) =>
         explicit || participated === false || disqualified || unknown
           ? schema.oneOf([undefined], "having raw section does not make sense")
           : schema
+    )
+    .test(
+      "no-raws-when-reverse",
+      "cannot use reverse scoring with raws",
+      (value: any, context: yup.TestContext) =>
+        !(value && root(context)["Tournament"]["reverse scoring"])
     )
     .test(
       "no-mix-of-raws-and-places",

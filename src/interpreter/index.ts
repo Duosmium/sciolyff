@@ -65,6 +65,7 @@ export default class Interpreter {
     this.tournament.computeProperties();
     this.tracks.forEach((track) => track.computeMaximumPlace());
     this.placings.forEach((placing) => placing.computePlaces());
+    this.tournament.computeLargestPlace();
     this.events.forEach((event) => event.computeMaximumPlace());
     this.placings.forEach((placing) => placing.computeIsolatedPoints());
     if (this.tournament.hasTracks) {
@@ -154,7 +155,8 @@ export default class Interpreter {
   private sortTeamsByPoints(teams: Team[]): Team[] {
     return teams.sort((a, b) => {
       if (!a.points || !b.points) return 0;
-      const cmp = a.points - b.points;
+      const cmp =
+        (a.points - b.points) * (this.tournament.reverseScoring ? -1 : 1);
       return cmp !== 0 ? cmp : this.breakTie(a, b);
     });
   }

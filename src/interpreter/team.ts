@@ -113,23 +113,38 @@ export default class Team implements Model<TeamRep> {
 
     // array of counts of each medal
     // [ num gold, num silver, num bronze, ... ]
-    this.medalCounts = Array((this.tournament?.teams?.length as number) + 1)
+    this.medalCounts = Array(
+      this.tournament.reverseScoring
+        ? this.tournament.largestPlace
+        : (this.tournament?.teams?.length as number) + 1
+    )
       .fill(0)
       .map(
         // this Array.fill.map thing just generates increasing numbers from 0-n
         (_, i) =>
           this.placings?.filter(
-            (p) => p.consideredForTeamPoints && p.points === i + 1
+            (p) =>
+              p.consideredForTeamPoints &&
+              (this.tournament?.reverseScoring
+                ? p.points === (this.tournament?.largestPlace as number) - i
+                : p.points === i + 1)
           ).length as number
       );
     this.trialEventMedalCounts = Array(
-      (this.tournament?.teams?.length as number) + 1
+      this.tournament.reverseScoring
+        ? this.tournament.largestPlace
+        : (this.tournament?.teams?.length as number) + 1
     )
       .fill(0)
       .map(
         (_, i) =>
           this.placings?.filter(
-            (p) => p.event?.trial && p.isolatedPoints === i + 1
+            (p) =>
+              p.event?.trial &&
+              (this.tournament?.reverseScoring
+                ? p.isolatedPoints ===
+                  (this.tournament?.largestPlace as number) - i
+                : p.isolatedPoints === i + 1)
           ).length as number
       );
   }
@@ -145,7 +160,11 @@ export default class Team implements Model<TeamRep> {
       this.trackRank =
         (this.track.teams
           ?.slice()
-          .sort((a, b) => (a.trackPoints as number) - (b.trackPoints as number))
+          .sort(
+            (a, b) =>
+              ((a.trackPoints as number) - (b.trackPoints as number)) *
+              (this.tournament?.reverseScoring ? -1 : 1)
+          )
           .findIndex((t) => t === this) as number) + 1;
     }
   }
