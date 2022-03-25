@@ -120,8 +120,17 @@ export default yup.object().shape({
           )
         : schema
     ),
-  "worst placings dropped": yup.number().integer().notRequired(),
+  "worst placings dropped": yup
+    .number()
+    .integer()
+    .notRequired()
+    .when("reverse scoring", (reverse, schema) =>
+      reverse
+        ? schema.oneOf([undefined], "no drops with reverse scoring")
+        : schema
+    ),
   "exempt placings": yup.number().integer().notRequired(),
+  "reverse scoring": yup.boolean().notRequired(),
   "maximum place": yup
     .number()
     .integer()
@@ -131,7 +140,12 @@ export default yup.object().shape({
       "maximum place: larger than team count",
       (value, context) => (value ? value <= teamCount(context) : true)
     )
-    .notRequired(),
+    .notRequired()
+    .when("reverse scoring", (reverse, schema) =>
+      reverse
+        ? schema.oneOf([undefined], "no max place with reverse scoring")
+        : schema
+    ),
   "per-event n": yup.string().oneOf(["place", "participation"]).notRequired(),
   "n offset": yup
     .number()

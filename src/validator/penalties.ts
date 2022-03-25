@@ -12,6 +12,12 @@ export default yup.object().shape({
       "penalty: team ${value} does not exist",
       (value, context) =>
         root(context)["Teams"].some((team) => team.number === value)
+    )
+    .test(
+      "not-reverse-scoring",
+      "penalties are not allowed in reverse scoring",
+      (value, context) =>
+        !(value && root(context)["Tournament"]["reverse scoring"])
     ),
   points: yup.number().integer().required(),
 });

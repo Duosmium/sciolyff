@@ -7,8 +7,8 @@ import { root } from "./helpers.js";
 const placingsByPlace = (
   context: yup.TestContext,
   eventName: string
-): Record<number, any> =>
-  root(context)["Placings"].reduce((acc: Record<number, any>, placing) => {
+): Record<string, any> =>
+  root(context)["Placings"].reduce((acc: Record<string, any>, placing) => {
     if (placing.place && placing.event === eventName) {
       acc[placing.place]
         ? acc[placing.place].push(placing)
@@ -48,8 +48,13 @@ export default yup.object().shape({
       "ties-marked",
       "event: ${value} has unmarked ties",
       (value, context) =>
-        Object.values(placingsByPlace(context, value as string)).filter(
-          (placings: any[]) => placings.filter((p) => !p.tie).length > 1
+        Object.entries(placingsByPlace(context, value as string)).filter(
+          ([place, placings]: [string, any[]]) =>
+            // ignore places with 1 or 0 if using reverse scoring
+            root(context)["Tournament"]["reverse scoring"] &&
+            (place === "1" || place === "0")
+              ? true
+              : placings.filter((p) => !p.tie).length > 1
         ).length === 0
     )
     .test(
@@ -80,13 +85,35 @@ export default yup.object().shape({
       "places-start-at-one",
       "places for event: ${value} don't start at one",
       (value, context) =>
-        root(context)["Placings"].some((placing) => placing.raw) ||
-        Math.min(
-          ...root(context)
-            ["Placings"].filter((placing) => placing.event === value)
-            .map((placing) => placing.place as number)
-            .filter((p) => p !== undefined)
-        ) === 1
+        root(context)["Tournament"]["reverse scoring"]
+          ? true
+          : root(context)["Placings"].some((placing) => placing.raw) ||
+            Math.min(
+              ...root(context)
+                ["Placings"].filter((placing) => placing.event === value)
+                .map((placing) => placing.place as number)
+                .filter((p) => p !== undefined)
+            ) === 1
+    )
+    .test(
+      "reverse-places-start-at-same-place",
+      "places for event: ${value} don't start at the same place",
+      (value, context) => {
+        // only test when using reverse scoring
+        if (!root(context)["Tournament"]["reverse scoring"]) return true;
+        const maxes = root(context)["Placings"].reduce(
+          (acc: { total: number; event: number }, placing) => {
+            if (placing.event === value) {
+              acc.event = Math.max(acc.event, (placing.place as number) || 0);
+            }
+            acc.total = Math.max(acc.total, (placing.place as number) || 0);
+            return acc;
+          },
+          { total: 0, event: 0 }
+        );
+        // check if the event high score is the global high score
+        return maxes.event === maxes.total;
+      }
     )
     .test(
       "canonical-event",
