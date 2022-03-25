@@ -49,7 +49,7 @@ export default yup.object().shape({
   "school abbreviation": yup.string().notRequired(),
   track: yup
     .string()
-
+    .notRequired()
     .test(
       "matching-track",
       "'track ${value}' does not match any name in 'section Track'",
@@ -64,7 +64,12 @@ export default yup.object().shape({
         !root(context)["Tracks"] ||
         root(context)["Tracks"].length === 0
     )
-    .notRequired(),
+    .test(
+      "no-tracks-when-reverse",
+      "cannot use reverse scoring with tracks",
+      (value: any, context: yup.TestContext) =>
+        !(value && root(context)["Tournament"]["reverse scoring"])
+    ),
   suffix: yup
     .string()
 

@@ -25,6 +25,12 @@ export default yup.object().shape({
       (value, context) =>
         root(context)["Teams"].filter((team) => team.track === value).length > 0
     )
+    .test(
+      "no-tracks-when-reverse",
+      "cannot use reverse scoring with tracks",
+      (value: any, context: yup.TestContext) =>
+        !(value && root(context)["Tournament"]["reverse scoring"])
+    )
     .required(),
 
   // optional
@@ -70,10 +76,5 @@ export default yup.object().shape({
           ? value <= teamCount(context, context.parent.name as string)
           : true
     )
-    .notRequired()
-    .when("reverse scoring", (reverse, schema) =>
-      reverse
-        ? schema.oneOf([undefined], "no max place with reverse scoring")
-        : schema
-    ),
+    .notRequired(),
 });
