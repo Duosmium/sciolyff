@@ -24,7 +24,8 @@ async function valid(
   valid: boolean;
   success: boolean;
   validWithWarnings: boolean;
-  readable: string;
+  status: string;
+  errors?: Error[];
 }>;
 ```
 
@@ -40,7 +41,24 @@ async function valid(
 - `valid`: is sciolyff valid?
 - `success`: was validation successful?
 - `validWithWarnings`: are there warnings (if valid)?
-- `readable`: human readable error messages
+- `status`: human readable status messages
+- `errors?`: validation errors (if any)
+
+To parse the returned `errors` list, we provide a `sciolyff.format` function.
+
+```ts
+function format(errors?: Error[], filename?: string, colors?: boolean): string;
+```
+
+**Arguments:**
+
+- `errors`: the `errors` property returned by `sciolyff.valid`
+- `filename`: the original filename (used for line numbers/linking)
+- `colors`: whether to color the output (recommended if you're outputting to a terminal)
+
+**Returns:**
+
+The formatted error messages (string).
 
 The `sciolyff-js` package also has a command line utility that can validate if a given file meets the spec.
 
