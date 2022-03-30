@@ -19,9 +19,9 @@ program
             canonical: options.canon,
           })
           .then((res) => {
-            console.log(res.readable);
+            console.log(sciolyff.format(res.errors, file, true));
           })
-          .catch((err) => console.log(err));
+          .catch((err) => console.error(err));
       }
     });
   })

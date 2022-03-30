@@ -42,6 +42,7 @@
     "duosmium"
   ],
   "dependencies": {
+    "chalk": "^5.0.1",
     "commander": "^9.1.0",
     "fetch-retry": "^5.0.2",
     "js-yaml": "^4.1.0",

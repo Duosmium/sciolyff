@@ -4,6 +4,8 @@ import { getIn } from "yup/lib/util/reach.js";
 import yaml from "js-yaml";
 import SourceMap from "js-yaml-source-map";
 
+import chalk from "chalk";
+
 import tournamentSchema from "./tournament.js";
 import eventSchema from "./events.js";
 import teamSchema from "./teams.js";
@@ -45,18 +47,16 @@ export default async function valid(
   options: {
     abortEarly?: boolean;
     canonical?: boolean;
-    rawErrors?: boolean;
   } = {}
 ): Promise<{
   valid: boolean; // is sciolyff valid?
   success: boolean; // was validation successful?
   validWithWarnings: boolean; // are there warnings (if valid)?
-  readable: string; // human readable error message
-  errors?: Error[] | string; // validation errors
+  status: string; // human readable status message
+  errors?: Error[]; // validation errors (if any)
 }> {
   const abortEarly = options.abortEarly ?? false;
   const canonical = options.canonical ?? true;
-  const rawErrors = options.rawErrors ?? false;
 
   const sourceMap = new SourceMap();
   let rep = repOrYaml;
@@ -76,7 +76,7 @@ export default async function valid(
         valid: false,
         success: false,
         validWithWarnings: false,
-        readable: "Failed to parse YAML.",
+        status: "Failed to parse YAML.",
       };
     }
   }
@@ -93,7 +93,7 @@ export default async function valid(
       valid: true,
       success: true,
       validWithWarnings: false,
-      readable: "The SciOlyFF file passed the validation!",
+      status: "The SciOlyFF file passed the validation!",
     };
   } catch (e) {
     if (e instanceof yup.ValidationError) {
@@ -108,44 +108,74 @@ export default async function valid(
         })
       );
 
-      const readableErrors = errors.map(
-        (err) =>
-          (err.warning
-            ? "WARNING (still valid SciolyFF): " + err.message
-            : "ERROR (invalid SciolyFF): " + err.message) +
-          " at:\n" +
-          (err.location
-            ? `line ${err.location.line}, column ${err.location.column}`
-            : JSON.stringify(err.context, null, 2))
-      );
-
       if (warningsOnly) {
         return {
           valid: true,
           success: true,
           validWithWarnings: true,
-          readable:
-            "Valid SciOlyFF!\n\nWarnings:\n" + readableErrors.join("\n\n"),
-          errors: rawErrors ? errors : undefined,
+          status: "Valid SciOlyFF! (with warnings)",
+          errors,
         };
       }
       return {
         valid: false,
         success: true,
         validWithWarnings: false,
-        readable:
-          "Invalid SciOlyFF!\n\nSee Errors:\n" + readableErrors.join("\n\n"),
-        errors: rawErrors ? errors : undefined,
+        status: "Invalid SciOlyFF!",
+        errors,
       };
     } else {
       return {
         valid: false,
         success: false,
         validWithWarnings: false,
-        readable: "An unexpected error occurred",
+        status: "An unexpected error occurred",
       };
     }
   }
+}
+
+export function format(
+  errors?: Error[],
+  filename?: string,
+  colors?: boolean
+): string {
+  const error = colors ? chalk.red : (s: string) => s;
+  const warn = colors ? chalk.yellowBright : (s: string) => s;
+  const valid = colors ? chalk.bold.green : (s: string) => s;
+  const info = colors ? chalk.cyan : (s: string) => s;
+  const gray = colors ? chalk.gray : (s: string) => s;
+
+  let errorString: string;
+
+  if (!errors || errors.length === 0) {
+    return valid("The SciolyFF passed the validation!");
+  }
+
+  if (errors.every((e) => e.warning)) {
+    errorString = valid("Valid SciOlyFF!") + " " + warn("(with warnings)");
+  } else {
+    errorString = error("Invalid SciOlyFF!");
+  }
+  errorString += "\n\n";
+  errorString += errors
+    .map(
+      (err) =>
+        (err.warning
+          ? warn("WARNING (still valid SciolyFF): ") + err.message
+          : error("ERROR (invalid SciolyFF): ") + err.message) +
+        " at:\n" +
+        (err.location
+          ? filename
+            ? `${info(filename)}:${gray(err.location.line.toString())}:${gray(
+                err.location.column.toString()
+              )}`
+            : `line ${err.location.line}, column ${err.location.column}`
+          : JSON.stringify(err.context, null, 2))
+    )
+    .join("\n\n");
+
+  return errorString;
 }
 
 // const tests = [
