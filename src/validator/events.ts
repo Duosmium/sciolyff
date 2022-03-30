@@ -48,23 +48,49 @@ export default yup.object().shape({
     .test(
       "ties-marked",
       "event: ${value} has unmarked ties",
-      (value, context) =>
-        Object.entries(placingsByPlace(context, value as string)).every(
-          ([place, placings]: [string, any[]]) =>
-            // ignore places with 1 or 0 if using reverse scoring
-            root(context)["Tournament"]["reverse scoring"] &&
-            (place === "1" || place === "0")
-              ? true
-              : placings.filter((p) => !p.tie).length <= 1
-        )
+      (value, context) => {
+        const failing = Object.entries(
+          placingsByPlace(context, value as string)
+        ).flatMap(([place, placings]: [string, any[]]) =>
+          // ignore places with 1 or 0 if using reverse scoring
+          root(context)["Tournament"]["reverse scoring"] &&
+          (place === "1" || place === "0")
+            ? []
+            : placings.filter((p) => !p.tie).length <= 1
+            ? []
+            : [place]
+        );
+        if (failing.length === 0) {
+          return true;
+        } else {
+          throw context.createError({
+            message: `event: ${value} has unmarked ties (place ${failing.join(
+              ", "
+            )})`,
+          });
+        }
+      }
     )
     .test(
       "ties-paired",
       "event: ${value} has unpaired ties",
-      (value, context) =>
-        Object.values(placingsByPlace(context, value as string)).every(
-          (placings: any[]) => placings.filter((p) => p.tie).length !== 1
-        )
+      (value, context) => {
+        const failing = Object.entries(
+          placingsByPlace(context, value as string)
+        ).flatMap(([place, placings]: [string, any[]]) =>
+          placings.filter((p) => p.tie).length === 1 ? [place] : []
+        );
+
+        if (failing.length === 0) {
+          return true;
+        } else {
+          throw context.createError({
+            message: `event: ${value} has unpaired ties (place ${failing.join(
+              ", "
+            )})`,
+          });
+        }
+      }
     )
     .test(
       "no-gaps-in-places",
@@ -78,8 +104,9 @@ export default yup.object().shape({
           .map((_, i) => i + Math.min(...places));
         const gaps = places.filter((p) => !sequential.includes(p));
         if (gaps.length === 0) return true;
-
-        return false;
+        throw context.createError({
+          message: `event: ${value} has gaps in place (${gaps.join(", ")})`,
+        });
       }
     )
     .test(
