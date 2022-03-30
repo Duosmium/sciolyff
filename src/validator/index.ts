@@ -2,6 +2,7 @@ import * as yup from "yup";
 import { getIn } from "yup/lib/util/reach.js";
 
 import yaml from "js-yaml";
+import SourceMap from "js-yaml-source-map";
 
 import tournamentSchema from "./tournament.js";
 import eventSchema from "./events.js";
@@ -28,22 +29,44 @@ export const sciolyffSchema = yup.object().shape({
 });
 /* eslint-enable @typescript-eslint/no-unsafe-assignment */
 
+interface Error {
+  warning: boolean;
+  message: string;
+  location?: {
+    line: number;
+    column: number;
+    position: number;
+  };
+  context: unknown;
+}
+
 export default async function valid(
   repOrYaml: string | Record<string, unknown>,
-  options: { abortEarly?: boolean; canonical?: boolean } = {}
+  options: {
+    abortEarly?: boolean;
+    canonical?: boolean;
+    rawErrors?: boolean;
+  } = {}
 ): Promise<{
   valid: boolean; // is sciolyff valid?
   success: boolean; // was validation successful?
   validWithWarnings: boolean; // are there warnings (if valid)?
   readable: string; // human readable error message
+  errors?: Error[] | string; // validation errors
 }> {
   const abortEarly = options.abortEarly ?? false;
   const canonical = options.canonical ?? true;
+  const rawErrors = options.rawErrors ?? false;
 
+  const sourceMap = new SourceMap();
   let rep = repOrYaml;
   if (typeof repOrYaml === "string") {
     try {
-      const loaded = (yaml.load(repOrYaml) as Record<string, unknown>) ?? {};
+      const loaded =
+        (yaml.load(repOrYaml, { listener: sourceMap.listen() }) as Record<
+          string,
+          unknown
+        >) ?? {};
       if (typeof loaded === "number") {
         throw new Error("Invalid YAML");
       }
@@ -75,26 +98,35 @@ export default async function valid(
   } catch (e) {
     if (e instanceof yup.ValidationError) {
       const warningsOnly = e.errors.every((msg) => msg.startsWith("$$warn$$"));
-      const processedErrors = (e.inner.length > 0 ? e.inner : [e]).map(
-        (err) =>
-          (err.errors[0].startsWith("$$warn$$")
-            ? "WARNING (still valid SciolyFF): " +
-              err.errors[0].replace("$$warn$$", "").trimStart()
-            : "ERROR (invalid SciolyFF): " + err.errors[0]) +
-          " at:\n" +
-          JSON.stringify(
-            getIn(sciolyffSchema, err.path || "", rep).parent,
-            undefined,
-            4
-          )
+
+      const errors: Error[] = (e.inner.length > 0 ? e.inner : [e]).map(
+        (err): Error => ({
+          warning: err.errors[0].startsWith("$$warn$$"),
+          message: err.errors[0].replace("$$warn$$", "").trimStart(),
+          location: sourceMap.lookup(err.path || ""),
+          context: getIn(sciolyffSchema, err.path || "", rep).parent as unknown,
+        })
       );
+
+      const readableErrors = errors.map(
+        (err) =>
+          (err.warning
+            ? "WARNING (still valid SciolyFF): " + err.message
+            : "ERROR (invalid SciolyFF): " + err.message) +
+          " at:\n" +
+          (err.location
+            ? `line ${err.location.line}, column ${err.location.column}`
+            : JSON.stringify(err.context, null, 2))
+      );
+
       if (warningsOnly) {
         return {
           valid: true,
           success: true,
           validWithWarnings: true,
           readable:
-            "Valid SciOlyFF!\n\nWarnings:\n" + processedErrors.join("\n\n"),
+            "Valid SciOlyFF!\n\nWarnings:\n" + readableErrors.join("\n\n"),
+          errors: rawErrors ? errors : undefined,
         };
       }
       return {
@@ -102,7 +134,8 @@ export default async function valid(
         success: true,
         validWithWarnings: false,
         readable:
-          "Invalid SciOlyFF!\n\nSee Errors:\n" + processedErrors.join("\n\n"),
+          "Invalid SciOlyFF!\n\nSee Errors:\n" + readableErrors.join("\n\n"),
+        errors: rawErrors ? errors : undefined,
       };
     } else {
       return {
