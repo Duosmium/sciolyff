@@ -140,6 +140,7 @@ export function format(
   filename?: string,
   colors?: boolean
 ): string {
+  const errorBold = colors ? chalk.bold.red : (s: string) => s;
   const error = colors ? chalk.red : (s: string) => s;
   const warn = colors ? chalk.yellowBright : (s: string) => s;
   const valid = colors ? chalk.bold.green : (s: string) => s;
@@ -155,7 +156,7 @@ export function format(
   if (errors.every((e) => e.warning)) {
     errorString = valid("Valid SciOlyFF!") + " " + warn("(with warnings)");
   } else {
-    errorString = error("Invalid SciOlyFF!");
+    errorString = errorBold("Invalid SciOlyFF!");
   }
   errorString += "\n\n";
   errorString += errors
