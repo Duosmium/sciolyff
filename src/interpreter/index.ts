@@ -77,9 +77,11 @@ export default class Interpreter {
     this.teams.forEach((team) => team.computePoints());
     this.sortEvents();
     this.sortTeamsByRank(this.teams, false);
-    this.tracks.forEach((track) =>
-      this.sortTeamsByRank(track.teams ?? [], true)
-    );
+    if (this.tournament.hasTracks) {
+      this.tracks.forEach((track) =>
+        this.sortTeamsByRank(track.teams ?? [], true)
+      );
+    }
     this.teams.forEach((team) => team.computeRanks());
     this.teams.forEach((team) => team.computeEarnedBid());
   }
@@ -159,7 +161,7 @@ export default class Interpreter {
     const key = track ? "trackPoints" : "points";
     return teams.sort((a, b) => {
       const aPoints = a[key];
-      const bPoints = a[key];
+      const bPoints = b[key];
       if (!aPoints || !bPoints) return 0;
       const cmp =
         (aPoints - bPoints) * (this.tournament.reverseScoring ? -1 : 1);
