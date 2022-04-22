@@ -193,6 +193,8 @@ export default class Interpreter {
   }
 
   // superscore this interpreter
+  public superscore(toInterpreter: true): Interpreter;
+  public superscore(toInterpreter: false): SciOlyFF;
   public superscore(toInterpreter = false) {
     if (this.isSuperscore) {
       return this;
