@@ -76,7 +76,10 @@ export default class Interpreter {
     this.placings.forEach((placing) => placing.computePoints());
     this.teams.forEach((team) => team.computePoints());
     this.sortEvents();
-    this.sortTeamsByRank();
+    this.sortTeamsByRank(this.teams, false);
+    this.tracks.forEach((track) =>
+      this.sortTeamsByRank(track.teams ?? [], true)
+    );
     this.teams.forEach((team) => team.computeRanks());
     this.teams.forEach((team) => team.computeEarnedBid());
   }
@@ -102,12 +105,12 @@ export default class Interpreter {
     });
   }
 
-  private sortTeamsByRank() {
-    this.teams.splice(
+  private sortTeamsByRank(teams: Team[], track: boolean) {
+    teams.splice(
       0,
       Infinity,
       ...Array.from(
-        this.teams
+        teams
           .reduce((acc, t) => {
             const str = (b: boolean) => (b ? "true" : "false");
             // these keys are used for sorting later
@@ -132,7 +135,7 @@ export default class Interpreter {
       )
         .map(([key, value]): [number, Team[]] => [
           key,
-          this.sortTeamsByPoints(value),
+          this.sortTeamsByPoints(value, track),
         ])
         .sort((a, b) => {
           return a[0] - b[0];
@@ -152,41 +155,51 @@ export default class Interpreter {
     return array.map((rep) => new objectClass(rep));
   }
 
-  private sortTeamsByPoints(teams: Team[]): Team[] {
+  private sortTeamsByPoints(teams: Team[], track: boolean): Team[] {
+    const key = track ? "trackPoints" : "points";
     return teams.sort((a, b) => {
-      if (!a.points || !b.points) return 0;
+      const aPoints = a[key];
+      const bPoints = a[key];
+      if (!aPoints || !bPoints) return 0;
       const cmp =
-        (a.points - b.points) * (this.tournament.reverseScoring ? -1 : 1);
-      return cmp !== 0 ? cmp : this.breakTie(a, b);
+        (aPoints - bPoints) * (this.tournament.reverseScoring ? -1 : 1);
+      return cmp !== 0 ? cmp : this.breakTie(a, b, track);
     });
   }
 
   // break tie based on medal counts
-  private breakTie(a: Team, b: Team): number {
-    if (!a.medalCounts || !b.medalCounts) return 0;
-    const bCounts = b.medalCounts;
+  private breakTie(a: Team, b: Team, track: boolean): number {
+    const key = track ? "trackMedalCounts" : "medalCounts";
+    const aCounts = a[key];
+    const bCounts = b[key];
+    if (!aCounts || !bCounts) return 0;
     // medal counts should be sorted descending
     // so we do b - a instead of a - b
-    const result = a.medalCounts
+    const result = aCounts
       .map((aCount, i) => bCounts[i] - aCount)
       .find((diff) => diff !== 0);
-    return result ? result : this.breakSecondTie(a, b);
+    return result ? result : this.breakSecondTie(a, b, track);
   }
 
   // break tie based on trial events
-  private breakSecondTie(a: Team, b: Team): number {
-    if (!a.trialEventPoints || !b.trialEventPoints) return 0;
-    const cmp = a.trialEventPoints - b.trialEventPoints;
-    return cmp !== 0 ? cmp : this.breakThirdTie(a, b);
+  private breakSecondTie(a: Team, b: Team, track: boolean): number {
+    const key = track ? "trackTrialEventPoints" : "trialEventPoints";
+    const aPoints = a[key];
+    const bPoints = b[key];
+    if (!aPoints || !bPoints) return 0;
+    const cmp = aPoints - bPoints;
+    return cmp !== 0 ? cmp : this.breakThirdTie(a, b, track);
   }
 
   // break tie based on trial event medal counts
-  private breakThirdTie(a: Team, b: Team): number {
-    if (!a.trialEventMedalCounts || !b.trialEventMedalCounts) return 0;
-    const bCounts = b.trialEventMedalCounts;
+  private breakThirdTie(a: Team, b: Team, track: boolean): number {
+    const key = track ? "trackTrialEventMedalCounts" : "trialEventMedalCounts";
+    const aCounts = a[key];
+    const bCounts = b[key];
+    if (!aCounts || !bCounts) return 0;
     // medal counts should be sorted descending
     // so we do b - a instead of a - b
-    const result = a.trialEventMedalCounts
+    const result = aCounts
       .map((aCount, i) => bCounts[i] - aCount)
       .find((diff) => diff !== 0);
     return result ? result : a.number - b.number;
