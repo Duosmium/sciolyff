@@ -102,6 +102,10 @@ console.log(interpreter.teams.slice(0, 3));
 
 ## Development
 
+### Legacy Tests
+
+**Note:** We have updated our tests, so this information is here for reference only.
+
 To ensure that the output of this package matches the output of the previous Ruby-based package, we have a couple of testing scripts to run.
 
 First, ensure that Ruby is installed (versions between 2.7 and 2.5). You may want to use [asdf](https://asdf-vm.com/) to manage your Ruby versions.
@@ -130,18 +134,18 @@ git clone https://github.com/Duosmium/duosmium.git
 You are now ready to generate the test files. Create new directories to place the generated json files.
 
 ```
-mkdir test/js
-mkdir test/ruby
+mkdir compare/js
+mkdir compare/ruby
 ```
 
 To generate files:
 
 ```
-node test/generateJs.js
+node compare/generateJs.js
 ```
 
 ```
-ruby test/generateRuby.rb
+ruby compare/generateRuby.rb
 ```
 
 When running the Ruby script, you may see the following error:
@@ -169,7 +173,7 @@ If this occurs, you'll need to manually patch the interpreter.rb file. Navigate 
 After the test files have been generated, run the following script to compare results:
 
 ```
-node test/compare.js
+node compare/compare.js
 ```
 
 Any files containing differences will be printed to the console. If such files exist, you'll need to manually inspect them. Use a service like [Diffchecker](https://www.diffchecker.com/) to compare the two files and find where exactly they differ.
