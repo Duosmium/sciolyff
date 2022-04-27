@@ -85,8 +85,7 @@
     "nodeArguments": [
       "--loader=ts-node/esm"
     ],
-    "timeout": "30s",
-    "concurrency": 1
+    "timeout": "30s"
   },
   "c8": {
     "src": [
