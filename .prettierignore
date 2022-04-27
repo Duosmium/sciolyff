@@ -2,3 +2,4 @@ node_modules/
 dist/
 compare/
 tests/validator/cases/invalid-document.yaml
+tests/**/snapshots/*
