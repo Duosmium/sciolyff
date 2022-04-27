@@ -33,7 +33,7 @@
     "fix": "prettier --write . && eslint --fix .",
     "build": "npm run clean && tsc",
     "prepare": "husky install",
-    "release": "npm run build; release-it",
+    "release": "npm test && npm run build; release-it",
     "test": "c8 ava"
   },
   "keywords": [
@@ -76,18 +76,25 @@
   },
   "ava": {
     "files": [
-      "tests/**/*"
+      "tests/**/*",
+      "!tests/helpers.ts"
     ],
     "extensions": {
       "ts": "module"
     },
     "nodeArguments": [
       "--loader=ts-node/esm"
-    ]
+    ],
+    "timeout": "30s",
+    "concurrency": 1
   },
   "c8": {
     "src": [
-      "./src/"
+      "./src/*"
+    ],
+    "exclude": [
+      "./src/interpreter/model.ts",
+      "./src/interpreter/types.ts"
     ],
     "all": true,
     "clean": true
