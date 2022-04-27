@@ -12,6 +12,6 @@
     "strictNullChecks": true,
     "strictFunctionTypes": false
   },
-  "include": ["src", "bin"],
-  "exclude": ["node_modules", "dist", "compare"]
+  "include": ["src", "bin"]
+  // "exclude": ["node_modules", "dist", "compare", "tests"]
 }
