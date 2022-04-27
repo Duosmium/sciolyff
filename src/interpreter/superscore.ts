@@ -35,7 +35,9 @@ export default (interpreter: Interpreter): SciOlyFF => {
   })) as TeamRep[];
 
   const teamNumbers = teams.reduce((acc, t) => {
-    acc.set(fsn(t), t.number);
+    if (!acc.has(fsn(t))) {
+      acc.set(fsn(t), t.number);
+    }
     return acc;
   }, new Map<string, number>());
 
