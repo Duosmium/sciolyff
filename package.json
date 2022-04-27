@@ -6,7 +6,7 @@
   "author": "Duosmium Results (https://www.duosmium.org/results/)",
   "type": "module",
   "engines": {
-    "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
+    "node": "^14.0.0 || >=16.0.0"
   },
   "files": [
     "dist/**/*"
