@@ -1,4 +1,10 @@
 module.exports = {
   root: true,
-  extends: "plugin:ava/recommended",
+  plugins: ["@typescript-eslint"],
+  extends: [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
+    "plugin:ava/recommended",
+  ],
 };
