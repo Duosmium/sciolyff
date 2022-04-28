@@ -1,6 +1,6 @@
 # sciolyff-js
 
-[![Test Status](https://github.com/Duosmium/sciolyff/actions/workflows/test.yml/badge.svg)](https://github.com/Duosmium/sciolyff/actions/workflows/test.yml) [![Coverage Status](https://coveralls.io/repos/github/Duosmium/sciolyff/badge.svg?branch=main)](https://coveralls.io/github/Duosmium/sciolyff?branch=main)
+[![Test Status](https://github.com/Duosmium/sciolyff/actions/workflows/test.yml/badge.svg)](https://github.com/Duosmium/sciolyff/actions/workflows/test.yml) [![Coverage Status](https://coveralls.io/repos/github/Duosmium/sciolyff/badge.svg?branch=main)](https://coveralls.io/github/Duosmium/sciolyff?branch=main) [![npm](https://img.shields.io/npm/v/sciolyff)](https://www.npmjs.com/package/sciolyff)
 
 `sciolyff-js` is a JS port of [SciolyFF](https://github.com/Duosmium/sciolyff), a standardized file format to represent Science Olympiad tournament results. SciolyFF is a subset of YAML.
 
