@@ -27,6 +27,15 @@ for (const testCase of testCases) {
     const interpreter = new sciolyff.Interpreter(data);
     t.snapshot(dumpInterpreter(interpreter));
   });
+
+  if (!name.includes("track")) {
+    test("interpreter: " + name + ": superscore", async (t) => {
+      const data = await fs.readFile(testCase, "utf8");
+
+      const interpreter = new sciolyff.Interpreter(data).superscore(true);
+      t.snapshot(dumpInterpreter(interpreter));
+    });
+  }
 }
 
 test("interpreter: basic sanity check", async (t) => {
@@ -41,7 +50,7 @@ test("interpreter: basic sanity check", async (t) => {
   t.is(interpreter.teams[2].points, 6);
 });
 
-test("interpreter: basic superscore", async (t) => {
+test("interpreter: basic superscore sanity check", async (t) => {
   const data = await fs.readFile(casesDir + "basic.yaml", "utf8");
 
   const baseInterpreter = new sciolyff.Interpreter(data);
