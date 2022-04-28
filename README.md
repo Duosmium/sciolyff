@@ -102,6 +102,16 @@ console.log(interpreter.teams.slice(0, 3));
 
 ## Development
 
+Install dependencies with `npm install`. Build the project with `npm run build`. The `dist` directory contains the built files.
+
+To publish the package to NPM, use `npm run release`. This will run tests, build the package, and publish it to NPM.
+
+### Testing
+
+Tests run automatically before releasing (with `npm run release`), as well as with GitHub Actions on push. You can manually run tests using `npm test`.
+
+We use [AVA](https://github.com/avajs/ava) as a test runner, and most of our tests are [snapshot tests](https://github.com/avajs/ava/blob/main/docs/04-snapshot-testing.md). However, since our snapshots are quite large and AVA displays the full file, it may be difficult to find differences when they occur. If you find a difference, you can use `npx ava --update-snapshot` to update the snapshot, then inspect the output with `git diff tests/interpreter/snapshots/test.ts.md` (or the appropriate path for validator snapshots). After inspecting the snapshot diff and verifying that everything is expected, commit the snapshot files.
+
 ### Legacy Tests
 
 **Note:** We have updated our tests, so this information is here for reference only.
