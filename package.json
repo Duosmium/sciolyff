@@ -35,7 +35,8 @@
     "prepare": "husky install",
     "release": "npm test && npm run build; release-it",
     "test": "c8 ava",
-    "make-coverage": "c8 report -r lcovonly"
+    "make-coverage": "c8 report -r lcovonly",
+    "update-snapshots": "ava --update-snapshots"
   },
   "keywords": [
     "sciolyff",
