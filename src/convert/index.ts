@@ -213,7 +213,7 @@ export function csvToSciolyFF(file: string, markTies = false): string {
     Penalties: penalties.length > 0 ? penalties : undefined,
   };
 
-  return dump(rep).replace(/T00:00:00\.000/g, "");
+  return dump(rep).replace(/T00:00:00\.000Z/g, "");
 }
 
 function genTournament(csv: string[][]) {
