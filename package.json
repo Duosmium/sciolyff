@@ -12,7 +12,10 @@
     "dist/**/*"
   ],
   "exports": {
-    ".": "./dist/src/index.js"
+    ".": "./dist/src/index.js",
+    "./interpreter": "./dist/src/interpreter/index.js",
+    "./validator": "./dist/src/validator/index.js",
+    "./convert": "./dist/src/convert/index.js"
   },
   "types": "./dist/src/index.d.ts",
   "bin": {
