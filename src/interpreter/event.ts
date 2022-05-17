@@ -56,7 +56,9 @@ export default class Event implements Model<EventRep> {
       .map((p) => p.raw as Raw)
       .sort(Raw.sortKey);
 
-    this.histograms = interpreter.histograms.data.find((d) => d === this);
+    if (interpreter.histograms) {
+      this.histograms = interpreter.histograms.data.find((d) => d === this);
+    }
   }
 
   computeMaximumPlace(): void {

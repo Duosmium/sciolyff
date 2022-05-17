@@ -54,9 +54,9 @@ export default class Interpreter {
     this.placings.forEach((placing) => placing.link(this));
     this.teams.forEach((team) => team.link(this));
     this.tracks.forEach((track) => track.link(this));
-    this.histograms.data.forEach((data) => data.link(this));
+    this.histograms?.data.forEach((data) => data.link(this));
     this.events.forEach((event) => event.link(this));
-    this.histograms.link(this);
+    this.histograms?.link(this);
     this.tournament.link(this);
 
     // link teams and tracks
