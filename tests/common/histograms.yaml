@@ -1,0 +1,69 @@
+---
+Tournament:
+  name: Solon High School Science Olympiad Invitational
+  short name: Solon Invitational
+  location: Solon High School
+  state: OH
+  level: Invitational
+  division: C
+  year: 2020
+  date: 2020-02-01
+Events:
+  - name: Anatomy and Physiology
+  - name: Astronomy
+  - name: Boomilever
+Teams:
+  - number: 34
+    school: Mason High School
+    state: OH
+  - number: 40
+    school: New Trier High School
+    state: IL
+  - number: 71
+    school: Solon High School
+    state: OH
+    exhibition: true
+Placings:
+  - team: 34
+    event: Anatomy and Physiology
+    place: 1
+  - team: 40
+    event: Anatomy and Physiology
+    place: 2
+  - team: 71
+    event: Anatomy and Physiology
+    place: 3
+    explicit: true
+  - team: 34
+    event: Astronomy
+    place: 3
+  - team: 40
+    event: Astronomy
+    place: 2
+  - team: 71
+    event: Astronomy
+    place: 1
+  - team: 34
+    event: Boomilever
+    place: 3
+  - team: 40
+    event: Boomilever
+    place: 2
+  - team: 71
+    event: Boomilever
+    place: 1
+Histograms:
+  type: data
+  data:
+    - event: Anatomy and Physiology
+      start: 0
+      width: 10
+      counts: [2, 1]
+    - event: Astronomy
+      start: 5
+      width: 20
+      counts: [1, 0, 2]
+    - event: Boomilever
+      start: 700
+      width: 50
+      counts: [2, 0, 1]
