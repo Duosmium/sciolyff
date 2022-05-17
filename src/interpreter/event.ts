@@ -57,7 +57,10 @@ export default class Event implements Model<EventRep> {
       .sort(Raw.sortKey);
 
     if (interpreter.histograms) {
-      this.histograms = interpreter.histograms.data.find((d) => d === this);
+      this.histograms = interpreter.histograms.data.find(
+        (d) => d.event === this,
+        this
+      );
     }
   }
 

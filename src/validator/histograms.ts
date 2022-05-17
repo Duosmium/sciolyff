@@ -15,23 +15,19 @@ export const histoData = yup.object().shape({
       "unique-event",
       "duplicate placing",
       (value, context) =>
-        root(context)["Histograms"].filter(
-          (histo) => histo.event === value
-        ).length === 1
+        root(context)["Histograms"].filter((histo) => histo.event === value)
+          .length === 1
     )
     .required(),
 
   start: yup.number().required(),
   width: yup.number().min(0).required(),
-  counts: yup.array().of(yup.number().min(0).required()).required()
-})
+  counts: yup.array().of(yup.number().min(0).required()).required(),
+});
 
 export default yup.object().shape({
   // always required
-  type: yup
-    .string()
-    .oneOf(["data"])
-    .required(),
+  type: yup.string().oneOf(["data"]).required(),
 
-  data: yup.array().of(dataSchema).required()
+  data: yup.array().of(histoData).required(),
 });

@@ -27,8 +27,8 @@ export interface SciOlyFF {
   Teams: TeamRep[];
   Placings: PlacingRep[];
 
-  Tracks?: TrackRep[];
-  Penalties?: PenaltyRep[];
+  Tracks: TrackRep[];
+  Penalties: PenaltyRep[];
   Histograms?: HistoRep;
 }
 
@@ -40,7 +40,7 @@ import type PlacingClass from "./placing.js";
 import type TrackClass from "./track.js";
 import type PenaltyClass from "./penalty.js";
 import type RawClass from "./raw.js";
-import type HistoClass from "./histograms.js"
+import type HistoClass from "./histograms.js";
 
 export type Interpreter = InterpreterClass;
 export type Tournament = TournamentClass;
