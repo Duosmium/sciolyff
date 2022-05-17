@@ -1,6 +1,6 @@
 {
   "name": "sciolyff",
-  "version": "0.7.1",
+  "version": "0.8.0",
   "description": "A file format for Science Olympiad tournament results.",
   "license": "MIT",
   "author": "Duosmium Results (https://www.duosmium.org/results/)",
