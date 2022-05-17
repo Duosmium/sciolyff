@@ -42,7 +42,6 @@ export default class Tournament implements Model<TournamentRep> {
   endDate?: Date;
   awardsDate?: Date;
   testRelease?: string;
-  histograms?: string;
 
   // assorted calculated things
   // not sure if these are necessary?
@@ -89,7 +88,6 @@ export default class Tournament implements Model<TournamentRep> {
     this.endDate = rep["end date"] ?? this.startDate;
     this.awardsDate = rep["awards date"] ?? this.endDate;
     this.testRelease = rep["test release"];
-    this.histograms = rep["histograms"];
   }
 
   public link(interpreter: Interpreter): void {
