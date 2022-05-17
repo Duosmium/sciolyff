@@ -58,8 +58,7 @@ export default class Event implements Model<EventRep> {
 
     if (interpreter.histograms) {
       this.histograms = interpreter.histograms.data.find(
-        (d) => d.event === this,
-        this
+        (d) => d.event === this
       );
     }
   }
