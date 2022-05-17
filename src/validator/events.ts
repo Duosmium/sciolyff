@@ -151,6 +151,17 @@ export default yup.object().shape({
           ? await canonical([value], "events.csv")
           : true
     )
+    .test(
+      "event-no-histogram",
+      "'event: ${value}' does not have a Histogram entry",
+      (value, context) => {
+        const data: any[] = (root(context)["Histograms"] as any)?.data;
+        if (data == undefined || data.length === 0) {
+          return true;
+        }
+        return data.some((histo) => histo.event === value);
+      }
+    )
     .required(),
 
   // optional

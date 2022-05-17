@@ -13,10 +13,11 @@ export const histoData = yup.object().shape({
     )
     .test(
       "unique-event",
-      "duplicate placing",
+      "'event: ${value}' in Histograms has duplicate entries",
       (value, context) =>
-        root(context)["Histograms"].filter((histo) => histo.event === value)
-          .length === 1
+        (root(context)["Histograms"] as any)?.data.filter(
+          (histo: any) => histo.event === value
+        ).length === 1
     )
     .required(),
 
