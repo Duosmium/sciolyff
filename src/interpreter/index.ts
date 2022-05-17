@@ -19,7 +19,7 @@ export default class Interpreter {
   placings: Placing[];
   tracks: Track[];
   penalties: Penalty[];
-  histograms: Histogram;
+  histograms?: Histogram;
 
   isSuperscore: boolean;
 
@@ -45,7 +45,9 @@ export default class Interpreter {
     this.teams = this.mapArrayToModels(this.rep.Teams, Team);
     this.placings = this.mapArrayToModels(this.rep.Placings, Placing);
     this.penalties = this.mapArrayToModels(this.rep.Penalties, Penalty);
-    this.histograms = this.rep.Histograms ? new Histogram(this.rep.Histograms) : undefined;
+    if (this.rep.Histograms) {
+      this.histograms = new Histogram(this.rep.Histograms);
+    }
 
     // link models
     this.penalties.forEach((penalty) => penalty.link(this));
