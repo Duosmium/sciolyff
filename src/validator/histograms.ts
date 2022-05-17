@@ -2,7 +2,7 @@ import * as yup from "yup";
 
 import { root } from "./helpers.js";
 
-const dataSchema = yup.object().shape({
+export const histoData = yup.object().shape({
   event: yup
     .string()
     .test(

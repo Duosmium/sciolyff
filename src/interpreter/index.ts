@@ -6,6 +6,7 @@ import Team from "./team.js";
 import Placing from "./placing.js";
 import Track from "./track.js";
 import Penalty from "./penalty.js";
+import Histogram from "./histograms.js";
 import superscore from "./superscore.js";
 
 import type { SciOlyFF } from "./types.js";
@@ -18,6 +19,7 @@ export default class Interpreter {
   placings: Placing[];
   tracks: Track[];
   penalties: Penalty[];
+  histograms: Histogram;
 
   isSuperscore: boolean;
 
@@ -43,13 +45,16 @@ export default class Interpreter {
     this.teams = this.mapArrayToModels(this.rep.Teams, Team);
     this.placings = this.mapArrayToModels(this.rep.Placings, Placing);
     this.penalties = this.mapArrayToModels(this.rep.Penalties, Penalty);
+    this.histograms = this.rep.Histogram ? new Histogram(this.rep.Histogram) : undefined;
 
     // link models
     this.penalties.forEach((penalty) => penalty.link(this));
     this.placings.forEach((placing) => placing.link(this));
     this.teams.forEach((team) => team.link(this));
     this.tracks.forEach((track) => track.link(this));
+    this.histograms.data.forEach((data) => data.link(this));
     this.events.forEach((event) => event.link(this));
+    this.histograms.link(this);
     this.tournament.link(this);
 
     // link teams and tracks
