@@ -45,7 +45,7 @@ export default class Interpreter {
     this.teams = this.mapArrayToModels(this.rep.Teams, Team);
     this.placings = this.mapArrayToModels(this.rep.Placings, Placing);
     this.penalties = this.mapArrayToModels(this.rep.Penalties, Penalty);
-    this.histograms = this.rep.Histogram ? new Histogram(this.rep.Histogram) : undefined;
+    this.histograms = this.rep.Histograms ? new Histogram(this.rep.Histograms) : undefined;
 
     // link models
     this.penalties.forEach((penalty) => penalty.link(this));
