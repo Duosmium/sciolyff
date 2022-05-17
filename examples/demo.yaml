@@ -109,6 +109,20 @@ Penalties:
   - team: 58 # a number of a team listed in Teams
     points: 0 # the number points to be added to the team score, >= 0
 
+# Histograms section is optional if histograms were not provided, or if raw scoring is used
+Histograms:
+  type: data # possibly allow "image" type in the future
+  data:
+    - event: Anatomy and Physiology
+      start: 0 # leftmost edge of the leftmost bucket
+      width: 10 # width of each bucket
+      # number of teams in each bucket
+      counts: [ 5, 2, 4, 7, 3, 1, 2, 1, 0, 1]
+    # .
+    # .
+    # .
+    # (rest of events not shown)
+
 --- # triple dash indicates end of file, optional but recommended
 #
 # no listing for overall team scores and placings because those should be able

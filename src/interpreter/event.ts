@@ -1,3 +1,4 @@
+import { HistoData } from "./histograms.js";
 import Model from "./model.js";
 import Raw from "./raw.js";
 import type {
@@ -16,6 +17,7 @@ export default class Event implements Model<EventRep> {
   placings?: Placing[];
   placingsByTeam?: Map<Team, Placing>;
   raws?: Raw[];
+  histograms?: HistoData;
 
   // rep properties
   name: string;
@@ -53,6 +55,12 @@ export default class Event implements Model<EventRep> {
       .filter((p) => p.raw !== undefined)
       .map((p) => p.raw as Raw)
       .sort(Raw.sortKey);
+
+    if (interpreter.histograms) {
+      this.histograms = interpreter.histograms.data.find(
+        (d) => d.event === this
+      );
+    }
   }
 
   computeMaximumPlace(): void {

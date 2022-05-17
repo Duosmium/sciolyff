@@ -13,6 +13,7 @@ import placingSchema from "./placings.js";
 
 import trackSchema from "./tracks.js";
 import penaltySchema from "./penalties.js";
+import histoSchema from "./histograms.js"
 
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 export const sciolyffSchema = yup.object().shape({
@@ -25,6 +26,7 @@ export const sciolyffSchema = yup.object().shape({
   // optional
   Tracks: yup.array().of(trackSchema).notRequired(),
   Penalties: yup.array().of(penaltySchema).notRequired(),
+  Histograms: histoSchema.notRequired(),
 
   // for internal use
   superscore: yup.boolean().notRequired(),
