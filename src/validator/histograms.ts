@@ -28,7 +28,27 @@ export const histoData = yup.object().shape({
 
 export default yup.object().shape({
   // always required
-  type: yup.string().oneOf(["data"]).required(),
+  type: yup.string().oneOf(["data", "url"]).required(),
 
-  data: yup.array().of(histoData).required(),
+  // optional
+  data: yup
+    .array()
+    .of(histoData)
+    .when("type", (type, schema) => {
+      if (type === "data") {
+        return schema.required();
+      } else if (type === "url") {
+        return schema.nullable().oneOf([null, undefined]);
+      }
+    }),
+  url: yup
+    .string()
+    .url()
+    .when("type", (type, schema) => {
+      if (type === "url") {
+        return schema.required();
+      } else if (type === "data") {
+        return schema.notRequired();
+      }
+    }),
 });

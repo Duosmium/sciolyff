@@ -111,13 +111,16 @@ Penalties:
 
 # Histograms section is optional if histograms were not provided, or if raw scoring is used
 Histograms:
-  type: data # possibly allow "image" type in the future
+  type: data # set to "url" if ONLY url is given, otherwise url can be set even when using "data"
+  # url of a folder of histogram images (optional if using data, will be a link at the top otherwise)
+  url: https://example.com/link/to/histo/folder
+  # optional if using "url"
   data:
     - event: Anatomy and Physiology
       start: 0 # leftmost edge of the leftmost bucket
       width: 10 # width of each bucket
       # number of teams in each bucket
-      counts: [ 5, 2, 4, 7, 3, 1, 2, 1, 0, 1]
+      counts: [5, 2, 4, 7, 3, 1, 2, 1, 0, 1]
     # .
     # .
     # .

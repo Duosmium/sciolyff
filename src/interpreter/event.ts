@@ -56,8 +56,8 @@ export default class Event implements Model<EventRep> {
       .map((p) => p.raw as Raw)
       .sort(Raw.sortKey);
 
-    if (interpreter.histograms) {
-      this.histograms = interpreter.histograms.data.find(
+    if (interpreter.histograms?.type === "data") {
+      this.histograms = interpreter.histograms?.data?.find(
         (d) => d.event === this
       );
     }

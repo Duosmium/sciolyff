@@ -43,16 +43,20 @@ export default class Histogram implements Model<HistoRep> {
 
   // rep properties
   type: string;
-  data: HistoData[];
+  url: string | undefined;
+  data?: HistoData[];
 
   constructor(rep: HistoRep) {
     this.rep = rep;
     this.type = rep.type;
+    this.url = rep.url;
 
-    this.data = [];
-    rep.data.forEach((data) => {
-      this.data.push(new HistoData(data, this));
-    });
+    if (this.type === "data") {
+      this.data = [];
+      rep.data?.forEach((data) => {
+        this.data?.push(new HistoData(data, this));
+      });
+    }
   }
 
   link(interpreter: Interpreter): void {
