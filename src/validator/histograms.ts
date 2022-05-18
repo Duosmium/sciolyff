@@ -36,9 +36,14 @@ export default yup.object().shape({
     .of(histoData)
     .when("type", (type, schema) => {
       if (type === "data") {
-        return schema.required();
+        return schema.required("Histogram data is required when 'type: data'");
       } else if (type === "url") {
-        return schema.nullable().oneOf([null, undefined]);
+        return schema
+          .nullable()
+          .oneOf(
+            [null, undefined],
+            "Histogram data not allowed when 'type: url'"
+          );
       }
     }),
   url: yup
@@ -46,7 +51,7 @@ export default yup.object().shape({
     .url()
     .when("type", (type, schema) => {
       if (type === "url") {
-        return schema.required();
+        return schema.required("Histogram url is required when 'type: url'");
       } else if (type === "data") {
         return schema.notRequired();
       }
