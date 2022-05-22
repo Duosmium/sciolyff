@@ -59,6 +59,9 @@ Histograms:
       start: 0
       width: 10
       counts: [2, 1]
+      info:
+        Min: 3
+        Max: 13
     - event: Astronomy
       start: 5
       width: 20

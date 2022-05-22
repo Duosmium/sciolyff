@@ -18,6 +18,7 @@ export class HistoData implements Model<HistoDataRep> {
   start: number;
   width: number;
   counts: number[];
+  info?: Record<string, string | number>;
 
   constructor(rep: HistoDataRep, parent: Histogram) {
     this.rep = rep;
@@ -26,6 +27,9 @@ export class HistoData implements Model<HistoDataRep> {
     this.start = rep.start;
     this.width = rep.width;
     this.counts = rep.counts;
+    if (rep.info) {
+      this.info = rep.info as Record<string, string | number>;
+    }
   }
 
   link(interpreter: Interpreter): void {

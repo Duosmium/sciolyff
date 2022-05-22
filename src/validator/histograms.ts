@@ -24,6 +24,23 @@ export const histoData = yup.object().shape({
   start: yup.number().required(),
   width: yup.number().min(0).required(),
   counts: yup.array().of(yup.number().min(0).required()).required(),
+
+  info: yup.lazy((obj: Record<string, any>) => {
+    if (!obj) return yup.object().notRequired();
+    return yup
+      .object()
+      .shape(
+        Object.keys(obj).reduce((acc, key) => {
+          if (typeof obj[key] === "number") {
+            acc[key] = yup.number();
+          } else {
+            acc[key] = yup.string();
+          }
+          return acc;
+        }, {} as Record<string, yup.AnySchema>)
+      )
+      .notRequired();
+  }),
 });
 
 export default yup.object().shape({
