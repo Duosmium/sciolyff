@@ -78,5 +78,16 @@ export function dumpInterpreter(interpreter: Interpreter) {
       team: p.team?.number,
       points: p.points,
     })),
+    histograms: {
+      type: interpreter.histograms?.type,
+      url: interpreter.histograms?.url,
+      data: interpreter.histograms?.data?.map((d) => ({
+        start: d.start,
+        width: d.width,
+        counts: d.counts,
+        info: d.info,
+        event: d.event?.name,
+      })),
+    },
   };
 }
