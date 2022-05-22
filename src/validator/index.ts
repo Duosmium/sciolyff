@@ -13,7 +13,7 @@ import placingSchema from "./placings.js";
 
 import trackSchema from "./tracks.js";
 import penaltySchema from "./penalties.js";
-import histoSchema from "./histograms.js"
+import histoSchema from "./histograms.js";
 
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 export const sciolyffSchema = yup.object().shape({
@@ -64,12 +64,11 @@ export default async function valid(
   let rep = repOrYaml;
   if (typeof repOrYaml === "string") {
     try {
-      const loaded =
-        (yaml.load(repOrYaml, { listener: sourceMap.listen() }) as Record<
-          string,
-          unknown
-        >) ?? {};
-      if (typeof loaded === "number") {
+      const loadedArr = (yaml.loadAll(repOrYaml, undefined, {
+        listener: sourceMap.listen(),
+      }) as Record<string, unknown>[]) ?? [{}];
+      const loaded = loadedArr[0] ?? {};
+      if (typeof loaded === "number" || typeof loaded === "string") {
         throw new Error("Invalid YAML");
       }
       rep = loaded;

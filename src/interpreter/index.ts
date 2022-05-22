@@ -27,7 +27,8 @@ export default class Interpreter {
 
   constructor(rep: string | SciOlyFF) {
     if (typeof rep === "string") {
-      const loaded = yaml.load(rep) ?? {};
+      const loadedArr = yaml.loadAll(rep) ?? [{}];
+      const loaded = loadedArr[0] ?? {};
       if (typeof loaded === "number" || typeof loaded === "string") {
         throw new Error("Invalid YAML");
       }
