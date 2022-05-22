@@ -1,6 +1,7 @@
-# sciolyff 0.10.0 <- (kinda) semantic versioning, may be checked for?
-#
 # An incomplete but demonstrative example file for the sciolyff standard.
+# For a full spec, see src/validator
+# More examples can also be found in the test directory
+# (tests/common, tests/interpreter/cases, tests/validator/cases)
 #
 # Text after '#' on a line are comments and are not needed as part of the
 # format. Order of items within lists and hashes do not matter. Blank lines
@@ -124,6 +125,7 @@ Histograms:
       # info is optional
       info:
         # you can have any keys, these are recommended
+        # keys will be displayed as-is, so capitalization is recommended
         Min: 0
         Max: 97
         Avg: 43
