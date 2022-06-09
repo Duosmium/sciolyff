@@ -111,14 +111,14 @@ export function genHistos(
     return [
       {
         event: event.name,
-        start: parseInt(histoData[0][i]),
-        width: parseInt(histoData[1][i]),
+        start: parseFloat(histoData[0][i]),
+        width: parseFloat(histoData[1][i]),
         counts: JSON.parse(histoData[2][i]) as number[],
         info: {
-          Min: parseInt(histoData[3][i]),
-          Max: parseInt(histoData[4][i]),
-          Avg: parseInt(histoData[5][i]),
-          StDev: parseInt(histoData[6][i]),
+          Min: parseFloat(histoData[3][i]),
+          Max: parseFloat(histoData[4][i]),
+          Avg: parseFloat(histoData[5][i]),
+          StDev: parseFloat(histoData[6][i]),
         },
       },
     ];
