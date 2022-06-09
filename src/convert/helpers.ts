@@ -62,8 +62,8 @@ export function genTracks(trackData: string[][]) {
     return [
       {
         name: row[0] || undefined,
-        medals: row[1] || undefined,
-        trophies: row[2] || undefined,
+        medals: parseInt(row[1]) || undefined,
+        trophies: parseInt(row[2]) || undefined,
       },
     ];
   });
