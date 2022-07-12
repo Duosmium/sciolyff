@@ -36,6 +36,8 @@ Tournament:
   # bids: 0  # number of schools/teams advancing to next level of competition
   # bids per school: 1  # the number of the above bids that can go to same school
 
+  # test release: https://example.com/tests/  # optional link to public tests
+
 # Track section is optional if tracks were not used
 Tracks:
   - name: V # can be anything, typically used for Varsity / JV labels
