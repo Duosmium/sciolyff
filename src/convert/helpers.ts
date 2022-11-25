@@ -31,12 +31,15 @@ export function genTournament(row: string[]) {
     "worst placings dropped": row[15] ? parseInt(row[15]) : undefined,
   };
   // tournament.date = row[7] ? Date.parse(row[7]) : undefined,
-  tournament["start date"] =
-    row[8] === "" ? new Date(Date.parse(row[7])) : new Date(Date.parse(row[8]));
-  tournament["end date"] =
-    row[9] === "" ? tournament["start date"] : new Date(Date.parse(row[9]));
-  tournament["awards date"] =
-    row[10] === "" ? tournament["end date"] : new Date(Date.parse(row[10]));
+  tournament["start date"] = !row[8]
+    ? new Date(Date.parse(row[7]))
+    : new Date(Date.parse(row[8]));
+  tournament["end date"] = !row[9]
+    ? tournament["start date"]
+    : new Date(Date.parse(row[9]));
+  tournament["awards date"] = !row[10]
+    ? tournament["end date"]
+    : new Date(Date.parse(row[10]));
 
   return tournament;
 }
