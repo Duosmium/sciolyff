@@ -1,0 +1,50 @@
+Tournament:
+  name: Test Name Science Olympiad Invitational
+  short name: Test Name Invitational
+  location: Here
+  state: nCA
+  level: Invitational
+  division: C
+  year: 2023
+  medals: 5
+  trophies: 5
+  start date: 2023-01-01
+  end date: 2023-01-01
+  awards date: 2023-01-01
+Events:
+  - name: Anatomy and Physiology
+  - name: Astronomy
+  - name: Bridge
+  - name: Cell Biology
+  - name: Chemistry Lab
+  - name: Codebusters
+  - name: Detector Building
+  - name: Disease Detectives
+  - name: Dynamic Planet
+  - name: Environmental Chemistry
+  - name: Experimental Design
+  - name: Fermi Questions
+  - name: Flight
+  - name: Forensics
+  - name: Forestry
+  - name: Green Generation
+  - name: It's About Time
+  - name: Remote Sensing
+  - name: Rocks and Minerals
+  - name: Scrambler
+  - name: Trajectory
+  - name: WiFi Lab
+  - name: Write It Do It
+Teams:
+  - number: 1
+    school: Thomas Jefferson High School for Science and Technology
+    city: Alexandria
+    state: VA
+  - number: 2
+    school: Castro Valley High School
+    city: Castro Valley
+    state: CA
+  - number: 3
+    school: West Windsor-Plainsboro High School North
+    city: Plainsboro
+    state: NJ
