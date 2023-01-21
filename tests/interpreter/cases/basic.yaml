@@ -16,6 +16,7 @@ Events:
   - name: Anatomy and Physiology
   - name: Disease Detectives
     trialed: true
+    medals: 1
   - name: Experimental Design
     trial: true
   - name: Write It Do It

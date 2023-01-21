@@ -13,6 +13,7 @@ Tournament:
   trophies: 1
 Events:
   - name: Nonexistent Event Nonsense
+    medals: 1
   - name: Crazy Carrot Footballers
 Teams:
   - school: Nonexistent High School
