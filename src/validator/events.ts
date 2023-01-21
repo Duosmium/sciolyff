@@ -168,4 +168,22 @@ export default yup.object().shape({
   trial: yup.boolean().notRequired().default(false),
   trialed: yup.boolean().notRequired().default(false),
   scoring: yup.string().oneOf(["high", "low"]).notRequired(),
+  medals: yup
+    .number()
+    .integer()
+    .min(1)
+    .test(
+      "medals-in-range",
+      "medals: larger than maximum place",
+      (value, context) =>
+        value
+          ? value <=
+            Math.min(
+              root(context)["Teams"].length,
+              (root(context)["Tournament"]["maximum place"] as number) ||
+                Infinity
+            )
+          : true
+    )
+    .notRequired(),
 });

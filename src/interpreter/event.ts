@@ -23,6 +23,7 @@ export default class Event implements Model<EventRep> {
   name: string;
   trial: boolean;
   trialed: boolean;
+  medals?: number;
 
   lowScoreWins: boolean;
   highScoreWins: boolean;
@@ -36,6 +37,7 @@ export default class Event implements Model<EventRep> {
     this.name = rep.name;
     this.trial = rep.trial ?? false;
     this.trialed = rep.trialed ?? false;
+    this.medals = rep.medals;
 
     this.lowScoreWins = rep.scoring === "low";
     this.highScoreWins = !this.lowScoreWins;
