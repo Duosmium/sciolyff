@@ -272,7 +272,7 @@ export function genPlacings(
           (other) =>
             other.place &&
             other.place === p.place &&
-            other.event === other.event &&
+            other.event === p.event &&
             other !== p
         )
       ) {
