@@ -23,7 +23,9 @@ for (const testCase of testCases) {
       await fs.readFile(testCase.replace(".csv", ".yaml"), "utf8")
     );
 
-    const actual = load(csvToSciolyFF(csvData));
+    const markTies = name.startsWith("ties");
+
+    const actual = load(csvToSciolyFF(csvData, markTies));
 
     t.deepEqual(actual, expected);
   });
