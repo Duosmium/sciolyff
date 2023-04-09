@@ -39,7 +39,7 @@ for (const testCase of testCases) {
 }
 
 test("interpreter: basic sanity check", async (t) => {
-  const data = await fs.readFile(casesDir + "basic.yaml", "utf8");
+  const data = await fs.readFile(commonCases + "basic.yaml", "utf8");
 
   const interpreter = new sciolyff.Interpreter(data);
   t.is(interpreter.teams[0].number, 3);
@@ -51,7 +51,7 @@ test("interpreter: basic sanity check", async (t) => {
 });
 
 test("interpreter: basic superscore sanity check", async (t) => {
-  const data = await fs.readFile(casesDir + "basic.yaml", "utf8");
+  const data = await fs.readFile(commonCases + "basic.yaml", "utf8");
 
   const baseInterpreter = new sciolyff.Interpreter(data);
   const interpreter = baseInterpreter.superscore(true);

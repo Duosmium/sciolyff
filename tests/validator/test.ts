@@ -28,14 +28,14 @@ for (const testCase of testCases) {
 }
 
 test("validator: test canonical schools and events", async (t) => {
-  const data = await fs.readFile(casesDir + "basic.yaml", "utf8");
+  const data = await fs.readFile(commonCases + "basic.yaml", "utf8");
 
   const validated = await sciolyff.valid(data, { canonical: true });
   t.snapshot(validated);
 });
 
 test("validator: test formatter", async (t) => {
-  const data = await fs.readFile(casesDir + "basic.yaml", "utf8");
+  const data = await fs.readFile(commonCases + "basic.yaml", "utf8");
 
   const validatedSuccess = await sciolyff.valid(data, { canonical: false });
   const formattedSuccess = sciolyff.format(
