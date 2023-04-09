@@ -170,7 +170,18 @@ export default yup.object().shape({
         : schema
     ),
   date: yup
-    .date()
+    .mixed()
+    .test(
+      "valid-date",
+      "date must be a date object or string following ISO8601 (no timestamp)",
+      (value) => {
+        if (value === undefined || value === null) return true;
+        if (typeof value === "string") {
+          return /^\d{4}-[0-1]\d-[0-3]\d$/.test(value);
+        }
+        return value instanceof Date;
+      }
+    )
     // @ts-ignore: looks like https://github.com/jquense/yup/issues/1417
     .when(["start date", "end date"], (start, end, schema) =>
       start && end
@@ -184,7 +195,18 @@ export default yup.object().shape({
           )
     ),
   "start date": yup
-    .date()
+    .mixed()
+    .test(
+      "valid-date",
+      "date must be a date object or string following ISO8601 (no timestamp)",
+      (value) => {
+        if (value === undefined || value === null) return true;
+        if (typeof value === "string") {
+          return /^\d{4}-[0-1]\d-[0-3]\d$/.test(value);
+        }
+        return value instanceof Date;
+      }
+    )
     .test(
       "valid-date",
       "start date cannot be set if date is set",
@@ -193,7 +215,18 @@ export default yup.object().shape({
     )
     .notRequired(),
   "end date": yup
-    .date()
+    .mixed()
+    .test(
+      "valid-date",
+      "date must be a date object or string following ISO8601 (no timestamp)",
+      (value) => {
+        if (value === undefined || value === null) return true;
+        if (typeof value === "string") {
+          return /^\d{4}-[0-1]\d-[0-3]\d$/.test(value);
+        }
+        return value instanceof Date;
+      }
+    )
     .test(
       "valid-date",
       "end date cannot be set if date is set",
@@ -203,6 +236,19 @@ export default yup.object().shape({
         (context.parent["start date"] && value)
     )
     .notRequired(),
-  "awards date": yup.date().notRequired(),
+  "awards date": yup
+    .mixed()
+    .test(
+      "valid-date",
+      "date must be a date object or string following ISO8601 (no timestamp)",
+      (value) => {
+        if (value === undefined || value === null) return true;
+        if (typeof value === "string") {
+          return /^\d{4}-[0-1]\d-[0-3]\d$/.test(value);
+        }
+        return value instanceof Date;
+      }
+    )
+    .notRequired(),
   "test release": yup.string().notRequired().url("test release must be a URL"),
 });
