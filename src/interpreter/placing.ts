@@ -45,6 +45,9 @@ export default class Placing implements Model<PlacingRep> {
   pointsAffectedByExhibition?: boolean;
   pointsLimitedByMaximumPlace?: boolean;
 
+  medal: number | false;
+  trackMedal: number | false;
+
   _trackExhibitonPlacingsBehind?: number;
   _exhibitionPlacingsBehind?: number;
 
@@ -60,6 +63,9 @@ export default class Placing implements Model<PlacingRep> {
 
     this.hasRaw = rep.raw !== undefined;
     this.didNotParticipate = !this.participated;
+
+    this.medal = false;
+    this.trackMedal = false;
   }
 
   link(interpreter: Interpreter): void {
@@ -132,6 +138,19 @@ export default class Placing implements Model<PlacingRep> {
             this.interpreter?.isSuperscore ? Infinity : maxPlace
           );
         })();
+
+    if (!this.tournament.reverseScoring) {
+      if (
+        this.isolatedPoints != undefined &&
+        this.isolatedPoints > 0 &&
+        this.isolatedPoints <=
+          ((this.event.medals as number) || (this.tournament.medals as number))
+      ) {
+        this.medal = this.isolatedPoints;
+      }
+    } else {
+      // TODO: figure out how medals work for reverse scoring
+    }
   }
 
   computeTrackPlaces(): void {
@@ -172,6 +191,19 @@ export default class Placing implements Model<PlacingRep> {
             this.interpreter?.isSuperscore ? Infinity : maxPlace
           );
         })();
+
+    if (!this.tournament.reverseScoring) {
+      if (
+        this.isolatedTrackPoints != undefined &&
+        this.isolatedTrackPoints > 0 &&
+        this.isolatedTrackPoints <=
+          ((this.event.medals as number) || (this.team.track?.medals as number))
+      ) {
+        this.trackMedal = this.isolatedTrackPoints;
+      }
+    } else {
+      // TODO: figure out how medals work for reverse scoring
+    }
   }
 
   // compute teams worstPlacingsToBeDropped before running this

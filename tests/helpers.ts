@@ -63,6 +63,9 @@ export function dumpInterpreter(interpreter: Interpreter) {
 
         pointsAffectedByExhibition: p.pointsAffectedByExhibition,
         pointsLimitedByMaximumPlace: p.pointsLimitedByMaximumPlace,
+
+        medal: p.medal,
+        trackMedal: p.trackMedal,
       }))
       .sort(
         (a, b) =>
