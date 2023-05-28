@@ -52,6 +52,8 @@ Events:
     trialed: false # event became trial event due to unforeseen circumstances
     # next line is only required if using raw scores and scoring is lowest wins
     scoring: high # must be either high or low, as in (high|low)est-score wins
+    # next line is optional, typically used for trials
+    medals: 1
   - name: Astronomy
     # .
     # .
