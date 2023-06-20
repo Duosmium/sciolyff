@@ -28,7 +28,12 @@ export default yup.object().shape({
   name: yup.string().when("level", (level: CompetitionLevel, schema) =>
     // name is optional for states and nationals
     ["States", "Nationals"].includes(level)
-      ? schema.notRequired()
+      ? schema.oneOf(
+          [undefined, null, ""],
+          `${
+            level === "States" ? "$$warn$$ " : ""
+          }name not necessary for States/Nationals`
+        )
       : schema.required(
           "name for Tournament required " +
             `('level: ${level}' is not States or Nationals)`
