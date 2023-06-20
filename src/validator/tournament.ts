@@ -198,6 +198,17 @@ export default yup.object().shape({
             "You need either a date for the tournament (if it took place in one day) " +
               "or beginning and end dates (if it took place over the course of multiple days)."
           )
+    )
+    .test(
+      "date-in-season",
+      "date not within given season",
+      (value, context) => {
+        const date = new Date(value as string | Date);
+        const season = context.parent.year as number;
+        const seasonStart = new Date(season - 1, 7, 15);
+        const seasonEnd = new Date(season, 7, 14);
+        return date >= seasonStart && date <= seasonEnd;
+      }
     ),
   "start date": yup
     .mixed()
@@ -217,6 +228,17 @@ export default yup.object().shape({
       "start date cannot be set if date is set",
       (value, context) =>
         !context.parent.date || !value || (context.parent["end date"] && value)
+    )
+    .test(
+      "date-in-season",
+      "start date not within given season",
+      (value, context) => {
+        const date = new Date(value as string | Date);
+        const season = context.parent.year as number;
+        const seasonStart = new Date(season - 1, 7, 15);
+        const seasonEnd = new Date(season, 7, 14);
+        return date >= seasonStart && date <= seasonEnd;
+      }
     )
     .notRequired(),
   "end date": yup
@@ -240,6 +262,17 @@ export default yup.object().shape({
         !value ||
         (context.parent["start date"] && value)
     )
+    .test(
+      "date-in-season",
+      "end date not within given season",
+      (value, context) => {
+        const date = new Date(value as string | Date);
+        const season = context.parent.year as number;
+        const seasonStart = new Date(season - 1, 7, 15);
+        const seasonEnd = new Date(season, 7, 14);
+        return date >= seasonStart && date <= seasonEnd;
+      }
+    )
     .notRequired(),
   "awards date": yup
     .mixed()
@@ -252,6 +285,17 @@ export default yup.object().shape({
           return /^\d{4}-[0-1]\d-[0-3]\d$/.test(value);
         }
         return value instanceof Date;
+      }
+    )
+    .test(
+      "date-in-season",
+      "awards date not within given season",
+      (value, context) => {
+        const date = new Date(value as string | Date);
+        const season = context.parent.year as number;
+        const seasonStart = new Date(season - 1, 7, 15);
+        const seasonEnd = new Date(season, 7, 14);
+        return date >= seasonStart && date <= seasonEnd;
       }
     )
     .notRequired(),
