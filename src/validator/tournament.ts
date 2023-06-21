@@ -178,7 +178,7 @@ export default yup.object().shape({
     .mixed()
     .test(
       "valid-date",
-      "date must be a date object or string following ISO8601 (no timestamp)",
+      "field 'date:' must be a date object or string following ISO8601 (no timestamp)",
       (value) => {
         if (value === undefined || value === null) return true;
         if (typeof value === "string") {
@@ -192,7 +192,7 @@ export default yup.object().shape({
       start && end
         ? schema.oneOf(
             [undefined],
-            "date: does not make sense if start and end dates are provided"
+            "field 'date:' does not make sense if start and end dates are provided"
           )
         : schema.required(
             "You need either a date for the tournament (if it took place in one day) " +
@@ -201,7 +201,7 @@ export default yup.object().shape({
     )
     .test(
       "date-in-season",
-      "date not within given season",
+      "field 'date:' not within season given in field 'year:'",
       (value, context) => {
         const date = new Date(value as string | Date);
         const season = context.parent.year as number;
@@ -214,7 +214,7 @@ export default yup.object().shape({
     .mixed()
     .test(
       "valid-date",
-      "date must be a date object or string following ISO8601 (no timestamp)",
+      "start date must be a date object or string following ISO8601 (no timestamp)",
       (value) => {
         if (value === undefined || value === null) return true;
         if (typeof value === "string") {
@@ -231,7 +231,7 @@ export default yup.object().shape({
     )
     .test(
       "date-in-season",
-      "start date not within given season",
+      "start date not within season given in field 'year:'",
       (value, context) => {
         const date = new Date(value as string | Date);
         const season = context.parent.year as number;
@@ -245,7 +245,7 @@ export default yup.object().shape({
     .mixed()
     .test(
       "valid-date",
-      "date must be a date object or string following ISO8601 (no timestamp)",
+      "end date must be a date object or string following ISO8601 (no timestamp)",
       (value) => {
         if (value === undefined || value === null) return true;
         if (typeof value === "string") {
@@ -264,7 +264,7 @@ export default yup.object().shape({
     )
     .test(
       "date-in-season",
-      "end date not within given season",
+      "end date not within season given in field 'year:'",
       (value, context) => {
         const date = new Date(value as string | Date);
         const season = context.parent.year as number;
@@ -278,7 +278,7 @@ export default yup.object().shape({
     .mixed()
     .test(
       "valid-date",
-      "date must be a date object or string following ISO8601 (no timestamp)",
+      "awards date must be a date object or string following ISO8601 (no timestamp)",
       (value) => {
         if (value === undefined || value === null) return true;
         if (typeof value === "string") {
@@ -289,7 +289,7 @@ export default yup.object().shape({
     )
     .test(
       "date-in-season",
-      "awards date not within given season",
+      "awards date not within season given in field 'year:'",
       (value, context) => {
         const date = new Date(value as string | Date);
         const season = context.parent.year as number;
