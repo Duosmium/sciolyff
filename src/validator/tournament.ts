@@ -49,6 +49,21 @@ export default yup.object().shape({
     )
     .test(
       "style-guide",
+      "$$warn$$ field 'name:' should follow title case",
+      (value) => {
+        if (!value) {
+          return true;
+        }
+        const words = value.split(" ");
+        return words.every(
+          (word) =>
+            ["at", "of", "and"].includes(word) ||
+            word[0] === word[0].toUpperCase()
+        );
+      }
+    )
+    .test(
+      "style-guide",
       "$$warn$$ field 'name:' does not follow style guide",
       async (value, context) => {
         if (!value || (await existingTournament(value))) {
@@ -166,6 +181,21 @@ export default yup.object().shape({
       (value, context) => (!value ? true : value !== context.parent["name"])
     )
     .test(
+      "style-guide",
+      "$$warn$$ field 'name:' should follow title case",
+      (value) => {
+        if (!value) {
+          return true;
+        }
+        const words = value.split(" ");
+        return words.every(
+          (word) =>
+            ["at", "of", "and"].includes(word) ||
+            word[0] === word[0].toUpperCase()
+        );
+      }
+    )
+    .test(
       "canonical-short-name",
       "$$warn$$ tournament found with different short name",
       async (value, context) => {
@@ -211,6 +241,11 @@ export default yup.object().shape({
         name = name
           .split(" ")
           .filter((w) => w.length > 0)
+          .map((w) =>
+            ["at", "of", "and"].includes(w)
+              ? w
+              : w.charAt(0).toUpperCase() + w.slice(1)
+          )
           .join(" ");
 
         if (value === name) return true;
