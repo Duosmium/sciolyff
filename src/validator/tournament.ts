@@ -1,5 +1,6 @@
 import * as yup from "yup";
 
+import { fetchData } from "./canonical.js";
 import { root } from "./helpers.js";
 
 // helper functions
@@ -128,7 +129,29 @@ export default yup.object().shape({
     .test(
       "different-short-name",
       "field 'short name' should be different from field 'name'",
-      (value, context) => value !== context.parent["name"]
+      (value, context) => (!value ? true : value !== context.parent["name"])
+    )
+    .test(
+      "canonical-short-name",
+      "$$warn$$ tournament found with different short name",
+      async (value, context) => {
+        const data = await fetchData("tournament_names.csv");
+        const foundNames: string[] = [];
+        for (const row of data) {
+          if (row[0] === context.parent["name"]) {
+            if (row[1] === value) return true;
+            foundNames.push(row[1]);
+          }
+        }
+        if (foundNames.length === 0) return true;
+        throw context.createError({
+          message: `$$warn$$ field 'short name:'${
+            value ? " (currently '" + value + "')" : ""
+          } could be changed to one of these names: ['${foundNames.join(
+            "', '"
+          )}']`,
+        });
+      }
     ),
   "worst placings dropped": yup
     .number()

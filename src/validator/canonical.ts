@@ -10,7 +10,7 @@ const newFetch = fetchRetry(fetchPoly as unknown as typeof fetch, {
 });
 
 const base = "https://duosmium.org/results/";
-const fetchData = (() => {
+export const fetchData = (() => {
   const inner = async (file: string) => {
     const url = new URL(file, base);
 
