@@ -6,9 +6,8 @@ Tournament:
   state: nCA
   level: Regionals
   division: C
-  year: 2020
+  year: 2024
   date: 2020-01-01
-  awards date: 2020-01-02
   medals: 2
   trophies: 1
   bids: 1
@@ -16,6 +15,7 @@ Events:
   - name: Anatomy and Physiology
   - name: Disease Detectives
     trialed: true
+    medals: 1
   - name: Experimental Design
     trial: true
   - name: Write It Do It
@@ -68,6 +68,3 @@ Placings:
   - team: 3
     event: Write It Do It
     place: 1
-Penalties:
-  - team: 2
-    points: 20

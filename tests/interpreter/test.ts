@@ -61,5 +61,5 @@ test("interpreter: basic superscore sanity check", async (t) => {
   t.is(interpreter.teams[1].points, 5);
 
   const interpreterRep = baseInterpreter.superscore(false);
-  t.is(interpreterRep.Tournament.name, "Basic Test Tournament Name");
+  t.is(interpreterRep.Tournament.name, "Basic Test Regional Tournament");
 });
