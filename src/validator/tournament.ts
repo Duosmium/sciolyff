@@ -124,6 +124,11 @@ export default yup.object().shape({
             `short name for Tournament is longer than normal 'name: ${name}'`
           )
         : schema
+    )
+    .test(
+      "different-short-name",
+      "field 'short name' should be different from field 'name'",
+      (value, context) => value !== context.parent["name"]
     ),
   "worst placings dropped": yup
     .number()
