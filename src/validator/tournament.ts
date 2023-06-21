@@ -208,6 +208,7 @@ export default yup.object().shape({
       "date-in-season",
       "field 'date:' not within season given in field 'year:'",
       (value, context) => {
+        if (!value) return true;
         const date = new Date(value as string | Date);
         const season = context.parent.year as number;
         const seasonStart = new Date(season - 1, 7, 15);
@@ -238,6 +239,7 @@ export default yup.object().shape({
       "date-in-season",
       "start date not within season given in field 'year:'",
       (value, context) => {
+        if (!value) return true;
         const date = new Date(value as string | Date);
         const season = context.parent.year as number;
         const seasonStart = new Date(season - 1, 7, 15);
@@ -271,6 +273,7 @@ export default yup.object().shape({
       "date-in-season",
       "end date not within season given in field 'year:'",
       (value, context) => {
+        if (!value) return true;
         const date = new Date(value as string | Date);
         const season = context.parent.year as number;
         const seasonStart = new Date(season - 1, 7, 15);
@@ -296,6 +299,7 @@ export default yup.object().shape({
       "date-in-season",
       "awards date not within season given in field 'year:'",
       (value, context) => {
+        if (!value) return true;
         const date = new Date(value as string | Date);
         const season = context.parent.year as number;
         const seasonStart = new Date(season - 1, 7, 15);
