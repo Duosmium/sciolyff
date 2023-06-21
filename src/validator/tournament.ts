@@ -13,6 +13,11 @@ const schoolsCount = (context: yup.TestContext) =>
     return acc;
   }, new Set()).size;
 
+const existingTournament = async (name?: string) =>
+  !!name &&
+  (await fetchData("tournament_names.csv")).find((row) => row[0] === name) !==
+    undefined;
+
 type CompetitionLevel = "Invitational" | "Regionals" | "States" | "Nationals";
 
 export default yup.object().shape({
@@ -26,20 +31,49 @@ export default yup.object().shape({
   year: yup.number().integer().required(),
 
   // possibly optional keys
-  name: yup.string().when("level", (level: CompetitionLevel, schema) =>
-    // name is optional for states and nationals
-    ["States", "Nationals"].includes(level)
-      ? schema.oneOf(
-          [undefined, null, ""],
-          `${
-            level === "States" ? "$$warn$$ " : ""
-          }name not necessary for States/Nationals`
-        )
-      : schema.required(
-          "name for Tournament required " +
-            `('level: ${level}' is not States or Nationals)`
-        )
-  ),
+  name: yup
+    .string()
+    .when("level", (level: CompetitionLevel, schema) =>
+      // name is optional for states and nationals
+      ["States", "Nationals"].includes(level)
+        ? schema.oneOf(
+            [undefined, null, ""],
+            `${
+              level === "States" ? "$$warn$$ " : ""
+            }name not necessary for States/Nationals`
+          )
+        : schema.required(
+            "name for Tournament required " +
+              `('level: ${level}' is not States or Nationals)`
+          )
+    )
+    .test(
+      "style-guide",
+      "$$warn$$ field 'name:' does not follow style guide",
+      async (value, context) => {
+        if (!value || (await existingTournament(value))) {
+          return true;
+        }
+        if (
+          context.parent.level === "Invitational" &&
+          !value.includes("Science Olympiad Invitational")
+        ) {
+          throw context.createError({
+            message:
+              "$$warn$$ field: 'name' is recommended to end in 'Science Olympiad Invitational' for 'level: Invitational'",
+          });
+        } else if (
+          context.parent.level === "Regionals" &&
+          !value.includes("Regional Tournament")
+        ) {
+          throw context.createError({
+            message:
+              "$$warn$$ field: 'name' is recommended to end in 'Regional Tournament' for 'level: Regionals'",
+          });
+        }
+        return true;
+      }
+    ),
   state: yup.string().when("level", (level, schema) =>
     // state required for non-nationals
     level === "Nationals"
@@ -150,6 +184,40 @@ export default yup.object().shape({
           } could be changed to one of these names: ['${foundNames.join(
             "', '"
           )}']`,
+        });
+      }
+    )
+    .test(
+      "recommended-short-name",
+      "$$warn$$ field 'short name:' could be changed to a recommended name",
+      async (value, context) => {
+        if (await existingTournament(context.parent.name as string)) {
+          return true;
+        }
+
+        const subs = [
+          ["University of", "U of"],
+          ["Science Olympiad"],
+          ["Tournament"],
+          ["Elementary School"],
+          ["Middle School"],
+          ["High School"],
+          ["Academy"],
+          ["University"],
+          [" at "],
+        ];
+        let name: string = context.parent["name"];
+        subs.forEach((str) => (name = name.replace(str[0], str[1] || "")));
+        name = name
+          .split(" ")
+          .filter((w) => w.length > 0)
+          .join(" ");
+
+        if (value === name) return true;
+        throw context.createError({
+          message: `$$warn$$ field 'short name:'${
+            value ? " (currently '" + value + "')" : ""
+          } could be changed to '${name}'`,
         });
       }
     ),
