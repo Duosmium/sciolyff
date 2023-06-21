@@ -221,7 +221,10 @@ export default yup.object().shape({
       "recommended-short-name",
       "$$warn$$ field 'short name:' could be changed to a recommended name",
       async (value, context) => {
-        if (await existingTournament(context.parent.name as string)) {
+        if (
+          !context.parent["name"] ||
+          (await existingTournament(context.parent.name as string))
+        ) {
           return true;
         }
 
