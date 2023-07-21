@@ -30,6 +30,7 @@ export default class Event implements Model<EventRep> {
 
   // computed
   maximumPlace?: number;
+  bestScore?: number;
 
   constructor(rep: EventRep) {
     this.rep = rep;
@@ -63,6 +64,10 @@ export default class Event implements Model<EventRep> {
         (d) => d.event === this
       );
     }
+
+    this.bestScore = this.tournament.reverseScoring
+      ? Math.max(...this.placings.map((p) => p.rep.place || 0))
+      : 1;
   }
 
   computeMaximumPlace(): void {

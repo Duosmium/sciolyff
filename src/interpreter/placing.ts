@@ -149,7 +149,16 @@ export default class Placing implements Model<PlacingRep> {
         this.medal = this.isolatedPoints;
       }
     } else {
-      // TODO: figure out how medals work for reverse scoring
+      if (
+        this.isolatedPoints != undefined &&
+        this.isolatedPoints !== 0 &&
+        this.isolatedPoints >
+          (this.event.bestScore as number) -
+            ((this.event.medals as number) ||
+              (this.tournament.medals as number))
+      ) {
+        this.medal = (this.event.bestScore as number) - this.isolatedPoints + 1;
+      }
     }
   }
 
@@ -202,7 +211,17 @@ export default class Placing implements Model<PlacingRep> {
         this.trackMedal = this.isolatedTrackPoints;
       }
     } else {
-      // TODO: figure out how medals work for reverse scoring
+      if (
+        this.isolatedTrackPoints != undefined &&
+        this.isolatedTrackPoints !== 0 &&
+        this.isolatedTrackPoints >
+          (this.event.bestScore as number) -
+            ((this.event.medals as number) ||
+              (this.tournament.medals as number))
+      ) {
+        this.medal =
+          (this.event.bestScore as number) - this.isolatedTrackPoints + 1;
+      }
     }
   }
 
