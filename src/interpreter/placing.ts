@@ -125,7 +125,7 @@ export default class Placing implements Model<PlacingRep> {
               this.didNotParticipate ||
               this.participationOnly)
           ) {
-            return 0;
+            return this.participationOnly ? 1 : 0;
           }
 
           const maxPlace = this.event.maximumPlace as number;
@@ -184,9 +184,10 @@ export default class Placing implements Model<PlacingRep> {
             this.tournament.reverseScoring &&
             (this.disqualified ||
               this.didNotParticipate ||
-              this.participationOnly)
+              this.participationOnly ||
+              this.unknown)
           ) {
-            return 0;
+            return this.participationOnly ? 1 : 0;
           }
 
           if (!this.team.track) return 0;
