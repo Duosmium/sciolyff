@@ -202,11 +202,22 @@ export default class Team implements Model<TeamRep> {
       throw new Error("things are undefined");
     }
 
-    this.rank = (this.tournament.teams?.findIndex((t) => t === this) ?? 0) + 1;
+    this.rank =
+      (this.tournament.teams?.findIndex(
+        (t) =>
+          t.points === this.points &&
+          t.exhibition === this.exhibition &&
+          t.disqualified === this.disqualified
+      ) ?? 0) + 1;
 
     if (this.track) {
       this.trackRank =
-        (this.track.teams?.findIndex((t) => t === this) ?? 0) + 1;
+        (this.track.teams?.findIndex(
+          (t) =>
+            t.trackPoints === this.trackPoints &&
+            t.exhibition === this.exhibition &&
+            t.disqualified === this.disqualified
+        ) ?? 0) + 1;
     }
   }
 
