@@ -207,7 +207,12 @@ export default class Team implements Model<TeamRep> {
         (t) =>
           t.points === this.points &&
           t.exhibition === this.exhibition &&
-          t.disqualified === this.disqualified
+          t.disqualified === this.disqualified &&
+          t.medalCounts?.every((count, i) => count === this.medalCounts?.[i]) &&
+          t.trialEventPoints === this.trialEventPoints &&
+          t.trialEventMedalCounts?.every(
+            (count, i) => count === this.trialEventMedalCounts?.[i]
+          )
       ) ?? 0) + 1;
 
     if (this.track) {
@@ -216,7 +221,14 @@ export default class Team implements Model<TeamRep> {
           (t) =>
             t.trackPoints === this.trackPoints &&
             t.exhibition === this.exhibition &&
-            t.disqualified === this.disqualified
+            t.disqualified === this.disqualified &&
+            t.trackMedalCounts?.every(
+              (count, i) => count === this.trackMedalCounts?.[i]
+            ) &&
+            t.trackTrialEventPoints === this.trackTrialEventPoints &&
+            t.trackTrialEventMedalCounts?.every(
+              (count, i) => count === this.trackTrialEventMedalCounts?.[i]
+            )
         ) ?? 0) + 1;
     }
   }
