@@ -12,6 +12,11 @@
     "strictNullChecks": true,
     "strictFunctionTypes": false
   },
+  "tsimp": {
+    "compilerOptions": {
+      "strict": false
+    }
+  },
   "include": ["src", "bin"]
   // "exclude": ["node_modules", "dist", "compare", "tests"]
 }
