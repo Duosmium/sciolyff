@@ -175,7 +175,7 @@ export default class Placing implements Model<PlacingRep> {
             ((a.isolatedPoints as number) - (b.isolatedPoints as number)) *
             (this.tournament?.reverseScoring ? -1 : 1)
         )
-        ?.findIndex((p) => p === this) ?? 0) + 1;
+        ?.findIndex((p) => p.isolatedPoints === this.isolatedPoints) ?? 0) + 1;
 
     this.isolatedTrackPoints = this.explicit
       ? this.trackPlace
