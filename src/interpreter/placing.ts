@@ -192,7 +192,7 @@ export default class Placing implements Model<PlacingRep> {
 
           if (!this.team.track) return 0;
           const maxPlace = this.team.track.maximumPlace as number;
-          const n = maxPlace + (this.tournament.nOffset as number);
+          const n = maxPlace + (this.team.track.nOffset as number);
           if (this.disqualified) return n + 2;
           if (this.didNotParticipate) return n + 1;
           if (this.participationOnly || this.unknown) return n;

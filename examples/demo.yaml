@@ -41,9 +41,10 @@ Tournament:
 # Track section is optional if tracks were not used
 Tracks:
   - name: V # can be anything, typically used for Varsity / JV labels
-    # next two lines are optional
+    # next three lines are optional
     trophies: 1 # trophies for track, see above
     medals: 1 # medals for track, see above
+    n offset: 0 # see above
 
 Events:
   - name: Anatomy and Physiology

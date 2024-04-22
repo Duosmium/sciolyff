@@ -77,4 +77,19 @@ export default yup.object().shape({
           : true
     )
     .notRequired(),
+  "n offset": yup
+    .number()
+    .integer()
+    .test(
+      "n-offset-minimum",
+      "n offset is too small",
+      (value, context) =>
+        !value || value > -teamCount(context, context.parent.name as string)
+    )
+    .notRequired()
+    .when("reverse scoring", (reverse, schema) =>
+      reverse
+        ? schema.oneOf([undefined], "no n offset with reverse scoring")
+        : schema
+    ),
 });
