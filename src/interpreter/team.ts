@@ -34,6 +34,8 @@ export default class Team implements Model<TeamRep> {
   // computed
   rank?: number;
   trackRank?: number;
+  trophy: number | false;
+  trackTrophy: number | false;
   points?: number;
   trackPoints?: number;
   earnedBid?: boolean;
@@ -57,6 +59,9 @@ export default class Team implements Model<TeamRep> {
     this.number = rep.number;
     this.city = rep.city;
     this.state = rep.state;
+
+    this.trophy = false;
+    this.trackTrophy = false;
   }
 
   link(interpreter: Interpreter): void {
@@ -215,6 +220,9 @@ export default class Team implements Model<TeamRep> {
           )
       ) ?? 0) + 1;
 
+    this.trophy =
+      this.rank <= (this.tournament.trophies ?? 0) ? this.rank : false;
+
     if (this.track) {
       this.trackRank =
         (this.track.teams?.findIndex(
@@ -230,6 +238,9 @@ export default class Team implements Model<TeamRep> {
               (count, i) => count === this.trackTrialEventMedalCounts?.[i]
             )
         ) ?? 0) + 1;
+
+      this.trackTrophy =
+        this.trackRank <= (this.track.trophies ?? 0) ? this.trackRank : false;
     }
   }
 
