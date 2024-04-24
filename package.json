@@ -88,7 +88,7 @@
       "ts": "module"
     },
     "nodeArguments": [
-      "--import=tsimp"
+      "--import=tsimp/import"
     ],
     "timeout": "30s"
   },

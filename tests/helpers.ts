@@ -26,6 +26,8 @@ export function dumpInterpreter(interpreter: Interpreter) {
 
         rank: t.rank,
         trackRank: t.trackRank,
+        trophy: t.trophy,
+        trackTrophy: t.trackTrophy,
         points: t.points,
         trackPoints: t.trackPoints,
         trialEventPoints: t.trialEventPoints,
