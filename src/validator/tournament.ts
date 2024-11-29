@@ -57,7 +57,7 @@ export default yup.object().shape({
         const words = value.split(" ");
         return words.every(
           (word) =>
-            ["at", "of", "and"].includes(word) ||
+            ["at", "of", "and", ""].includes(word) ||
             word[0] === word[0].toUpperCase()
         );
       }
@@ -190,7 +190,7 @@ export default yup.object().shape({
         const words = value.split(" ");
         return words.every(
           (word) =>
-            ["at", "of", "and"].includes(word) ||
+            ["at", "of", "and", ""].includes(word) ||
             word[0] === word[0].toUpperCase()
         );
       }
