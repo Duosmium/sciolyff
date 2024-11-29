@@ -33,7 +33,7 @@ export const sciolyffSchema = yup.object().shape({
 });
 /* eslint-enable @typescript-eslint/no-unsafe-assignment */
 
-interface Error {
+interface SciolyFFError {
   warning: boolean;
   message: string;
   location?: {
@@ -55,7 +55,7 @@ export default async function valid(
   success: boolean; // was validation successful?
   validWithWarnings: boolean; // are there warnings (if valid)?
   status: string; // human readable status message
-  errors?: Error[]; // validation errors (if any)
+  errors: SciolyFFError[]; // validation errors (if any)
 }> {
   const abortEarly = options.abortEarly ?? false;
   const canonical = options.canonical ?? true;
@@ -78,6 +78,13 @@ export default async function valid(
         success: false,
         validWithWarnings: false,
         status: "Failed to parse YAML.",
+        errors: [
+          {
+            warning: false,
+            message: "Failed to parse YAML.",
+            context: e,
+          },
+        ],
       };
     }
   }
@@ -95,13 +102,14 @@ export default async function valid(
       success: true,
       validWithWarnings: false,
       status: "The SciOlyFF file passed the validation!",
+      errors: [],
     };
   } catch (e) {
     if (e instanceof yup.ValidationError) {
       const warningsOnly = e.errors.every((msg) => msg.startsWith("$$warn$$"));
 
-      const errors: Error[] = (e.inner.length > 0 ? e.inner : [e]).map(
-        (err): Error => ({
+      const errors: SciolyFFError[] = (e.inner.length > 0 ? e.inner : [e]).map(
+        (err): SciolyFFError => ({
           warning: err.errors[0].startsWith("$$warn$$"),
           message: err.errors[0].replace("$$warn$$", "").trimStart(),
           location: sourceMap.lookup(err.path || ""),
@@ -131,13 +139,20 @@ export default async function valid(
         success: false,
         validWithWarnings: false,
         status: "An unexpected error occurred",
+        errors: [
+          {
+            warning: false,
+            message: (e as Error).name + ": " + (e as Error).message,
+            context: (e as Error).stack,
+          },
+        ],
       };
     }
   }
 }
 
 export function format(
-  errors?: Error[],
+  errors?: SciolyFFError[],
   filename?: string,
   colors?: boolean
 ): string {
