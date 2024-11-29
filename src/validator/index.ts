@@ -1,7 +1,7 @@
 import * as yup from "yup";
 import { getIn } from "yup/lib/util/reach.js";
 
-import yaml from "js-yaml";
+import yaml, { YAMLException } from "js-yaml";
 import SourceMap from "js-yaml-source-map";
 
 import chalk from "chalk";
@@ -82,7 +82,7 @@ export default async function valid(
           {
             warning: false,
             message: "Failed to parse YAML.",
-            context: e,
+            context: (e as YAMLException).message,
           },
         ],
       };
