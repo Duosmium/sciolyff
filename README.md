@@ -4,7 +4,7 @@
 
 `sciolyff-js` is a JS port of [SciolyFF](https://github.com/Duosmium/sciolyff), a standardized file format to represent Science Olympiad tournament results. SciolyFF is a subset of YAML.
 
-SciolyFF powers [Duosmium Results](https://www.duosmium.com/results/), a tournament results archive/viewer.
+SciolyFF powers [Duosmium Results](https://www.duosmium.org/results/), a tournament results archive/viewer.
 
 ## Installation
 
