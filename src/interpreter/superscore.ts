@@ -104,6 +104,8 @@ export default (interpreter: Interpreter): SciOlyFF => {
     (interpreter.tournament.nOffset as number) +
     ((interpreter.tournament.teams?.length as number) - teamNumbers.size);
 
+  tournamentRep["bids"] = 0;
+  
   return {
     superscore: true,
 
