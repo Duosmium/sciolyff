@@ -153,42 +153,36 @@ export default class Tournament implements Model<TournamentRep> {
   }
 
   // bids logic
+  private getTopSchoolTeams(n: number): Team[] {
+    return Array.from(
+      this.teams
+        ?.reduce((acc, t) => {
+          const k = `${t.school}|${t.city ?? ""}|${t.state}`;
+          if (acc.has(k)) {
+            (acc.get(k) as Team[]).push(t);
+          } else {
+            acc.set(k, [t]);
+          }
+          return acc;
+        }, new Map<string, Team[]>())
+        ?.values() as IterableIterator<Team[]>,
+      (teams) =>
+        teams
+          .sort((a, b) => (a.rank as number) - (b.rank as number))
+          .slice(0, n)
+    )
+      .flat()
+      .sort((a, b) => (a.rank as number) - (b.rank as number));
+  }
+
   public get topTeamsPerSchool(): Team[] | undefined {
     // select the first team from each school
-    return (this.#topTeamsPerSchool ||= Array.from(
-      this.teams
-        ?.reduce(
-          (acc, t) =>
-            acc.has(`${t.school}|${t.city ?? ""}|${t.state}`)
-              ? acc
-              : acc.set(`${t.school}|${t.city ?? ""}|${t.state}`, t),
-          new Map<string, Team>()
-        )
-        .values() ?? []
-    ));
+    return (this.#topTeamsPerSchool ||= this.getTopSchoolTeams(1));
   }
 
   public get teamsEligibleForBids(): Team[] {
-    return this.bidsPerSchool === 1
-      ? (this.topTeamsPerSchool as Team[])
-      : (this.#teamsEligibleForBids ||= Array.from(
-          this.teams
-            ?.reduce((acc, t) => {
-              const k = [t.school, t.city, t.state];
-              if (acc.has(k)) {
-                (acc.get(k) as Team[]).push(t);
-              } else {
-                acc.set([t.school, t.city, t.state], [t]);
-              }
-              return acc;
-            }, new Map<(string | undefined)[], Team[]>())
-            ?.values() as IterableIterator<Team[]>,
-          (teams) =>
-            teams
-              .sort((a, b) => (a.rank as number) - (b.rank as number))
-              .slice(0, this.bidsPerSchool)
-        )
-          .flat()
-          .sort((a, b) => (a.rank as number) - (b.rank as number)));
+    return (this.#teamsEligibleForBids ||= this.getTopSchoolTeams(
+      this.bidsPerSchool
+    ));
   }
 }
