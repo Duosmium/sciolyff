@@ -55,8 +55,8 @@ export default class Tournament implements Model<TournamentRep> {
 
   nonExhibitionTeamsCount?: number;
 
-  _topTeamsPerSchool?: Team[];
-  _teamsEligibleForBids?: Team[];
+  #topTeamsPerSchool?: Team[];
+  #teamsEligibleForBids?: Team[];
 
   constructor(rep: TournamentRep) {
     this.rep = rep;
@@ -155,7 +155,7 @@ export default class Tournament implements Model<TournamentRep> {
   // bids logic
   public get topTeamsPerSchool(): Team[] | undefined {
     // select the first team from each school
-    return (this._topTeamsPerSchool ||= Array.from(
+    return (this.#topTeamsPerSchool ||= Array.from(
       this.teams
         ?.reduce(
           (acc, t) =>
@@ -171,7 +171,7 @@ export default class Tournament implements Model<TournamentRep> {
   public get teamsEligibleForBids(): Team[] {
     return this.bidsPerSchool === 1
       ? (this.topTeamsPerSchool as Team[])
-      : (this._teamsEligibleForBids ||= Array.from(
+      : (this.#teamsEligibleForBids ||= Array.from(
           this.teams
             ?.reduce((acc, t) => {
               const k = [t.school, t.city, t.state];

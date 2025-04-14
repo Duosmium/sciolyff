@@ -48,8 +48,8 @@ export default class Placing implements Model<PlacingRep> {
   medal: number | false;
   trackMedal: number | false;
 
-  _trackExhibitonPlacingsBehind?: number;
-  _exhibitionPlacingsBehind?: number;
+  #trackExhibitonPlacingsBehind?: number;
+  #exhibitionPlacingsBehind?: number;
 
   constructor(rep: PlacingRep) {
     this.rep = rep;
@@ -275,7 +275,7 @@ export default class Placing implements Model<PlacingRep> {
 
   private exhibitionPlacingsBehind(inTrack: boolean): number {
     if (inTrack) {
-      return (this._trackExhibitonPlacingsBehind ||=
+      return (this.#trackExhibitonPlacingsBehind ||=
         this.event?.placings?.filter(
           (p) =>
             (p.exempt || p.team?.exhibition) &&
@@ -286,7 +286,7 @@ export default class Placing implements Model<PlacingRep> {
               : p.trackPlace < (this.trackPlace as number))
         ).length) as number;
     } else {
-      return (this._exhibitionPlacingsBehind ||= this.event?.placings?.filter(
+      return (this.#exhibitionPlacingsBehind ||= this.event?.placings?.filter(
         (p) =>
           (p.exempt || p.team?.exhibition) &&
           p.place &&

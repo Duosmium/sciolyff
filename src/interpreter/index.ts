@@ -23,7 +23,7 @@ export default class Interpreter {
 
   isSuperscore: boolean;
 
-  _superscored?: Interpreter;
+  #superscored?: Interpreter;
 
   constructor(rep: string | SciOlyFF) {
     if (typeof rep === "string") {
@@ -225,11 +225,11 @@ export default class Interpreter {
       return this;
     }
 
-    this._superscored ||= new Interpreter(superscore(this));
+    this.#superscored ||= new Interpreter(superscore(this));
     if (toInterpreter) {
-      return this._superscored;
+      return this.#superscored;
     } else {
-      return this._superscored.rep;
+      return this.#superscored.rep;
     }
   }
 }
