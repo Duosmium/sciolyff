@@ -1,5 +1,5 @@
 import * as yup from "yup";
-import { getIn } from "yup/lib/util/reach.js";
+import { getIn } from "yup";
 
 import yaml, { YAMLException } from "js-yaml";
 import SourceMap from "js-yaml-source-map";
@@ -24,12 +24,12 @@ export const sciolyffSchema = yup.object().shape({
   Placings: yup.array().of(placingSchema).required(),
 
   // optional
-  Tracks: yup.array().of(trackSchema).notRequired(),
-  Penalties: yup.array().of(penaltySchema).notRequired(),
-  Histograms: histoSchema.notRequired(),
+  Tracks: yup.array().of(trackSchema).optional(),
+  Penalties: yup.array().of(penaltySchema).optional(),
+  Histograms: histoSchema.optional(),
 
   // for internal use
-  superscore: yup.boolean().notRequired(),
+  superscore: yup.boolean().optional(),
 });
 /* eslint-enable @typescript-eslint/no-unsafe-assignment */
 
@@ -49,7 +49,7 @@ export default async function valid(
   options: {
     abortEarly?: boolean;
     canonical?: boolean;
-  } = {}
+  } = {},
 ): Promise<{
   valid: boolean; // is sciolyff valid?
   success: boolean; // was validation successful?
@@ -114,7 +114,7 @@ export default async function valid(
           message: err.errors[0].replace("$$warn$$", "").trimStart(),
           location: sourceMap.lookup(err.path || ""),
           context: getIn(sciolyffSchema, err.path || "", rep).parent as unknown,
-        })
+        }),
       );
 
       if (warningsOnly) {
@@ -154,7 +154,7 @@ export default async function valid(
 export function format(
   errors?: SciolyFFError[],
   filename?: string,
-  colors?: boolean
+  colors?: boolean,
 ): string {
   const errorBold = colors ? chalk.bold.red : (s: string) => s;
   const error = colors ? chalk.red : (s: string) => s;
@@ -185,10 +185,10 @@ export function format(
         (err.location
           ? filename
             ? `${info(filename)}:${gray(err.location.line.toString())}:${gray(
-                err.location.column.toString()
+                err.location.column.toString(),
               )}`
             : `line ${err.location.line}, column ${err.location.column}`
-          : JSON.stringify(err.context, null, 2))
+          : JSON.stringify(err.context, null, 2)),
     )
     .join("\n\n");
 

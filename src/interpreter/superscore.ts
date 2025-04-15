@@ -12,7 +12,7 @@ import {
   Team,
   TeamRep,
   TournamentRep,
-} from "./types";
+} from "./types.js";
 
 const fsn = (t: { school: string; city?: string; state: string }) =>
   `${t.school}|${t.city ?? ""}|${t.state}`;
@@ -66,8 +66,8 @@ export default (interpreter: Interpreter): SciOlyFF => {
           event,
           compare(
             bestPlacingsBySchool.get(school)?.get(event) as number,
-            placing.isolatedPoints as number
-          )
+            placing.isolatedPoints as number,
+          ),
         );
     }
   });
@@ -77,7 +77,7 @@ export default (interpreter: Interpreter): SciOlyFF => {
     for (const [event, place] of eventPlacings) {
       const n =
         (eventMaxPlacings.get(event) as number) +
-        (interpreter.tournament?.nOffset as number);
+        interpreter.tournament?.nOffset;
       const rep: PlacingRep = {
         event,
         team: teamNumber,
@@ -101,11 +101,11 @@ export default (interpreter: Interpreter): SciOlyFF => {
   };
 
   tournamentRep["n offset"] =
-    (interpreter.tournament.nOffset as number) +
+    interpreter.tournament.nOffset +
     ((interpreter.tournament.teams?.length as number) - teamNumbers.size);
 
   tournamentRep["bids"] = 0;
-  
+
   return {
     superscore: true,
 

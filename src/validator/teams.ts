@@ -13,7 +13,7 @@ export default yup.object().shape({
       "duplicate team number: ${value}",
       (value, context) =>
         root(context)["Teams"].filter((team) => team.number === value)
-          .length === 1
+          .length === 1,
     )
     .test(
       "correct-number-of-exempt-placings",
@@ -21,8 +21,8 @@ export default yup.object().shape({
       (value, context) =>
         context.parent.exhibition ||
         root(context)["Placings"].filter(
-          (placing) => placing.team === value && placing.exempt
-        ).length === (root(context)["Tournament"]["exempt placings"] || 0)
+          (placing) => placing.team === value && placing.exempt,
+        ).length === (root(context)["Tournament"]["exempt placings"] || 0),
     )
     .required(),
   school: yup
@@ -38,23 +38,24 @@ export default yup.object().shape({
                 (context.parent.city as string) || "",
                 context.parent.state as string,
               ],
-              "schools.csv"
+              "schools.csv",
             )
-          : true
+          : true,
     )
     .required(),
   state: yup.string().required(),
 
   // optional
-  "school abbreviation": yup.string().notRequired(),
+  "school abbreviation": yup.string().optional(),
   track: yup
     .string()
-    .notRequired()
+    .optional()
     .test(
       "matching-track",
       "'track ${value}' does not match any name in 'section Track'",
       (value, context) =>
-        !value || root(context)["Tracks"]?.some((track) => track.name === value)
+        !value ||
+        root(context)["Tracks"]?.some((track) => track.name === value),
     )
     .test(
       "in-track-if-possible",
@@ -62,13 +63,13 @@ export default yup.object().shape({
       (value, context) =>
         !!value ||
         !root(context)["Tracks"] ||
-        root(context)["Tracks"].length === 0
+        root(context)["Tracks"].length === 0,
     )
     .test(
       "no-tracks-when-reverse",
       "cannot use reverse scoring with tracks",
       (value: any, context: yup.TestContext) =>
-        !(value && root(context)["Tournament"]["reverse scoring"])
+        !(value && root(context)["Tournament"]["reverse scoring"]),
     ),
   suffix: yup
     .string()
@@ -83,9 +84,9 @@ export default yup.object().shape({
                 team.school === context.parent.school &&
                 team.city === context.parent.city &&
                 team.state === context.parent.state &&
-                team.suffix === value
+                team.suffix === value,
             ).length === 1
-          : true
+          : true,
     )
     .test(
       "unnecessary-suffix",
@@ -96,11 +97,11 @@ export default yup.object().shape({
               (team) =>
                 team.school === context.parent.school &&
                 team.city === context.parent.city &&
-                team.state === context.parent.state
+                team.state === context.parent.state,
             ).length > 1
-          : true
+          : true,
     )
-    .notRequired(),
+    .optional(),
   city: yup
     .string()
 
@@ -111,10 +112,10 @@ export default yup.object().shape({
             (team) =>
               team.city &&
               team.school === context.parent.school &&
-              team.state === context.parent.state
-          )
+              team.state === context.parent.state,
+          ),
     )
-    .notRequired(),
-  disqualified: yup.boolean().notRequired(),
-  exhibition: yup.boolean().notRequired(),
+    .optional(),
+  disqualified: yup.boolean().optional(),
+  exhibition: yup.boolean().optional(),
 });

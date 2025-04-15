@@ -5,6 +5,6 @@ export default yup.object().shape({
   score: yup.number().notOneOf([NaN]).required(),
 
   // optional
-  tier: yup.number().integer().positive().notRequired(),
-  "tiebreaker rank": yup.number().integer().positive().notRequired(),
+  tier: yup.number().integer().positive().optional(),
+  "tiebreaker rank": yup.number().integer().positive().optional(),
 });

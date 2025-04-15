@@ -9,15 +9,15 @@ export const histoData = yup.object().shape({
       "matching-event",
       "'event: ${value}' in Histograms does not match any event in Events",
       (value, context) =>
-        root(context)["Events"].some((event) => event.name === value)
+        root(context)["Events"].some((event) => event.name === value),
     )
     .test(
       "unique-event",
       "'event: ${value}' in Histograms has duplicate entries",
       (value, context) =>
         (root(context)["Histograms"] as any)?.data.filter(
-          (histo: any) => histo.event === value
-        ).length === 1
+          (histo: any) => histo.event === value,
+        ).length === 1,
     )
     .required(),
 
@@ -26,20 +26,23 @@ export const histoData = yup.object().shape({
   counts: yup.array().of(yup.number().min(0).required()).required(),
 
   info: yup.lazy((obj: Record<string, any>) => {
-    if (!obj) return yup.object().notRequired();
+    if (!obj) return yup.object().optional();
     return yup
       .object()
       .shape(
-        Object.keys(obj).reduce((acc, key) => {
-          if (typeof obj[key] === "number") {
-            acc[key] = yup.number();
-          } else {
-            acc[key] = yup.string();
-          }
-          return acc;
-        }, {} as Record<string, yup.AnySchema>)
+        Object.keys(obj).reduce(
+          (acc, key) => {
+            if (typeof obj[key] === "number") {
+              acc[key] = yup.number();
+            } else {
+              acc[key] = yup.string();
+            }
+            return acc;
+          },
+          {} as Record<string, yup.AnySchema>,
+        ),
       )
-      .notRequired();
+      .optional();
   }),
 });
 
@@ -51,26 +54,22 @@ export default yup.object().shape({
   data: yup
     .array()
     .of(histoData)
-    .when("type", (type, schema) => {
+    .when("type", ([type], schema) => {
       if (type === "data") {
         return schema.required("Histogram data is required when 'type: data'");
-      } else if (type === "url") {
-        return schema
-          .nullable()
-          .oneOf(
-            [null, undefined],
-            "Histogram data not allowed when 'type: url'"
-          );
       }
+      return schema.oneOf(
+        [undefined],
+        "Histogram data not allowed when 'type: url'",
+      );
     }),
   url: yup
     .string()
     .url()
-    .when("type", (type, schema) => {
+    .when("type", ([type], schema) => {
       if (type === "url") {
         return schema.required("Histogram url is required when 'type: url'");
-      } else if (type === "data") {
-        return schema.notRequired();
       }
+      return schema.optional();
     }),
 });

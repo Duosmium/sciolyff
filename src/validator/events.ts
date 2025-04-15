@@ -6,14 +6,16 @@ import { root } from "./helpers.js";
 // helper functions
 const placingsByPlace = (
   context: yup.TestContext,
-  eventName: string
+  eventName: string,
 ): Record<string, any> =>
   root(context)["Placings"].reduce((acc: Record<string, any>, placing) => {
     // match undefined/null with non-strict equality
     if (placing.place != null && placing.event === eventName) {
-      acc[placing.place.toString()]
-        ? acc[placing.place.toString()].push(placing)
-        : (acc[placing.place.toString()] = [placing]);
+      if (acc[placing.place.toString()]) {
+        acc[placing.place.toString()].push(placing);
+      } else {
+        acc[placing.place.toString()] = [placing];
+      }
     }
     return acc;
   }, {});
@@ -23,7 +25,7 @@ const placesWithExpandedTies = (context: yup.TestContext, eventName: string) =>
     .map(([place, placings]) =>
       Array(placings.length)
         .fill(0)
-        .map((_, i) => parseInt(place) + i)
+        .map((_, i) => parseInt(place) + i),
     )
     .flat();
 
@@ -36,49 +38,49 @@ export default yup.object().shape({
       "duplicate event name: ${value}",
       (value, context) =>
         root(context)["Events"].filter((event) => event.name === value)
-          .length === 1
+          .length === 1,
     )
     .test(
       "placings-for-all-teams",
       "event: ${value} has incorrect number of placings",
       (value, context) =>
         root(context)["Placings"].filter((place) => place.event === value)
-          .length === root(context)["Teams"].length
+          .length === root(context)["Teams"].length,
     )
     .test(
       "ties-marked",
       "event: ${value} has unmarked ties",
       (value, context) => {
         const failing = Object.entries(
-          placingsByPlace(context, value as string)
+          placingsByPlace(context, value as string),
         ).flatMap(([place, placings]: [string, any[]]) =>
           // ignore places with 1 or 0 if using reverse scoring
           root(context)["Tournament"]["reverse scoring"] &&
           (place === "1" || place === "0")
             ? []
             : placings.filter((p) => !p.tie).length <= 1
-            ? []
-            : [place]
+              ? []
+              : [place],
         );
         if (failing.length === 0) {
           return true;
         } else {
           throw context.createError({
             message: `event: ${value} has unmarked ties (place ${failing.join(
-              ", "
+              ", ",
             )})`,
           });
         }
-      }
+      },
     )
     .test(
       "ties-paired",
       "event: ${value} has unpaired ties",
       (value, context) => {
         const failing = Object.entries(
-          placingsByPlace(context, value as string)
+          placingsByPlace(context, value as string),
         ).flatMap(([place, placings]: [string, any[]]) =>
-          placings.filter((p) => p.tie).length === 1 ? [place] : []
+          placings.filter((p) => p.tie).length === 1 ? [place] : [],
         );
 
         if (failing.length === 0) {
@@ -86,11 +88,11 @@ export default yup.object().shape({
         } else {
           throw context.createError({
             message: `event: ${value} has unpaired ties (place ${failing.join(
-              ", "
+              ", ",
             )})`,
           });
         }
-      }
+      },
     )
     .test(
       "no-gaps-in-places",
@@ -107,7 +109,7 @@ export default yup.object().shape({
         throw context.createError({
           message: `event: ${value} has gaps in place (${gaps.join(", ")})`,
         });
-      }
+      },
     )
     .test(
       "places-start-at-one",
@@ -120,8 +122,8 @@ export default yup.object().shape({
               ...root(context)
                 ["Placings"].filter((placing) => placing.event === value)
                 .map((placing) => placing.place as number)
-                .filter((p) => p !== undefined)
-            ) === 1
+                .filter((p) => p !== undefined),
+            ) === 1,
     )
     .test(
       "reverse-places-start-at-same-place",
@@ -137,11 +139,11 @@ export default yup.object().shape({
             acc.total = Math.max(acc.total, (placing.place as number) || 0);
             return acc;
           },
-          { total: 0, event: 0 }
+          { total: 0, event: 0 },
         );
         // check if the event high score is the global high score
         return maxes.event === maxes.total;
-      }
+      },
     )
     .test(
       "canonical-event",
@@ -149,7 +151,7 @@ export default yup.object().shape({
       async (value, context) =>
         context.options?.context?.canonical
           ? await canonical([value], "events.csv")
-          : true
+          : true,
     )
     .test(
       "event-no-histogram",
@@ -160,14 +162,14 @@ export default yup.object().shape({
           return true;
         }
         return data.some((histo) => histo.event === value);
-      }
+      },
     )
     .required(),
 
   // optional
-  trial: yup.boolean().notRequired().default(false),
-  trialed: yup.boolean().notRequired().default(false),
-  scoring: yup.string().oneOf(["high", "low"]).notRequired(),
+  trial: yup.boolean().optional().default(false),
+  trialed: yup.boolean().optional().default(false),
+  scoring: yup.string().oneOf(["high", "low"]).optional(),
   medals: yup
     .number()
     .integer()
@@ -181,9 +183,9 @@ export default yup.object().shape({
             Math.min(
               root(context)["Teams"].length,
               (root(context)["Tournament"]["maximum place"] as number) ||
-                Infinity
+                Infinity,
             )
-          : true
+          : true,
     )
-    .notRequired(),
+    .optional(),
 });

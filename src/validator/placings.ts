@@ -11,15 +11,16 @@ export default yup.object().shape({
       "matching-event",
       "'event: ${value}' in Placings does not match any event in Events",
       (value, context) =>
-        root(context)["Events"].some((event) => event.name === value)
+        root(context)["Events"].some((event) => event.name === value),
     )
     .test(
       "unique-event-and-team",
       "duplicate placing",
       (value, context) =>
         root(context)["Placings"].filter(
-          (place) => place.event === value && place.team === context.parent.team
-        ).length === 1
+          (place) =>
+            place.event === value && place.team === context.parent.team,
+        ).length === 1,
     )
     .required(),
   team: yup
@@ -29,7 +30,7 @@ export default yup.object().shape({
       "matching-team",
       "'team: ${value}' in Placings does not match any team number in Teams",
       (value, context) =>
-        root(context)["Teams"].some((team) => team.number === value)
+        root(context)["Teams"].some((team) => team.number === value),
     )
     .required(),
 
@@ -37,65 +38,64 @@ export default yup.object().shape({
   place: yup
     .number()
     .integer()
-    .when("explicit", (explicit, schema) =>
+    .when("explicit", ([explicit], schema) =>
       explicit
         ? schema.required("a place is required when using explicit scores")
-        : schema.notRequired()
+        : schema.optional(),
     )
     .when(
       ["participated", "disqualified", "unknown", "explicit"],
-      // @ts-ignore: looks like https://github.com/jquense/yup/issues/1417
-      (participated, disqualified, unknown, explicit, schema) =>
+      ([participated, disqualified, unknown, explicit], schema) =>
         !explicit && (participated === false || disqualified || unknown)
           ? schema.oneOf([undefined], "having a place does not make sense")
-          : schema
+          : schema,
     ),
   trackPlace: yup
     .number()
     .integer()
-    .notRequired()
-    .when("explicit", (explicit, schema) =>
+    .optional()
+    .when("explicit", ([explicit], schema) =>
       !explicit
         ? schema.oneOf([undefined], "explicit must be set to allow trackPlace")
-        : schema
+        : schema,
     ),
-  explicit: yup.boolean().notRequired(),
+  explicit: yup.boolean().optional(),
 
-  participated: yup.boolean().notRequired(),
+  participated: yup.boolean().optional(),
   disqualified: yup
     .boolean()
-    .notRequired()
-    .when("participated", (participated, schema) =>
+    .optional()
+    .when("participated", ([participated], schema) =>
       participated === false
         ? schema.oneOf(
             [false, undefined],
-            "impossible participation-disqualified combination"
+            "impossible participation-disqualified combination",
           )
-        : schema
+        : schema,
     )
-    .when("unknown", (unknown, schema) =>
+    .when("unknown", ([unknown], schema) =>
       unknown
         ? schema.oneOf(
             [false, undefined],
-            "impossible unknown-disqualified combination"
+            "impossible unknown-disqualified combination",
           )
-        : schema
+        : schema,
     ),
-  exempt: yup.boolean().notRequired(),
+  exempt: yup.boolean().optional(),
   tie: yup
     .boolean()
-    .notRequired()
-    .when("raw", (raw, schema) =>
+    .optional()
+    .when("raw", ([raw], schema) =>
       raw
         ? schema.oneOf(
             [false, undefined],
-            "having a tie value does not make sense"
+            "having a tie value does not make sense",
           )
-        : schema
+        : schema,
     ),
   unknown: yup
     .boolean()
-    .notRequired()
+    .optional()
     .test(
       "invalid-unknown",
       "unknown place not allowed (either placing must be exempt or event must be trial/trialed)",
@@ -108,29 +108,28 @@ export default yup.object().shape({
         root(context)["Events"].some(
           (event) =>
             event.name === context.parent.event &&
-            (event.trial || event.trialed)
+            (event.trial || event.trialed),
         ) ||
         // below checks if the team is an exhibition team
         root(context)["Teams"].some(
-          (team) => team.number === context.parent.team && team.exhibition
-        )
+          (team) => team.number === context.parent.team && team.exhibition,
+        ),
     ),
   raw: rawsSchema
-    .notRequired()
+    .optional()
     .default(undefined)
     .when(
       ["participated", "disqualified", "unknown", "explicit"],
-      // @ts-ignore: looks like https://github.com/jquense/yup/issues/1417
-      (participated, disqualified, unknown, explicit, schema) =>
+      ([participated, disqualified, unknown, explicit], schema) =>
         explicit || participated === false || disqualified || unknown
           ? schema.oneOf([undefined], "having raw section does not make sense")
-          : schema
+          : schema,
     )
     .test(
       "no-raws-when-reverse",
       "cannot use reverse scoring with raws",
       (value: any, context: yup.TestContext) =>
-        !(value && root(context)["Tournament"]["reverse scoring"])
+        !(value && root(context)["Tournament"]["reverse scoring"]),
     )
     .test(
       "no-mix-of-raws-and-places",
@@ -138,7 +137,7 @@ export default yup.object().shape({
       (value: any, context: yup.TestContext) =>
         !value ||
         root(context)["Placings"].every(
-          (placing) => placing.place === undefined
-        )
-    ) as typeof rawsSchema,
+          (placing) => placing.place === undefined,
+        ),
+    ),
 });

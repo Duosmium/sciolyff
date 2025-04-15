@@ -1,4 +1,4 @@
-import type { Asserts } from "yup";
+import type { InferType } from "yup";
 
 import tournamentSchema from "../validator/tournament.js";
 import eventSchema from "../validator/events.js";
@@ -9,15 +9,15 @@ import penaltySchema from "../validator/penalties.js";
 import rawSchema from "../validator/raws.js";
 import histoSchema, { histoData } from "../validator/histograms.js";
 
-export type TournamentRep = Asserts<typeof tournamentSchema>;
-export type EventRep = Asserts<typeof eventSchema>;
-export type TeamRep = Asserts<typeof teamSchema>;
-export type PlacingRep = Asserts<typeof placingSchema>;
-export type TrackRep = Asserts<typeof trackSchema>;
-export type PenaltyRep = Asserts<typeof penaltySchema>;
-export type RawRep = Asserts<typeof rawSchema>;
-export type HistoRep = Asserts<typeof histoSchema>;
-export type HistoDataRep = Asserts<typeof histoData>;
+export type TournamentRep = InferType<typeof tournamentSchema>;
+export type EventRep = InferType<typeof eventSchema>;
+export type TeamRep = InferType<typeof teamSchema>;
+export type PlacingRep = InferType<typeof placingSchema>;
+export type TrackRep = InferType<typeof trackSchema>;
+export type PenaltyRep = InferType<typeof penaltySchema>;
+export type RawRep = InferType<typeof rawSchema>;
+export type HistoRep = InferType<typeof histoSchema>;
+export type HistoDataRep = InferType<typeof histoData>;
 
 export interface SciOlyFF {
   superscore?: boolean;

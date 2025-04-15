@@ -33,19 +33,19 @@ export default yup.object().shape({
   // possibly optional keys
   name: yup
     .string()
-    .when("level", (level: CompetitionLevel, schema) =>
+    .when("level", ([level]: [CompetitionLevel], schema) =>
       // name is optional for states and nationals
       ["States", "Nationals"].includes(level)
         ? schema.oneOf(
-            [undefined, null, ""],
+            [undefined, ""],
             `${
               level === "States" ? "$$warn$$ " : ""
-            }name not necessary for States/Nationals`
+            }name not necessary for States/Nationals`,
           )
         : schema.required(
             "name for Tournament required " +
-              `('level: ${level}' is not States or Nationals)`
-          )
+              `('level: ${level}' is not States or Nationals)`,
+          ),
     )
     .test(
       "style-guide",
@@ -58,9 +58,9 @@ export default yup.object().shape({
         return words.every(
           (word) =>
             ["at", "of", "and", ""].includes(word) ||
-            word[0] === word[0].toUpperCase()
+            word[0] === word[0].toUpperCase(),
         );
-      }
+      },
     )
     .test(
       "style-guide",
@@ -87,16 +87,16 @@ export default yup.object().shape({
           });
         }
         return true;
-      }
+      },
     ),
-  state: yup.string().when("level", (level, schema) =>
+  state: yup.string().when("level", ([level]: [CompetitionLevel], schema) =>
     // state required for non-nationals
     level === "Nationals"
-      ? schema.notRequired()
+      ? schema.optional()
       : schema.required(
           "state for Tournament required " +
-            `('level: ${level}' is not Nationals)`
-        )
+            `('level: ${level}' is not Nationals)`,
+        ),
   ),
   medals: yup
     .number()
@@ -110,11 +110,11 @@ export default yup.object().shape({
           ? value <=
             Math.min(
               teamCount(context),
-              (context.parent["maximum place"] as number) || Infinity
+              (context.parent["maximum place"] as number) || Infinity,
             )
-          : true
+          : true,
     )
-    .notRequired(),
+    .optional(),
   trophies: yup
     .number()
     .integer()
@@ -122,63 +122,65 @@ export default yup.object().shape({
     .test(
       "trophies-in-range",
       "trophies: larger than team count",
-      (value, context) => (value ? value <= teamCount(context) : true)
+      (value, context) => (value ? value <= teamCount(context) : true),
     )
-    .notRequired(),
+    .optional(),
   bids: yup
     .number()
     .integer()
     .positive()
     .min(1)
-    .test("bids-in-range", "bids: larger than school count", (value, context) =>
-      value ? value <= schoolsCount(context) : true
+    .test(
+      "bids-in-range",
+      "bids: larger than school count",
+      (value, context) => (value ? value <= schoolsCount(context) : true),
     )
-    .when("level", (level: CompetitionLevel, schema) =>
+    .when("level", ([level]: [CompetitionLevel], schema) =>
       // bids invalid for invitationals/nationals
       // but recommended for states and regionals
       ["States", "Regionals"].includes(level)
         ? schema.required(
-            `$$warn$$ field 'bids:' recommended for level: ${level}`
+            `$$warn$$ field 'bids:' recommended for level: ${level}`,
           )
         : schema.oneOf(
             [undefined],
-            `bids: does not make sense for level: ${level}`
-          )
+            `bids: does not make sense for level: ${level}`,
+          ),
     ),
   "bids per school": yup
     .number()
     .integer()
     .positive()
-    .when("bids", (bids, schema) =>
+    .when("bids", ([bids], schema) =>
       bids !== undefined && bids !== null
-        ? schema.notRequired()
+        ? schema.optional()
         : schema.oneOf(
             [undefined],
-            "field 'bids per school:' not relevant without field 'bids:'"
-          )
+            "field 'bids per school:' not relevant without field 'bids:'",
+          ),
     ),
   "short name": yup
     .string()
-    .when("name", (name, schema) =>
+    .when("name", ([name], schema) =>
       name !== undefined && name !== null
-        ? schema.notRequired()
+        ? schema.optional()
         : schema.oneOf(
             [undefined],
-            "field 'short name:' not relevant without field 'name:'"
-          )
+            "field 'short name:' not relevant without field 'name:'",
+          ),
     )
-    .when("name", (name, schema) =>
+    .when("name", ([name]: [string | undefined], schema) =>
       name !== undefined && name !== null
         ? schema.max(
             name.length,
-            `short name for Tournament is longer than normal 'name: ${name}'`
+            `short name for Tournament is longer than normal 'name: ${name}'`,
           )
-        : schema
+        : schema,
     )
     .test(
       "different-short-name",
       "field 'short name' should be different from field 'name'",
-      (value, context) => (!value ? true : value !== context.parent["name"])
+      (value, context) => (!value ? true : value !== context.parent["name"]),
     )
     .test(
       "style-guide",
@@ -191,9 +193,9 @@ export default yup.object().shape({
         return words.every(
           (word) =>
             ["at", "of", "and", ""].includes(word) ||
-            word[0] === word[0].toUpperCase()
+            word[0] === word[0].toUpperCase(),
         );
-      }
+      },
     )
     .test(
       "canonical-short-name",
@@ -212,10 +214,10 @@ export default yup.object().shape({
           message: `$$warn$$ field 'short name:'${
             value ? " (currently '" + value + "')" : ""
           } could be changed to one of these names: ['${foundNames.join(
-            "', '"
+            "', '",
           )}']`,
         });
-      }
+      },
     )
     .test(
       "recommended-short-name",
@@ -247,7 +249,7 @@ export default yup.object().shape({
           .map((w) =>
             ["at", "of", "and"].includes(w)
               ? w
-              : w.charAt(0).toUpperCase() + w.slice(1)
+              : w.charAt(0).toUpperCase() + w.slice(1),
           )
           .join(" ");
 
@@ -257,19 +259,19 @@ export default yup.object().shape({
             value ? " (currently '" + value + "')" : ""
           } could be changed to '${name}'`,
         });
-      }
+      },
     ),
   "worst placings dropped": yup
     .number()
     .integer()
-    .notRequired()
-    .when("reverse scoring", (reverse, schema) =>
+    .optional()
+    .when("reverse scoring", ([reverse], schema) =>
       reverse
         ? schema.oneOf([undefined], "no drops with reverse scoring")
-        : schema
+        : schema,
     ),
-  "exempt placings": yup.number().integer().notRequired(),
-  "reverse scoring": yup.boolean().notRequired(),
+  "exempt placings": yup.number().integer().optional(),
+  "reverse scoring": yup.boolean().optional(),
   "maximum place": yup
     .number()
     .integer()
@@ -277,22 +279,22 @@ export default yup.object().shape({
     .test(
       "max-place-in-range",
       "maximum place: larger than team count",
-      (value, context) => (value ? value <= teamCount(context) : true)
+      (value, context) => (value ? value <= teamCount(context) : true),
     )
-    .notRequired()
-    .when("reverse scoring", (reverse, schema) =>
+    .optional()
+    .when("reverse scoring", ([reverse], schema) =>
       reverse
         ? schema.oneOf([undefined], "no max place with reverse scoring")
-        : schema
+        : schema,
     ),
   "per-event n": yup
     .string()
     .oneOf(["place", "participation"])
-    .notRequired()
-    .when("reverse scoring", (reverse, schema) =>
+    .optional()
+    .when("reverse scoring", ([reverse], schema) =>
       reverse
         ? schema.oneOf([undefined], "no per-event n with reverse scoring")
-        : schema
+        : schema,
     ),
   "n offset": yup
     .number()
@@ -300,13 +302,13 @@ export default yup.object().shape({
     .test(
       "n-offset-minimum",
       "n offset is too small",
-      (value, context) => !value || value > -teamCount(context)
+      (value, context) => !value || value > -teamCount(context),
     )
-    .notRequired()
-    .when("reverse scoring", (reverse, schema) =>
+    .optional()
+    .when("reverse scoring", ([reverse], schema) =>
       reverse
         ? schema.oneOf([undefined], "no n offset with reverse scoring")
-        : schema
+        : schema,
     ),
   date: yup
     .mixed<Date | string>()
@@ -319,19 +321,18 @@ export default yup.object().shape({
           return /^\d{4}-[0-1]\d-[0-3]\d$/.test(value);
         }
         return value instanceof Date;
-      }
+      },
     )
-    // @ts-ignore: looks like https://github.com/jquense/yup/issues/1417
-    .when(["start date", "end date"], (start, end, schema) =>
+    .when(["start date", "end date"], ([start, end], schema) =>
       start && end
         ? schema.oneOf(
             [undefined],
-            "field 'date:' does not make sense if start and end dates are provided"
+            "field 'date:' does not make sense if start and end dates are provided",
           )
         : schema.required(
             "You need either a date for the tournament (if it took place in one day) " +
-              "or beginning and end dates (if it took place over the course of multiple days)."
-          )
+              "or beginning and end dates (if it took place over the course of multiple days).",
+          ),
     )
     .test(
       "date-in-season",
@@ -343,7 +344,7 @@ export default yup.object().shape({
         const seasonStart = new Date(season - 1, 7, 15);
         const seasonEnd = new Date(season, 7, 14);
         return date >= seasonStart && date <= seasonEnd;
-      }
+      },
     ),
   "start date": yup
     .mixed<Date | string>()
@@ -356,13 +357,13 @@ export default yup.object().shape({
           return /^\d{4}-[0-1]\d-[0-3]\d$/.test(value);
         }
         return value instanceof Date;
-      }
+      },
     )
     .test(
       "valid-date",
       "start date cannot be set if date is set",
       (value, context) =>
-        !context.parent.date || !value || (context.parent["end date"] && value)
+        !context.parent.date || !value || (context.parent["end date"] && value),
     )
     .test(
       "date-in-season",
@@ -374,9 +375,9 @@ export default yup.object().shape({
         const seasonStart = new Date(season - 1, 7, 15);
         const seasonEnd = new Date(season, 7, 14);
         return date >= seasonStart && date <= seasonEnd;
-      }
+      },
     )
-    .notRequired(),
+    .optional(),
   "end date": yup
     .mixed<Date | string>()
     .test(
@@ -388,7 +389,7 @@ export default yup.object().shape({
           return /^\d{4}-[0-1]\d-[0-3]\d$/.test(value);
         }
         return value instanceof Date;
-      }
+      },
     )
     .test(
       "valid-date",
@@ -396,7 +397,7 @@ export default yup.object().shape({
       (value, context) =>
         !context.parent.date ||
         !value ||
-        (context.parent["start date"] && value)
+        (context.parent["start date"] && value),
     )
     .test(
       "date-in-season",
@@ -408,9 +409,9 @@ export default yup.object().shape({
         const seasonStart = new Date(season - 1, 7, 15);
         const seasonEnd = new Date(season, 7, 14);
         return date >= seasonStart && date <= seasonEnd;
-      }
+      },
     )
-    .notRequired(),
+    .optional(),
   "awards date": yup
     .mixed<Date | string>()
     .test(
@@ -422,7 +423,7 @@ export default yup.object().shape({
           return /^\d{4}-[0-1]\d-[0-3]\d$/.test(value);
         }
         return value instanceof Date;
-      }
+      },
     )
     .test(
       "date-in-season",
@@ -434,8 +435,8 @@ export default yup.object().shape({
         const seasonStart = new Date(season - 1, 7, 15);
         const seasonEnd = new Date(season, 7, 14);
         return date >= seasonStart && date <= seasonEnd;
-      }
+      },
     )
-    .notRequired(),
-  "test release": yup.string().notRequired().url("test release must be a URL"),
+    .optional(),
+  "test release": yup.string().optional().url("test release must be a URL"),
 });

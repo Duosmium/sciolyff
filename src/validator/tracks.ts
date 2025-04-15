@@ -5,7 +5,7 @@ import { root } from "./helpers.js";
 // helper functions
 const teamCount = (context: yup.TestContext, trackName: string) =>
   root(context)["Teams"].filter(
-    (team) => team.track === trackName && !team.exhibition
+    (team) => team.track === trackName && !team.exhibition,
   ).length;
 
 export default yup.object().shape({
@@ -17,19 +17,20 @@ export default yup.object().shape({
       "duplicate track name: ${value}",
       (value, context) =>
         root(context)["Tracks"].filter((track) => track.name === value)
-          .length === 1
+          .length === 1,
     )
     .test(
       "matching-teams",
       "track with 'name: ${value}' has no teams",
       (value, context) =>
-        root(context)["Teams"].filter((team) => team.track === value).length > 0
+        root(context)["Teams"].filter((team) => team.track === value).length >
+        0,
     )
     .test(
       "no-tracks-when-reverse",
       "cannot use reverse scoring with tracks",
       (value: any, context: yup.TestContext) =>
-        !(value && root(context)["Tournament"]["reverse scoring"])
+        !(value && root(context)["Tournament"]["reverse scoring"]),
     )
     .required(),
 
@@ -46,11 +47,11 @@ export default yup.object().shape({
           ? value <=
             Math.min(
               teamCount(context, context.parent.name as string),
-              (context.parent["maximum place"] as number) || Infinity
+              (context.parent["maximum place"] as number) || Infinity,
             )
-          : true
+          : true,
     )
-    .notRequired(),
+    .optional(),
   trophies: yup
     .number()
     .integer()
@@ -60,10 +61,10 @@ export default yup.object().shape({
       (value, context) =>
         value
           ? value <= teamCount(context, context.parent.name as string)
-          : true
+          : true,
     )
     .min(1)
-    .notRequired(),
+    .optional(),
   "maximum place": yup
     .number()
     .integer()
@@ -74,9 +75,9 @@ export default yup.object().shape({
       (value, context) =>
         value
           ? value <= teamCount(context, context.parent.name as string)
-          : true
+          : true,
     )
-    .notRequired(),
+    .optional(),
   "n offset": yup
     .number()
     .integer()
@@ -84,12 +85,12 @@ export default yup.object().shape({
       "n-offset-minimum",
       "n offset is too small",
       (value, context) =>
-        !value || value > -teamCount(context, context.parent.name as string)
+        !value || value > -teamCount(context, context.parent.name as string),
     )
-    .notRequired()
-    .when("reverse scoring", (reverse, schema) =>
+    .optional()
+    .when("reverse scoring", ([reverse], schema) =>
       reverse
         ? schema.oneOf([undefined], "no n offset with reverse scoring")
-        : schema
+        : schema,
     ),
 });

@@ -73,12 +73,12 @@ export default class Placing implements Model<PlacingRep> {
     this.tournament = interpreter.tournament;
 
     this.event = interpreter.events.find(
-      (e) => e.name === this.rep.event
+      (e) => e.name === this.rep.event,
     ) as Event;
     this.team = interpreter.teams.find((t) => t.number === this.rep.team);
 
     this.raw = this.hasRaw
-      ? new Raw(this.rep.raw, this.event.lowScoreWins)
+      ? new Raw(this.rep.raw!, this.event.lowScoreWins)
       : undefined;
 
     this.initiallyConsideredForTeamPoints = !(
@@ -129,13 +129,13 @@ export default class Placing implements Model<PlacingRep> {
           }
 
           const maxPlace = this.event.maximumPlace as number;
-          const n = maxPlace + (this.tournament.nOffset as number);
+          const n = maxPlace + this.tournament.nOffset;
           if (this.disqualified) return n + 2;
           if (this.didNotParticipate || this.unknown) return n + 1;
           if (this.participationOnly) return n;
           return Math.min(
             this.calculatePoints(false),
-            this.interpreter?.isSuperscore ? Infinity : maxPlace
+            this.interpreter?.isSuperscore ? Infinity : maxPlace,
           );
         })();
 
@@ -173,7 +173,7 @@ export default class Placing implements Model<PlacingRep> {
         ?.sort(
           (a, b) =>
             ((a.isolatedPoints as number) - (b.isolatedPoints as number)) *
-            (this.tournament?.reverseScoring ? -1 : 1)
+            (this.tournament?.reverseScoring ? -1 : 1),
         )
         ?.findIndex((p) => p.isolatedPoints === this.isolatedPoints) ?? 0) + 1;
 
@@ -198,7 +198,7 @@ export default class Placing implements Model<PlacingRep> {
           if (this.participationOnly || this.unknown) return n;
           return Math.min(
             this.calculatePoints(true),
-            this.interpreter?.isSuperscore ? Infinity : maxPlace
+            this.interpreter?.isSuperscore ? Infinity : maxPlace,
           );
         })();
 
@@ -268,8 +268,8 @@ export default class Placing implements Model<PlacingRep> {
       this.event?.trial
         ? place
         : this.tournament?.reverseScoring
-        ? (place as number) + this.exhibitionPlacingsBehind(inTrack)
-        : (place as number) - this.exhibitionPlacingsBehind(inTrack)
+          ? (place as number) + this.exhibitionPlacingsBehind(inTrack)
+          : (place as number) - this.exhibitionPlacingsBehind(inTrack)
     ) as number;
   }
 
@@ -283,7 +283,7 @@ export default class Placing implements Model<PlacingRep> {
             p.trackPlace &&
             (this.tournament?.reverseScoring
               ? p.trackPlace > (this.trackPlace as number)
-              : p.trackPlace < (this.trackPlace as number))
+              : p.trackPlace < (this.trackPlace as number)),
         ).length) as number;
     } else {
       return (this.#exhibitionPlacingsBehind ||= this.event?.placings?.filter(
@@ -292,7 +292,7 @@ export default class Placing implements Model<PlacingRep> {
           p.place &&
           (this.tournament?.reverseScoring
             ? p.place > (this.place as number)
-            : p.place < (this.place as number))
+            : p.place < (this.place as number)),
       ).length) as number;
     }
   }
