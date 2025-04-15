@@ -135,7 +135,9 @@ export default class Placing implements Model<PlacingRep> {
 					if (this.participationOnly) return n;
 					return Math.min(
 						this.calculatePoints(false),
-						this.interpreter?.isSuperscore ? Infinity : maxPlace,
+						this.interpreter?.isSuperscore || this.tournament.reverseScoring
+							? Infinity
+							: maxPlace,
 					);
 				})();
 
@@ -198,7 +200,9 @@ export default class Placing implements Model<PlacingRep> {
 					if (this.participationOnly || this.unknown) return n;
 					return Math.min(
 						this.calculatePoints(true),
-						this.interpreter?.isSuperscore ? Infinity : maxPlace,
+						this.interpreter?.isSuperscore || this.tournament.reverseScoring
+							? Infinity
+							: maxPlace,
 					);
 				})();
 
