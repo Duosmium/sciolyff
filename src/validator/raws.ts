@@ -1,10 +1,10 @@
 import * as yup from "yup";
 
 export default yup.object().shape({
-  // required
-  score: yup.number().notOneOf([NaN]).required(),
+	// required
+	score: yup.number().notOneOf([NaN]).required(),
 
-  // optional
-  tier: yup.number().integer().positive().optional(),
-  "tiebreaker rank": yup.number().integer().positive().optional(),
+	// optional
+	tier: yup.number().integer().positive().optional(),
+	"tiebreaker rank": yup.number().integer().positive().optional(),
 });

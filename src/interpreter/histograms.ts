@@ -1,69 +1,69 @@
 import Model from "./model.js";
 import type {
-  HistoRep,
-  HistoDataRep,
-  Interpreter,
-  Tournament,
-  Event,
+	HistoRep,
+	HistoDataRep,
+	Interpreter,
+	Tournament,
+	Event,
 } from "./types.js";
 
 export class HistoData implements Model<HistoDataRep> {
-  rep: HistoDataRep;
+	rep: HistoDataRep;
 
-  // references
-  parent: Histogram;
-  event?: Event;
+	// references
+	parent: Histogram;
+	event?: Event;
 
-  // rep properties
-  start: number;
-  width: number;
-  counts: number[];
-  info?: Record<string, string | number>;
+	// rep properties
+	start: number;
+	width: number;
+	counts: number[];
+	info?: Record<string, string | number>;
 
-  constructor(rep: HistoDataRep, parent: Histogram) {
-    this.rep = rep;
-    this.parent = parent;
+	constructor(rep: HistoDataRep, parent: Histogram) {
+		this.rep = rep;
+		this.parent = parent;
 
-    this.start = rep.start;
-    this.width = rep.width;
-    this.counts = rep.counts;
-    if (rep.info) {
-      this.info = rep.info as Record<string, string | number>;
-    }
-  }
+		this.start = rep.start;
+		this.width = rep.width;
+		this.counts = rep.counts;
+		if (rep.info) {
+			this.info = rep.info as Record<string, string | number>;
+		}
+	}
 
-  link(interpreter: Interpreter): void {
-    this.event = interpreter.events.find(
-      (e) => e.name === this.rep.event
-    ) as Event;
-  }
+	link(interpreter: Interpreter): void {
+		this.event = interpreter.events.find(
+			(e) => e.name === this.rep.event,
+		) as Event;
+	}
 }
 
 export default class Histogram implements Model<HistoRep> {
-  rep: HistoRep;
+	rep: HistoRep;
 
-  // references (access after link)
-  tournament?: Tournament;
+	// references (access after link)
+	tournament?: Tournament;
 
-  // rep properties
-  type: string;
-  url: string | undefined;
-  data?: HistoData[];
+	// rep properties
+	type: string;
+	url: string | undefined;
+	data?: HistoData[];
 
-  constructor(rep: HistoRep) {
-    this.rep = rep;
-    this.type = rep.type;
-    this.url = rep.url;
+	constructor(rep: HistoRep) {
+		this.rep = rep;
+		this.type = rep.type;
+		this.url = rep.url;
 
-    if (this.type === "data") {
-      this.data = [];
-      rep.data?.forEach((data) => {
-        this.data?.push(new HistoData(data, this));
-      });
-    }
-  }
+		if (this.type === "data") {
+			this.data = [];
+			rep.data?.forEach((data) => {
+				this.data?.push(new HistoData(data, this));
+			});
+		}
+	}
 
-  link(interpreter: Interpreter): void {
-    this.tournament = interpreter.tournament;
-  }
+	link(interpreter: Interpreter): void {
+		this.tournament = interpreter.tournament;
+	}
 }

@@ -10,68 +10,68 @@ import { FlatCompat } from "@eslint/eslintrc";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-  allConfig: js.configs.all,
+	baseDirectory: __dirname,
+	recommendedConfig: js.configs.recommended,
+	allConfig: js.configs.all,
 });
 
 export default defineConfig([
-  globalIgnores([
-    "**/node_modules/",
-    "**/dist/",
-    "**/eslint.config.mjs",
-    "**/compare/",
-    "**/.*",
-    "**/tests/",
-  ]),
-  {
-    extends: compat.extends(
-      "eslint:recommended",
-      "plugin:@typescript-eslint/recommended",
-      "plugin:@typescript-eslint/recommended-requiring-type-checking",
-      "prettier",
-    ),
+	globalIgnores([
+		"**/node_modules/",
+		"**/dist/",
+		"**/eslint.config.mjs",
+		"**/compare/",
+		"**/.*",
+		"**/tests/",
+	]),
+	{
+		extends: compat.extends(
+			"eslint:recommended",
+			"plugin:@typescript-eslint/recommended",
+			"plugin:@typescript-eslint/recommended-requiring-type-checking",
+			"prettier",
+		),
 
-    plugins: {
-      "@typescript-eslint": typescriptEslint,
-    },
+		plugins: {
+			"@typescript-eslint": typescriptEslint,
+		},
 
-    languageOptions: {
-      globals: {
-        ...globals.browser,
-        ...globals.node,
-      },
+		languageOptions: {
+			globals: {
+				...globals.browser,
+				...globals.node,
+			},
 
-      parser: tsParser,
-      ecmaVersion: 5,
-      sourceType: "commonjs",
+			parser: tsParser,
+			ecmaVersion: 5,
+			sourceType: "commonjs",
 
-      parserOptions: {
-        tsconfigRootDir: "./",
-        project: ["./tsconfig.json"],
-      },
-    },
+			parserOptions: {
+				tsconfigRootDir: "./",
+				project: ["./tsconfig.json"],
+			},
+		},
 
-    rules: {
-      "@typescript-eslint/ban-ts-comment": [
-        "error",
-        {
-          "ts-ignore": "allow-with-description",
-        },
-      ],
-    },
-  },
-  {
-    files: ["src/validator/**/*"],
-    ignores: ["src/validator/index.ts", "src/validator/canonical.ts"],
+		rules: {
+			"@typescript-eslint/ban-ts-comment": [
+				"error",
+				{
+					"ts-ignore": "allow-with-description",
+				},
+			],
+		},
+	},
+	{
+		files: ["src/validator/**/*"],
+		ignores: ["src/validator/index.ts", "src/validator/canonical.ts"],
 
-    rules: {
-      "@typescript-eslint/no-explicit-any": "off",
-      "@typescript-eslint/no-unsafe-member-access": "off",
-      "@typescript-eslint/no-unsafe-call": "off",
-      "@typescript-eslint/no-unsafe-return": "off",
-      "@typescript-eslint/no-unsafe-assignment": "off",
-      "@typescript-eslint/restrict-template-expressions": "off",
-    },
-  },
+		rules: {
+			"@typescript-eslint/no-explicit-any": "off",
+			"@typescript-eslint/no-unsafe-member-access": "off",
+			"@typescript-eslint/no-unsafe-call": "off",
+			"@typescript-eslint/no-unsafe-return": "off",
+			"@typescript-eslint/no-unsafe-assignment": "off",
+			"@typescript-eslint/restrict-template-expressions": "off",
+		},
+	},
 ]);

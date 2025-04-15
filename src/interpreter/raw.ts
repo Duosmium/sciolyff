@@ -1,48 +1,48 @@
 import type { RawRep } from "./types.js";
 
 export default class Raw {
-  rep: RawRep;
-  lowScoreWins: boolean;
+	rep: RawRep;
+	lowScoreWins: boolean;
 
-  score: number;
-  tiered: boolean;
-  tier: number;
-  lostTiebreaker: boolean;
-  tiebreakerRank: number;
+	score: number;
+	tiered: boolean;
+	tier: number;
+	lostTiebreaker: boolean;
+	tiebreakerRank: number;
 
-  constructor(rep: RawRep, lowScoreWins: boolean) {
-    this.rep = rep;
-    this.lowScoreWins = lowScoreWins;
+	constructor(rep: RawRep, lowScoreWins: boolean) {
+		this.rep = rep;
+		this.lowScoreWins = lowScoreWins;
 
-    this.score = rep.score;
-    this.tier = rep.tier ?? 1;
-    this.tiered = this.tier > 1;
-    this.tiebreakerRank = rep["tiebreaker rank"] ?? 1;
-    this.lostTiebreaker = this.tiebreakerRank > 1;
-  }
+		this.score = rep.score;
+		this.tier = rep.tier ?? 1;
+		this.tiered = this.tier > 1;
+		this.tiebreakerRank = rep["tiebreaker rank"] ?? 1;
+		this.lostTiebreaker = this.tiebreakerRank > 1;
+	}
 
-  // `this` is not an actual parameter, but it's used to correctly
-  // type the `this` object thingy (which isn't used)
-  static sortKey(this: void, a: Raw, b: Raw): number {
-    if (a.lowScoreWins !== b.lowScoreWins) {
-      throw new Error("raw comparisons must use the same score ordering");
-    }
+	// `this` is not an actual parameter, but it's used to correctly
+	// type the `this` object thingy (which isn't used)
+	static sortKey(this: void, a: Raw, b: Raw): number {
+		if (a.lowScoreWins !== b.lowScoreWins) {
+			throw new Error("raw comparisons must use the same score ordering");
+		}
 
-    // sort first by tier, then score, then tiebreaker rank
-    // default sort is ascending so we flip the order of score if high score wins
-    return (
-      a.tier - b.tier ||
-      (a.lowScoreWins ? a.score - b.score : b.score - a.score) ||
-      a.tiebreakerRank - b.tiebreakerRank
-    );
-  }
+		// sort first by tier, then score, then tiebreaker rank
+		// default sort is ascending so we flip the order of score if high score wins
+		return (
+			a.tier - b.tier ||
+			(a.lowScoreWins ? a.score - b.score : b.score - a.score) ||
+			a.tiebreakerRank - b.tiebreakerRank
+		);
+	}
 
-  // not actually an operator overload but just for convienience
-  static eq(a: Raw, b: Raw): boolean {
-    return (
-      a.score === b.score &&
-      a.tier === b.tier &&
-      a.tiebreakerRank === b.tiebreakerRank
-    );
-  }
+	// not actually an operator overload but just for convienience
+	static eq(a: Raw, b: Raw): boolean {
+		return (
+			a.score === b.score &&
+			a.tier === b.tier &&
+			a.tiebreakerRank === b.tiebreakerRank
+		);
+	}
 }

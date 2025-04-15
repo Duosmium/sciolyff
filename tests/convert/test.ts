@@ -10,23 +10,23 @@ import { load } from "js-yaml";
 const casesDir = "tests/convert/cases/";
 
 const testCases = fsSync
-  .readdirSync(casesDir, "utf-8")
-  .map((f) => casesDir + f)
-  .filter((f) => f.endsWith(".csv"));
+	.readdirSync(casesDir, "utf-8")
+	.map((f) => casesDir + f)
+	.filter((f) => f.endsWith(".csv"));
 
 for (const testCase of testCases) {
-  const name = basename(testCase, ".csv");
-  test("convert: " + name, async (t) => {
-    const csvData = await fs.readFile(testCase, "utf8");
+	const name = basename(testCase, ".csv");
+	test("convert: " + name, async (t) => {
+		const csvData = await fs.readFile(testCase, "utf8");
 
-    const expected = load(
-      await fs.readFile(testCase.replace(".csv", ".yaml"), "utf8")
-    );
+		const expected = load(
+			await fs.readFile(testCase.replace(".csv", ".yaml"), "utf8"),
+		);
 
-    const markTies = name.startsWith("ties");
+		const markTies = name.startsWith("ties");
 
-    const actual = load(csvToSciolyFF(csvData, markTies));
+		const actual = load(csvToSciolyFF(csvData, markTies));
 
-    t.deepEqual(actual, expected);
-  });
+		t.deepEqual(actual, expected);
+	});
 }

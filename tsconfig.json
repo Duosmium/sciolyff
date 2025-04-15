@@ -1,22 +1,22 @@
 {
-  "compilerOptions": {
-    "target": "ESNext",
-    "module": "NodeNext",
-    "moduleResolution": "nodenext",
-    "declaration": true,
-    "outDir": "./dist",
-    "strict": true,
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "lib": ["es2021"],
-    "strictNullChecks": true,
-    "strictFunctionTypes": false
-  },
-  "tsimp": {
-    "compilerOptions": {
-      "strict": false
-    }
-  },
-  "include": ["src", "bin"]
-  // "exclude": ["node_modules", "dist", "compare", "tests"]
+	"compilerOptions": {
+		"target": "ESNext",
+		"module": "NodeNext",
+		"moduleResolution": "nodenext",
+		"declaration": true,
+		"outDir": "./dist",
+		"strict": true,
+		"resolveJsonModule": true,
+		"esModuleInterop": true,
+		"lib": ["es2021"],
+		"strictNullChecks": true,
+		"strictFunctionTypes": false
+	},
+	"tsimp": {
+		"compilerOptions": {
+			"strict": false
+		}
+	},
+	"include": ["src", "bin"]
+	// "exclude": ["node_modules", "dist", "compare", "tests"]
 }

@@ -20,16 +20,16 @@ export type HistoRep = InferType<typeof histoSchema>;
 export type HistoDataRep = InferType<typeof histoData>;
 
 export interface SciOlyFF {
-  superscore?: boolean;
+	superscore?: boolean;
 
-  Tournament: TournamentRep;
-  Events: EventRep[];
-  Teams: TeamRep[];
-  Placings: PlacingRep[];
+	Tournament: TournamentRep;
+	Events: EventRep[];
+	Teams: TeamRep[];
+	Placings: PlacingRep[];
 
-  Tracks: TrackRep[];
-  Penalties: PenaltyRep[];
-  Histograms?: HistoRep;
+	Tracks: TrackRep[];
+	Penalties: PenaltyRep[];
+	Histograms?: HistoRep;
 }
 
 import type InterpreterClass from "./index.js";
