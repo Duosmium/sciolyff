@@ -15,7 +15,6 @@ import trackSchema from "./tracks.js";
 import penaltySchema from "./penalties.js";
 import histoSchema from "./histograms.js";
 
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 export const sciolyffSchema = yup.object().shape({
   // required
   Tournament: tournamentSchema.required(),
@@ -31,7 +30,6 @@ export const sciolyffSchema = yup.object().shape({
   // for internal use
   superscore: yup.boolean().optional(),
 });
-/* eslint-enable @typescript-eslint/no-unsafe-assignment */
 
 interface SciolyFFError {
   warning: boolean;
