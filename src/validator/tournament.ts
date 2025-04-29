@@ -126,14 +126,34 @@ export default yup.object().shape({
 		)
 		.optional(),
 	bids: yup
-		.number()
-		.integer()
-		.positive()
-		.min(1)
+		.mixed<number | number[]>()
+		.test(
+			"bids-number",
+			"bids: must be an integer >=1 or a list of team numbers",
+			(value) =>
+				value
+					? typeof value == "number"
+						? Math.round(value) === value && value >= 1
+						: Array.isArray(value) && value.every((t) => typeof t == "number")
+					: true,
+		)
 		.test(
 			"bids-in-range",
 			"bids: larger than school count",
-			(value, context) => (value ? value <= schoolsCount(context) : true),
+			(value, context) =>
+				value && typeof value == "number"
+					? value <= schoolsCount(context)
+					: true,
+		)
+		.test(
+			"bids-teams",
+			"bids: contains invalid team number",
+			(value, context) =>
+				Array.isArray(value)
+					? value.every((t) =>
+							root(context)["Teams"].some((team) => team.number === t),
+						)
+					: true,
 		)
 		.when("level", ([level]: [CompetitionLevel], schema) =>
 			// bids invalid for invitationals/nationals
@@ -152,7 +172,7 @@ export default yup.object().shape({
 		.integer()
 		.positive()
 		.when("bids", ([bids], schema) =>
-			bids !== undefined && bids !== null
+			bids !== undefined && bids !== null && typeof bids === "number"
 				? schema.optional()
 				: schema.oneOf(
 						[undefined],

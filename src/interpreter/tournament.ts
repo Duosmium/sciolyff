@@ -28,7 +28,7 @@ export default class Tournament implements Model<TournamentRep> {
 	state?: string;
 	medals?: number;
 	trophies?: number;
-	bids: number;
+	bids: number | number[];
 	bidsPerSchool: number;
 	shortName?: string;
 	worstPlacingsDropped: number;

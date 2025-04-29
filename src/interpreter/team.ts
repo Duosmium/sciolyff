@@ -248,12 +248,16 @@ export default class Team implements Model<TeamRep> {
 		if (!this.tournament) {
 			throw new Error("things are undefined");
 		}
-		this.earnedBid = (() => {
+		if (typeof this.tournament.bids === "number") {
 			const rank = this.tournament.teamsEligibleForBids?.findIndex(
 				(t) => t === this,
 			);
-			return rank !== undefined && rank !== -1 && rank < this.tournament.bids;
-		})();
+			this.earnedBid = rank !== -1 && rank < this.tournament.bids;
+		} else if (Array.isArray(this.tournament.bids)) {
+			this.earnedBid = this.tournament.bids.includes(this.number);
+		} else {
+			this.earnedBid = false;
+		}
 	}
 
 	placingFor(event: Event): Placing | undefined {
