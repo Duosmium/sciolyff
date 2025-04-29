@@ -33,8 +33,9 @@ Tournament:
   trophies: 1 # trophies awarded to this many of the top teams overall
   medals: 1 # medals (or ribbons) awarded to this many teams per event
   # next two lines are only for level Regionals and States
-  # bids: 0  # number of schools/teams advancing to next level of competition
-  # bids per school: 1  # the number of the above bids that can go to same school
+  # bids: 2  # number of schools/teams advancing to next level of competition
+  # bids per school: 1  # the number of the above bids that can go to same school (default 1)
+  # bids: [32, 58]  # alternatively, specify the team numbers of advancing teams
 
   # test release: https://example.com/tests/  # optional link to public tests
 
