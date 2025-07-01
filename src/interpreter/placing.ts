@@ -131,8 +131,9 @@ export default class Placing implements Model<PlacingRep> {
 					const maxPlace = this.event.maximumPlace as number;
 					const n = maxPlace + this.tournament.nOffset;
 					if (this.disqualified) return n + 2;
-					if (this.didNotParticipate || this.unknown) return n + 1;
+					if (this.didNotParticipate) return n + 1;
 					if (this.participationOnly) return n;
+					if (this.unknown) return maxPlace;
 					return Math.min(
 						this.calculatePoints(false),
 						this.interpreter?.isSuperscore || this.tournament.reverseScoring
@@ -197,7 +198,8 @@ export default class Placing implements Model<PlacingRep> {
 					const n = maxPlace + (this.team.track.nOffset as number);
 					if (this.disqualified) return n + 2;
 					if (this.didNotParticipate) return n + 1;
-					if (this.participationOnly || this.unknown) return n;
+					if (this.participationOnly) return n;
+					if (this.unknown) return maxPlace;
 					return Math.min(
 						this.calculatePoints(true),
 						this.interpreter?.isSuperscore || this.tournament.reverseScoring
