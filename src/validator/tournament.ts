@@ -365,6 +365,15 @@ export default yup.object().shape({
 				const seasonEnd = new Date(season, 7, 14);
 				return date >= seasonStart && date <= seasonEnd;
 			},
+		)
+		.test(
+			"date-is-weekend",
+			"$$warn$$ field 'date:' is not a weekend",
+			(value) => {
+				if (!value) return true;
+				const day = new Date(value).getUTCDay();
+				return day === 0 || day === 6;
+			},
 		),
 	"start date": yup
 		.mixed<Date | string>()
@@ -395,6 +404,15 @@ export default yup.object().shape({
 				const seasonStart = new Date(season - 1, 7, 15);
 				const seasonEnd = new Date(season, 7, 14);
 				return date >= seasonStart && date <= seasonEnd;
+			},
+		)
+		.test(
+			"date-is-weekend",
+			"$$warn$$ field 'start date:' is not a weekend",
+			(value) => {
+				if (!value) return true;
+				const day = new Date(value).getUTCDay();
+				return day === 0 || day === 6;
 			},
 		)
 		.optional(),
@@ -431,6 +449,15 @@ export default yup.object().shape({
 				return date >= seasonStart && date <= seasonEnd;
 			},
 		)
+		.test(
+			"date-is-weekend",
+			"$$warn$$ field 'end date:' is not a weekend",
+			(value) => {
+				if (!value) return true;
+				const day = new Date(value).getUTCDay();
+				return day === 0 || day === 6;
+			},
+		)
 		.optional(),
 	"awards date": yup
 		.mixed<Date | string>()
@@ -455,6 +482,15 @@ export default yup.object().shape({
 				const seasonStart = new Date(season - 1, 7, 15);
 				const seasonEnd = new Date(season, 7, 14);
 				return date >= seasonStart && date <= seasonEnd;
+			},
+		)
+		.test(
+			"date-is-weekend",
+			"$$warn$$ field 'awards date:' is not a weekend",
+			(value) => {
+				if (!value) return true;
+				const day = new Date(value).getUTCDay();
+				return day === 0 || day === 6;
 			},
 		)
 		.optional(),
