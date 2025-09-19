@@ -172,7 +172,7 @@ export default class Interpreter {
 		return teams.sort((a, b) => {
 			const aPoints = a[key];
 			const bPoints = b[key];
-			if (!aPoints || !bPoints) return 0;
+			if (aPoints === undefined || bPoints === undefined) return 0;
 			const cmp =
 				(aPoints - bPoints) * (this.tournament.reverseScoring ? -1 : 1);
 			return cmp !== 0 ? cmp : this.breakTie(a, b, track);
@@ -198,7 +198,7 @@ export default class Interpreter {
 		const key = track ? "trackTrialEventPoints" : "trialEventPoints";
 		const aPoints = a[key];
 		const bPoints = b[key];
-		if (!aPoints || !bPoints) return 0;
+		if (aPoints === undefined || bPoints === undefined) return 0;
 		const cmp = aPoints - bPoints;
 		return cmp !== 0 ? cmp : this.breakThirdTie(a, b, track);
 	}

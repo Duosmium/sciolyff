@@ -227,7 +227,7 @@ export function genPlacings(
 	// shift placings down for exhibition teams (fixes fake ties)
 	// does not work if there are actual ties in placings
 	if (teams.some((t) => t.exhibition)) {
-		const nonPlacePlacings = placings.filter((p) => !p.place);
+		const nonPlacePlacings = placings.filter((p) => p.place === undefined);
 		placings = [
 			// convert placings to an array of an array of placings, by event
 			...placings
