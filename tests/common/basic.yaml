@@ -12,6 +12,10 @@ Tournament:
   medals: 2
   trophies: 1
   bids: 1
+  n offset: 1
+  po offset: -1
+  ns offset: 0
+  dq offset: 1
 Events:
   - name: Anatomy and Physiology
   - name: Disease Detectives
