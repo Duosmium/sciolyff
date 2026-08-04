@@ -29,6 +29,10 @@ Tournament:
   per-event n: place # either "place" or "participated", adjusts where n starts
   # next line is optional if zero
   n offset: 0 # points to add to standard PO, NS, and DQ point values
+  # next 3 lines are optional - default values shown; applies on top of n offset
+  po offset: 0 # default 1 when reverse scoring (adds to 0)
+  ns offset: 1 # default 0 when reverse scoring
+  dq offset: 2 # default 0 when reverse scoring
   # next two lines are optional, will be automatically scaled to # of teams
   trophies: 1 # trophies awarded to this many of the top teams overall
   medals: 1 # medals (or ribbons) awarded to this many teams per event
@@ -112,9 +116,9 @@ Placings:
 
 # Penalties section is optional if no penalties were given to any teams
 Penalties:
-  # Entries are here are optional if a team did not receive penalties
+  # Entries are here are optional if a team did not receive penalties (or score adjustments)
   - team: 58 # a number of a team listed in Teams
-    points: 0 # the number points to be added to the team score, >= 0
+    points: 0 # the number points to be added to the team score, can be positive or negative
 
 # Histograms section is optional if histograms were not provided, or if raw scoring is used
 Histograms:
