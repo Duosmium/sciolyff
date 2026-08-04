@@ -197,10 +197,10 @@ Teams:
 Placings:
   - team: 1
     event: Bio Process Lab
-    place: 1
+    participated: true
   - team: 1
     event: Bottle Rockets
-    place: 1
+    participated: true
   - team: 1
     event: Bungee Egg Drop
     place: 37
@@ -209,7 +209,7 @@ Placings:
     place: 37
   - team: 1
     event: Cell Biology
-    place: 1
+    participated: true
   - team: 1
     event: Chemistry Lab
     place: 12
@@ -240,10 +240,10 @@ Placings:
     place: 31
   - team: 1
     event: Reach for the Stars
-    place: 1
+    participated: true
   - team: 1
     event: Redesigned Genes
-    place: 1
+    participated: true
   - team: 1
     event: Road Scholar
     place: 5
@@ -264,13 +264,13 @@ Placings:
     place: 26
   - team: 1
     event: Write It Do It
-    place: 1
+    participated: true
   - team: 2
     event: Bio Process Lab
-    place: 1
+    participated: true
   - team: 2
     event: Bottle Rockets
-    place: 1
+    participated: true
   - team: 2
     event: Bungee Egg Drop
     place: 7
@@ -288,16 +288,16 @@ Placings:
     place: 29
   - team: 2
     event: Earth, Sea, & Sky
-    place: 1
+    participated: true
   - team: 2
     event: Experimental Design
-    place: 1
+    participated: true
   - team: 2
     event: Mission Possible
-    place: 1
+    participated: true
   - team: 2
     event: Nature Quest
-    place: 1
+    participated: true
   - team: 2
     event: Physics Lab
     place: 27
@@ -306,7 +306,7 @@ Placings:
     place: 4
   - team: 2
     event: Practical Data Gathering
-    place: 1
+    participated: true
   - team: 2
     event: Reach for the Stars
     place: 16
@@ -321,7 +321,7 @@ Placings:
     place: 8
   - team: 2
     event: Scrambler
-    place: 1
+    participated: true
   - team: 2
     event: Surfing the Net
     place: 7
@@ -339,22 +339,22 @@ Placings:
     place: 6
   - team: 3
     event: Bottle Rockets
-    place: 1
+    participated: true
   - team: 3
     event: Bungee Egg Drop
     place: 4
   - team: 3
     event: Can't Judge a Powder
-    place: 1
+    participated: true
   - team: 3
     event: Cell Biology
     place: 32
   - team: 3
     event: Chemistry Lab
-    place: 1
+    participated: true
   - team: 3
     event: Don't Bug Me
-    place: 1
+    participated: true
   - team: 3
     event: Earth, Sea, & Sky
     place: 26
@@ -369,16 +369,16 @@ Placings:
     place: 24
   - team: 3
     event: Physics Lab
-    place: 1
+    participated: true
   - team: 3
     event: Polymer Detective
-    place: 1
+    participated: true
   - team: 3
     event: Practical Data Gathering
     place: 19
   - team: 3
     event: Reach for the Stars
-    place: 1
+    participated: true
   - team: 3
     event: Redesigned Genes
     place: 15
@@ -396,10 +396,10 @@ Placings:
     place: 6
   - team: 3
     event: Towers
-    place: 1
+    participated: true
   - team: 3
     event: Water Quality
-    place: 1
+    participated: true
   - team: 3
     event: Write It Do It
     place: 21
@@ -429,7 +429,7 @@ Placings:
     place: 16
   - team: 4
     event: Experimental Design
-    place: 1
+    participated: true
   - team: 4
     event: Mission Possible
     place: 8
@@ -438,16 +438,16 @@ Placings:
     place: 6
   - team: 4
     event: Physics Lab
-    place: 1
+    participated: true
   - team: 4
     event: Polymer Detective
-    place: 1
+    participated: true
   - team: 4
     event: Practical Data Gathering
     place: 30
   - team: 4
     event: Reach for the Stars
-    place: 1
+    participated: true
   - team: 4
     event: Redesigned Genes
     place: 12
@@ -456,13 +456,13 @@ Placings:
     place: 28
   - team: 4
     event: Science Clue
-    place: 1
+    participated: true
   - team: 4
     event: Scrambler
-    place: 1
+    participated: true
   - team: 4
     event: Surfing the Net
-    place: 1
+    participated: true
   - team: 4
     event: Towers
     place: 27
@@ -483,7 +483,7 @@ Placings:
     place: 29
   - team: 5
     event: Can't Judge a Powder
-    place: 1
+    participated: true
   - team: 5
     event: Cell Biology
     place: 2
@@ -528,7 +528,7 @@ Placings:
     place: 33
   - team: 5
     event: Scrambler
-    place: 1
+    participated: true
   - team: 5
     event: Surfing the Net
     place: 33
@@ -540,34 +540,34 @@ Placings:
     place: 11
   - team: 5
     event: Write It Do It
-    place: 1
+    participated: true
   - team: 6
     event: Bio Process Lab
-    place: 1
+    participated: true
   - team: 6
     event: Bottle Rockets
-    place: 1
+    participated: true
   - team: 6
     event: Bungee Egg Drop
-    place: 1
+    participated: true
   - team: 6
     event: Can't Judge a Powder
-    place: 1
+    participated: true
   - team: 6
     event: Cell Biology
-    place: 1
+    participated: true
   - team: 6
     event: Chemistry Lab
-    place: 1
+    participated: true
   - team: 6
     event: Don't Bug Me
-    place: 1
+    participated: true
   - team: 6
     event: Earth, Sea, & Sky
     place: 31
   - team: 6
     event: Experimental Design
-    place: 1
+    participated: true
   - team: 6
     event: Mission Possible
     place: 18
@@ -576,10 +576,10 @@ Placings:
     place: 8
   - team: 6
     event: Physics Lab
-    place: 1
+    participated: true
   - team: 6
     event: Polymer Detective
-    place: 1
+    participated: true
   - team: 6
     event: Practical Data Gathering
     place: 18
@@ -588,22 +588,22 @@ Placings:
     place: 19
   - team: 6
     event: Redesigned Genes
-    place: 1
+    participated: true
   - team: 6
     event: Road Scholar
-    place: 1
+    participated: true
   - team: 6
     event: Science Clue
     place: 20
   - team: 6
     event: Scrambler
-    place: 1
+    participated: true
   - team: 6
     event: Surfing the Net
-    place: 1
+    participated: true
   - team: 6
     event: Towers
-    place: 1
+    participated: true
   - team: 6
     event: Water Quality
     place: 23
@@ -618,7 +618,7 @@ Placings:
     place: 2
   - team: 7
     event: Bungee Egg Drop
-    place: 1
+    participated: true
   - team: 7
     event: Can't Judge a Powder
     place: 18
@@ -670,16 +670,16 @@ Placings:
     place: 20
   - team: 7
     event: Surfing the Net
-    place: 1
+    participated: true
   - team: 7
     event: Towers
-    place: 1
+    participated: true
   - team: 7
     event: Water Quality
     place: 13
   - team: 7
     event: Write It Do It
-    place: 1
+    participated: true
   - team: 8
     event: Bio Process Lab
     place: 11
@@ -691,7 +691,7 @@ Placings:
     place: 10
   - team: 8
     event: Can't Judge a Powder
-    place: 1
+    participated: true
   - team: 8
     event: Cell Biology
     place: 20
@@ -703,7 +703,7 @@ Placings:
     place: 20
   - team: 8
     event: Earth, Sea, & Sky
-    place: 1
+    participated: true
   - team: 8
     event: Experimental Design
     place: 21
@@ -748,13 +748,13 @@ Placings:
     place: 21
   - team: 8
     event: Write It Do It
-    place: 1
+    participated: true
   - team: 9
     event: Bio Process Lab
-    place: 1
+    participated: true
   - team: 9
     event: Bottle Rockets
-    place: 1
+    participated: true
   - team: 9
     event: Bungee Egg Drop
     place: 22
@@ -763,19 +763,19 @@ Placings:
     place: 4
   - team: 9
     event: Cell Biology
-    place: 1
+    participated: true
   - team: 9
     event: Chemistry Lab
-    place: 1
+    participated: true
   - team: 9
     event: Don't Bug Me
-    place: 1
+    participated: true
   - team: 9
     event: Earth, Sea, & Sky
     place: 23
   - team: 9
     event: Experimental Design
-    place: 1
+    participated: true
   - team: 9
     event: Mission Possible
     place: 25
@@ -784,25 +784,25 @@ Placings:
     place: 10
   - team: 9
     event: Physics Lab
-    place: 1
+    participated: true
   - team: 9
     event: Polymer Detective
-    place: 1
+    participated: true
   - team: 9
     event: Practical Data Gathering
     place: 38
   - team: 9
     event: Reach for the Stars
-    place: 1
+    participated: true
   - team: 9
     event: Redesigned Genes
-    place: 1
+    participated: true
   - team: 9
     event: Road Scholar
-    place: 1
+    participated: true
   - team: 9
     event: Science Clue
-    place: 1
+    participated: true
   - team: 9
     event: Scrambler
     place: 21
@@ -814,13 +814,13 @@ Placings:
     place: 6
   - team: 9
     event: Water Quality
-    place: 1
+    participated: true
   - team: 9
     event: Write It Do It
     place: 27
   - team: 10
     event: Bio Process Lab
-    place: 1
+    participated: true
   - team: 10
     event: Bottle Rockets
     place: 10
@@ -832,7 +832,7 @@ Placings:
     place: 3
   - team: 10
     event: Cell Biology
-    place: 1
+    participated: true
   - team: 10
     event: Chemistry Lab
     place: 17
@@ -844,16 +844,16 @@ Placings:
     place: 24
   - team: 10
     event: Experimental Design
-    place: 1
+    participated: true
   - team: 10
     event: Mission Possible
-    place: 1
+    participated: true
   - team: 10
     event: Nature Quest
     place: 15
   - team: 10
     event: Physics Lab
-    place: 1
+    participated: true
   - team: 10
     event: Polymer Detective
     place: 10
@@ -865,19 +865,19 @@ Placings:
     place: 24
   - team: 10
     event: Redesigned Genes
-    place: 1
+    participated: true
   - team: 10
     event: Road Scholar
     place: 7
   - team: 10
     event: Science Clue
-    place: 1
+    participated: true
   - team: 10
     event: Scrambler
     place: 22
   - team: 10
     event: Surfing the Net
-    place: 1
+    participated: true
   - team: 10
     event: Towers
     place: 31
@@ -886,7 +886,7 @@ Placings:
     place: 3
   - team: 10
     event: Write It Do It
-    place: 1
+    participated: true
   - team: 11
     event: Bio Process Lab
     place: 10
@@ -971,16 +971,16 @@ Placings:
     place: 13
   - team: 12
     event: Cell Biology
-    place: 1
+    participated: true
   - team: 12
     event: Chemistry Lab
     place: 20
   - team: 12
     event: Don't Bug Me
-    place: 1
+    participated: true
   - team: 12
     event: Earth, Sea, & Sky
-    place: 1
+    participated: true
   - team: 12
     event: Experimental Design
     place: 14
@@ -992,10 +992,10 @@ Placings:
     place: 19
   - team: 12
     event: Physics Lab
-    place: 1
+    participated: true
   - team: 12
     event: Polymer Detective
-    place: 1
+    participated: true
   - team: 12
     event: Practical Data Gathering
     place: 34
@@ -1010,37 +1010,37 @@ Placings:
     place: 8
   - team: 12
     event: Science Clue
-    place: 1
+    participated: true
   - team: 12
     event: Scrambler
     place: 27
   - team: 12
     event: Surfing the Net
-    place: 1
+    participated: true
   - team: 12
     event: Towers
     place: 34
   - team: 12
     event: Water Quality
-    place: 1
+    participated: true
   - team: 12
     event: Write It Do It
-    place: 1
+    participated: true
   - team: 13
     event: Bio Process Lab
-    place: 1
+    participated: true
   - team: 13
     event: Bottle Rockets
     place: 16
   - team: 13
     event: Bungee Egg Drop
-    place: 1
+    participated: true
   - team: 13
     event: Can't Judge a Powder
     place: 23
   - team: 13
     event: Cell Biology
-    place: 1
+    participated: true
   - team: 13
     event: Chemistry Lab
     place: 6
@@ -1049,7 +1049,7 @@ Placings:
     place: 3
   - team: 13
     event: Earth, Sea, & Sky
-    place: 1
+    participated: true
   - team: 13
     event: Experimental Design
     place: 30
@@ -1058,7 +1058,7 @@ Placings:
     place: 20
   - team: 13
     event: Nature Quest
-    place: 1
+    participated: true
   - team: 13
     event: Physics Lab
     place: 26
@@ -1067,19 +1067,19 @@ Placings:
     place: 6
   - team: 13
     event: Practical Data Gathering
-    place: 1
+    participated: true
   - team: 13
     event: Reach for the Stars
-    place: 1
+    participated: true
   - team: 13
     event: Redesigned Genes
-    place: 1
+    participated: true
   - team: 13
     event: Road Scholar
-    place: 1
+    participated: true
   - team: 13
     event: Science Clue
-    place: 1
+    participated: true
   - team: 13
     event: Scrambler
     place: 13
@@ -1088,19 +1088,19 @@ Placings:
     place: 14
   - team: 13
     event: Towers
-    place: 1
+    participated: true
   - team: 13
     event: Water Quality
-    place: 1
+    participated: true
   - team: 13
     event: Write It Do It
-    place: 1
+    participated: true
   - team: 14
     event: Bio Process Lab
     place: 8
   - team: 14
     event: Bottle Rockets
-    place: 1
+    participated: true
   - team: 14
     event: Bungee Egg Drop
     place: 12
@@ -1118,7 +1118,7 @@ Placings:
     place: 26
   - team: 14
     event: Earth, Sea, & Sky
-    place: 1
+    participated: true
   - team: 14
     event: Experimental Design
     place: 25
@@ -1127,7 +1127,7 @@ Placings:
     place: 31
   - team: 14
     event: Nature Quest
-    place: 1
+    participated: true
   - team: 14
     event: Physics Lab
     place: 29
@@ -1139,7 +1139,7 @@ Placings:
     place: 22
   - team: 14
     event: Reach for the Stars
-    place: 1
+    participated: true
   - team: 14
     event: Redesigned Genes
     place: 13
@@ -1154,7 +1154,7 @@ Placings:
     place: 34
   - team: 14
     event: Surfing the Net
-    place: 1
+    participated: true
   - team: 14
     event: Towers
     place: 9
@@ -1172,10 +1172,10 @@ Placings:
     place: 5
   - team: 15
     event: Bungee Egg Drop
-    place: 1
+    participated: true
   - team: 15
     event: Can't Judge a Powder
-    place: 1
+    participated: true
   - team: 15
     event: Cell Biology
     place: 30
@@ -1208,7 +1208,7 @@ Placings:
     place: 8
   - team: 15
     event: Reach for the Stars
-    place: 1
+    participated: true
   - team: 15
     event: Redesigned Genes
     place: 9
@@ -1226,7 +1226,7 @@ Placings:
     place: 16
   - team: 15
     event: Towers
-    place: 1
+    participated: true
   - team: 15
     event: Water Quality
     place: 22
@@ -1256,16 +1256,16 @@ Placings:
     place: 17
   - team: 16
     event: Earth, Sea, & Sky
-    place: 1
+    participated: true
   - team: 16
     event: Experimental Design
-    place: 1
+    participated: true
   - team: 16
     event: Mission Possible
-    place: 1
+    participated: true
   - team: 16
     event: Nature Quest
-    place: 1
+    participated: true
   - team: 16
     event: Physics Lab
     place: 24
@@ -1286,16 +1286,16 @@ Placings:
     place: 13
   - team: 16
     event: Science Clue
-    place: 1
+    participated: true
   - team: 16
     event: Scrambler
-    place: 1
+    participated: true
   - team: 16
     event: Surfing the Net
-    place: 1
+    participated: true
   - team: 16
     event: Towers
-    place: 1
+    participated: true
   - team: 16
     event: Water Quality
     place: 12
@@ -1304,19 +1304,19 @@ Placings:
     place: 24
   - team: 17
     event: Bio Process Lab
-    place: 1
+    participated: true
   - team: 17
     event: Bottle Rockets
     place: 23
   - team: 17
     event: Bungee Egg Drop
-    place: 1
+    participated: true
   - team: 17
     event: Can't Judge a Powder
-    place: 1
+    participated: true
   - team: 17
     event: Cell Biology
-    place: 1
+    participated: true
   - team: 17
     event: Chemistry Lab
     place: 32
@@ -1334,10 +1334,10 @@ Placings:
     place: 12
   - team: 17
     event: Nature Quest
-    place: 1
+    participated: true
   - team: 17
     event: Physics Lab
-    place: 1
+    participated: true
   - team: 17
     event: Polymer Detective
     place: 38
@@ -1349,19 +1349,19 @@ Placings:
     place: 23
   - team: 17
     event: Redesigned Genes
-    place: 1
+    participated: true
   - team: 17
     event: Road Scholar
     place: 9
   - team: 17
     event: Science Clue
-    place: 1
+    participated: true
   - team: 17
     event: Scrambler
-    place: 1
+    participated: true
   - team: 17
     event: Surfing the Net
-    place: 1
+    participated: true
   - team: 17
     event: Towers
     place: 39
@@ -1370,7 +1370,7 @@ Placings:
     place: 4
   - team: 17
     event: Write It Do It
-    place: 1
+    participated: true
   - team: 18
     event: Bio Process Lab
     place: 20
@@ -1379,7 +1379,7 @@ Placings:
     place: 29
   - team: 18
     event: Bungee Egg Drop
-    place: 1
+    participated: true
   - team: 18
     event: Can't Judge a Powder
     place: 38
@@ -1400,10 +1400,10 @@ Placings:
     place: 26
   - team: 18
     event: Mission Possible
-    place: 1
+    participated: true
   - team: 18
     event: Nature Quest
-    place: 1
+    participated: true
   - team: 18
     event: Physics Lab
     place: 40
@@ -1415,22 +1415,22 @@ Placings:
     place: 14
   - team: 18
     event: Reach for the Stars
-    place: 1
+    participated: true
   - team: 18
     event: Redesigned Genes
     place: 22
   - team: 18
     event: Road Scholar
-    place: 1
+    participated: true
   - team: 18
     event: Science Clue
-    place: 1
+    participated: true
   - team: 18
     event: Scrambler
     place: 16
   - team: 18
     event: Surfing the Net
-    place: 1
+    participated: true
   - team: 18
     event: Towers
     place: 25
@@ -1451,13 +1451,13 @@ Placings:
     place: 6
   - team: 19
     event: Can't Judge a Powder
-    place: 1
+    participated: true
   - team: 19
     event: Cell Biology
     place: 40
   - team: 19
     event: Chemistry Lab
-    place: 1
+    participated: true
   - team: 19
     event: Don't Bug Me
     place: 35
@@ -1481,7 +1481,7 @@ Placings:
     place: 24
   - team: 19
     event: Practical Data Gathering
-    place: 1
+    participated: true
   - team: 19
     event: Reach for the Stars
     place: 30
@@ -1511,7 +1511,7 @@ Placings:
     place: 38
   - team: 20
     event: Bio Process Lab
-    place: 1
+    participated: true
   - team: 20
     event: Bottle Rockets
     place: 20
@@ -1523,16 +1523,16 @@ Placings:
     place: 15
   - team: 20
     event: Cell Biology
-    place: 1
+    participated: true
   - team: 20
     event: Chemistry Lab
-    place: 1
+    participated: true
   - team: 20
     event: Don't Bug Me
-    place: 1
+    participated: true
   - team: 20
     event: Earth, Sea, & Sky
-    place: 1
+    participated: true
   - team: 20
     event: Experimental Design
     place: 12
@@ -1544,7 +1544,7 @@ Placings:
     place: 2
   - team: 20
     event: Physics Lab
-    place: 1
+    participated: true
   - team: 20
     event: Polymer Detective
     place: 7
@@ -1556,16 +1556,16 @@ Placings:
     place: 11
   - team: 20
     event: Redesigned Genes
-    place: 1
+    participated: true
   - team: 20
     event: Road Scholar
     place: 12
   - team: 20
     event: Science Clue
-    place: 1
+    participated: true
   - team: 20
     event: Scrambler
-    place: 1
+    participated: true
   - team: 20
     event: Surfing the Net
     place: 29
@@ -1586,13 +1586,13 @@ Placings:
     place: 32
   - team: 21
     event: Bungee Egg Drop
-    place: 1
+    participated: true
   - team: 21
     event: Can't Judge a Powder
-    place: 1
+    participated: true
   - team: 21
     event: Cell Biology
-    place: 1
+    participated: true
   - team: 21
     event: Chemistry Lab
     place: 25
@@ -1617,7 +1617,7 @@ Placings:
     place: 6
   - team: 21
     event: Polymer Detective
-    place: 1
+    participated: true
   - team: 21
     event: Practical Data Gathering
     place: 39
@@ -1626,7 +1626,7 @@ Placings:
     place: 13
   - team: 21
     event: Redesigned Genes
-    place: 1
+    participated: true
   - team: 21
     event: Road Scholar
     place: 34
@@ -1650,7 +1650,7 @@ Placings:
     place: 33
   - team: 22
     event: Bio Process Lab
-    place: 1
+    participated: true
   - team: 22
     event: Bottle Rockets
     place: 22
@@ -1659,7 +1659,7 @@ Placings:
     place: 33
   - team: 22
     event: Can't Judge a Powder
-    place: 1
+    participated: true
   - team: 22
     event: Cell Biology
     place: 9
@@ -1668,13 +1668,13 @@ Placings:
     place: 36
   - team: 22
     event: Don't Bug Me
-    place: 1
+    participated: true
   - team: 22
     event: Earth, Sea, & Sky
     place: 5
   - team: 22
     event: Experimental Design
-    place: 1
+    participated: true
   - team: 22
     event: Mission Possible
     place: 16
@@ -1686,7 +1686,7 @@ Placings:
     place: 19
   - team: 22
     event: Polymer Detective
-    place: 1
+    participated: true
   - team: 22
     event: Practical Data Gathering
     place: 23
@@ -1713,10 +1713,10 @@ Placings:
     place: 17
   - team: 22
     event: Water Quality
-    place: 1
+    participated: true
   - team: 22
     event: Write It Do It
-    place: 1
+    participated: true
   - team: 23
     event: Bio Process Lab
     place: 23
@@ -1819,7 +1819,7 @@ Placings:
     tie: true
   - team: 24
     event: Nature Quest
-    place: 1
+    participated: true
   - team: 24
     event: Physics Lab
     place: 2
@@ -1828,49 +1828,49 @@ Placings:
     place: 21
   - team: 24
     event: Practical Data Gathering
-    place: 1
+    participated: true
   - team: 24
     event: Reach for the Stars
     place: 22
   - team: 24
     event: Redesigned Genes
-    place: 1
+    participated: true
   - team: 24
     event: Road Scholar
-    place: 1
+    participated: true
   - team: 24
     event: Science Clue
-    place: 1
+    participated: true
   - team: 24
     event: Scrambler
-    place: 1
+    participated: true
   - team: 24
     event: Surfing the Net
     place: 31
   - team: 24
     event: Towers
-    place: 1
+    participated: true
   - team: 24
     event: Water Quality
     place: 8
   - team: 24
     event: Write It Do It
-    place: 1
+    participated: true
   - team: 25
     event: Bio Process Lab
     place: 35
   - team: 25
     event: Bottle Rockets
-    place: 1
+    participated: true
   - team: 25
     event: Bungee Egg Drop
     place: 13
   - team: 25
     event: Can't Judge a Powder
-    place: 1
+    participated: true
   - team: 25
     event: Cell Biology
-    place: 1
+    participated: true
   - team: 25
     event: Chemistry Lab
     place: 5
@@ -1882,10 +1882,10 @@ Placings:
     place: 32
   - team: 25
     event: Experimental Design
-    place: 1
+    participated: true
   - team: 25
     event: Mission Possible
-    place: 0
+    participated: false
   - team: 25
     event: Nature Quest
     place: 33
@@ -1906,16 +1906,16 @@ Placings:
     place: 7
   - team: 25
     event: Road Scholar
-    place: 1
+    participated: true
   - team: 25
     event: Science Clue
     place: 5
   - team: 25
     event: Scrambler
-    place: 0
+    participated: false
   - team: 25
     event: Surfing the Net
-    place: 1
+    participated: true
   - team: 25
     event: Towers
     place: 12
@@ -1933,7 +1933,7 @@ Placings:
     place: 37
   - team: 26
     event: Bungee Egg Drop
-    place: 1
+    participated: true
   - team: 26
     event: Can't Judge a Powder
     place: 2
@@ -1948,7 +1948,7 @@ Placings:
     place: 6
   - team: 26
     event: Earth, Sea, & Sky
-    place: 1
+    participated: true
   - team: 26
     event: Experimental Design
     place: 35
@@ -1996,10 +1996,10 @@ Placings:
     place: 31
   - team: 27
     event: Bio Process Lab
-    place: 1
+    participated: true
   - team: 27
     event: Bottle Rockets
-    place: 1
+    participated: true
   - team: 27
     event: Bungee Egg Drop
     place: 23
@@ -2077,13 +2077,13 @@ Placings:
     place: 8
   - team: 28
     event: Cell Biology
-    place: 1
+    participated: true
   - team: 28
     event: Chemistry Lab
-    place: 1
+    participated: true
   - team: 28
     event: Don't Bug Me
-    place: 1
+    participated: true
   - team: 28
     event: Earth, Sea, & Sky
     place: 15
@@ -2092,25 +2092,25 @@ Placings:
     place: 28
   - team: 28
     event: Mission Possible
-    place: 1
+    participated: true
   - team: 28
     event: Nature Quest
     place: 7
   - team: 28
     event: Physics Lab
-    place: 1
+    participated: true
   - team: 28
     event: Polymer Detective
     place: 3
   - team: 28
     event: Practical Data Gathering
-    place: 1
+    participated: true
   - team: 28
     event: Reach for the Stars
     place: 12
   - team: 28
     event: Redesigned Genes
-    place: 1
+    participated: true
   - team: 28
     event: Road Scholar
     place: 18
@@ -2122,13 +2122,13 @@ Placings:
     place: 35
   - team: 28
     event: Surfing the Net
-    place: 1
+    participated: true
   - team: 28
     event: Towers
     place: 24
   - team: 28
     event: Water Quality
-    place: 1
+    participated: true
   - team: 28
     event: Write It Do It
     place: 10
@@ -2188,7 +2188,7 @@ Placings:
     place: 22
   - team: 29
     event: Scrambler
-    place: 1
+    participated: true
   - team: 29
     event: Surfing the Net
     place: 37
@@ -2209,7 +2209,7 @@ Placings:
     place: 3
   - team: 30
     event: Bungee Egg Drop
-    place: 1
+    participated: true
   - team: 30
     event: Can't Judge a Powder
     place: 28
@@ -2230,7 +2230,7 @@ Placings:
     place: 22
   - team: 30
     event: Mission Possible
-    place: 1
+    participated: true
   - team: 30
     event: Nature Quest
     place: 31
@@ -2260,7 +2260,7 @@ Placings:
     place: 2
   - team: 30
     event: Surfing the Net
-    place: 1
+    participated: true
   - team: 30
     event: Towers
     place: 20
@@ -2290,13 +2290,13 @@ Placings:
     place: 39
   - team: 31
     event: Don't Bug Me
-    place: 1
+    participated: true
   - team: 31
     event: Earth, Sea, & Sky
     place: 38
   - team: 31
     event: Experimental Design
-    place: 1
+    participated: true
   - team: 31
     event: Mission Possible
     place: 34
@@ -2309,7 +2309,7 @@ Placings:
     place: 9
   - team: 31
     event: Polymer Detective
-    place: 1
+    participated: true
   - team: 31
     event: Practical Data Gathering
     place: 29
@@ -2318,7 +2318,7 @@ Placings:
     place: 35
   - team: 31
     event: Redesigned Genes
-    place: 1
+    participated: true
   - team: 31
     event: Road Scholar
     place: 6
@@ -2327,7 +2327,7 @@ Placings:
     place: 36
   - team: 31
     event: Scrambler
-    place: 1
+    participated: true
   - team: 31
     event: Surfing the Net
     place: 39
@@ -2336,10 +2336,10 @@ Placings:
     place: 2
   - team: 31
     event: Water Quality
-    place: 1
+    participated: true
   - team: 31
     event: Write It Do It
-    place: 1
+    participated: true
   - team: 32
     event: Bio Process Lab
     place: 31
@@ -2360,7 +2360,7 @@ Placings:
     place: 38
   - team: 32
     event: Don't Bug Me
-    place: 1
+    participated: true
   - team: 32
     event: Earth, Sea, & Sky
     place: 27
@@ -2384,7 +2384,7 @@ Placings:
     place: 9
   - team: 32
     event: Reach for the Stars
-    place: 1
+    participated: true
   - team: 32
     event: Redesigned Genes
     place: 35
@@ -2405,10 +2405,10 @@ Placings:
     place: 5
   - team: 32
     event: Water Quality
-    place: 1
+    participated: true
   - team: 32
     event: Write It Do It
-    place: 1
+    participated: true
   - team: 33
     event: Bio Process Lab
     place: 38
@@ -2442,7 +2442,7 @@ Placings:
     tie: true
   - team: 33
     event: Nature Quest
-    place: 1
+    participated: true
   - team: 33
     event: Physics Lab
     place: 14
@@ -2478,7 +2478,7 @@ Placings:
     place: 36
   - team: 33
     event: Write It Do It
-    place: 1
+    participated: true
   - team: 34
     event: Bio Process Lab
     place: 13
@@ -2487,7 +2487,7 @@ Placings:
     place: 34
   - team: 34
     event: Bungee Egg Drop
-    place: 1
+    participated: true
   - team: 34
     event: Can't Judge a Powder
     place: 39
@@ -2649,7 +2649,7 @@ Placings:
     place: 28
   - team: 36
     event: Nature Quest
-    place: 1
+    participated: true
   - team: 36
     event: Physics Lab
     place: 25
@@ -2676,7 +2676,7 @@ Placings:
     place: 39
   - team: 36
     event: Surfing the Net
-    place: 1
+    participated: true
   - team: 36
     event: Towers
     place: 28
@@ -2685,13 +2685,13 @@ Placings:
     place: 20
   - team: 36
     event: Write It Do It
-    place: 1
+    participated: true
   - team: 37
     event: Bio Process Lab
     place: 34
   - team: 37
     event: Bottle Rockets
-    place: 1
+    participated: true
   - team: 37
     event: Bungee Egg Drop
     place: 31
@@ -2706,34 +2706,34 @@ Placings:
     place: 11
   - team: 37
     event: Don't Bug Me
-    place: 1
+    participated: true
   - team: 37
     event: Earth, Sea, & Sky
-    place: 1
+    participated: true
   - team: 37
     event: Experimental Design
     place: 10
   - team: 37
     event: Mission Possible
-    place: 1
+    participated: true
   - team: 37
     event: Nature Quest
     place: 12
   - team: 37
     event: Physics Lab
-    place: 1
+    participated: true
   - team: 37
     event: Polymer Detective
-    place: 1
+    participated: true
   - team: 37
     event: Practical Data Gathering
-    place: 1
+    participated: true
   - team: 37
     event: Reach for the Stars
-    place: 1
+    participated: true
   - team: 37
     event: Redesigned Genes
-    place: 1
+    participated: true
   - team: 37
     event: Road Scholar
     place: 4
@@ -2751,7 +2751,7 @@ Placings:
     place: 11
   - team: 37
     event: Water Quality
-    place: 1
+    participated: true
   - team: 37
     event: Write It Do It
     place: 22
@@ -2809,7 +2809,7 @@ Placings:
     place: 35
   - team: 38
     event: Science Clue
-    place: 1
+    participated: true
   - team: 38
     event: Scrambler
     place: 31
@@ -2827,10 +2827,10 @@ Placings:
     place: 30
   - team: 39
     event: Bio Process Lab
-    place: 1
+    participated: true
   - team: 39
     event: Bottle Rockets
-    place: 1
+    participated: true
   - team: 39
     event: Bungee Egg Drop
     place: 9
@@ -2839,40 +2839,40 @@ Placings:
     place: 7
   - team: 39
     event: Cell Biology
-    place: 1
+    participated: true
   - team: 39
     event: Chemistry Lab
-    place: 1
+    participated: true
   - team: 39
     event: Don't Bug Me
-    place: 1
+    participated: true
   - team: 39
     event: Earth, Sea, & Sky
-    place: 1
+    participated: true
   - team: 39
     event: Experimental Design
-    place: 1
+    participated: true
   - team: 39
     event: Mission Possible
-    place: 1
+    participated: true
   - team: 39
     event: Nature Quest
-    place: 1
+    participated: true
   - team: 39
     event: Physics Lab
-    place: 1
+    participated: true
   - team: 39
     event: Polymer Detective
     place: 11
   - team: 39
     event: Practical Data Gathering
-    place: 1
+    participated: true
   - team: 39
     event: Reach for the Stars
     place: 2
   - team: 39
     event: Redesigned Genes
-    place: 1
+    participated: true
   - team: 39
     event: Road Scholar
     place: 2
@@ -2890,7 +2890,7 @@ Placings:
     place: 4
   - team: 39
     event: Water Quality
-    place: 1
+    participated: true
   - team: 39
     event: Write It Do It
     place: 9
@@ -2899,40 +2899,40 @@ Placings:
     place: 7
   - team: 40
     event: Bottle Rockets
-    place: 1
+    participated: true
   - team: 40
     event: Bungee Egg Drop
     place: 14
   - team: 40
     event: Can't Judge a Powder
-    place: 1
+    participated: true
   - team: 40
     event: Cell Biology
     place: 36
   - team: 40
     event: Chemistry Lab
-    place: 1
+    participated: true
   - team: 40
     event: Don't Bug Me
-    place: 1
+    participated: true
   - team: 40
     event: Earth, Sea, & Sky
     place: 34
   - team: 40
     event: Experimental Design
-    place: 1
+    participated: true
   - team: 40
     event: Mission Possible
     place: 32
   - team: 40
     event: Nature Quest
-    place: 1
+    participated: true
   - team: 40
     event: Physics Lab
     place: 33
   - team: 40
     event: Polymer Detective
-    place: 1
+    participated: true
   - team: 40
     event: Practical Data Gathering
     place: 25
@@ -2968,7 +2968,7 @@ Placings:
     place: 19
   - team: 41
     event: Bottle Rockets
-    place: 1
+    participated: true
   - team: 41
     event: Bungee Egg Drop
     place: 5
@@ -2986,10 +2986,10 @@ Placings:
     place: 22
   - team: 41
     event: Earth, Sea, & Sky
-    place: 1
+    participated: true
   - team: 41
     event: Experimental Design
-    place: 1
+    participated: true
   - team: 41
     event: Mission Possible
     place: 14
@@ -3016,7 +3016,7 @@ Placings:
     place: 11
   - team: 41
     event: Science Clue
-    place: 1
+    participated: true
   - team: 41
     event: Scrambler
     place: 37
@@ -3025,7 +3025,7 @@ Placings:
     place: 27
   - team: 41
     event: Towers
-    place: 1
+    participated: true
   - team: 41
     event: Water Quality
     place: 24
@@ -3058,7 +3058,7 @@ Placings:
     place: 28
   - team: 42
     event: Experimental Design
-    place: 1
+    participated: true
   - team: 42
     event: Mission Possible
     place: 27
@@ -3088,7 +3088,7 @@ Placings:
     place: 15
   - team: 42
     event: Scrambler
-    place: 1
+    participated: true
   - team: 42
     event: Surfing the Net
     place: 30
@@ -3115,13 +3115,13 @@ Placings:
     place: 26
   - team: 43
     event: Cell Biology
-    place: 1
+    participated: true
   - team: 43
     event: Chemistry Lab
-    place: 1
+    participated: true
   - team: 43
     event: Don't Bug Me
-    place: 1
+    participated: true
   - team: 43
     event: Earth, Sea, & Sky
     place: 3
@@ -3142,7 +3142,7 @@ Placings:
     place: 27
   - team: 43
     event: Practical Data Gathering
-    place: 1
+    participated: true
   - team: 43
     event: Reach for the Stars
     place: 4
@@ -3151,7 +3151,7 @@ Placings:
     place: 23
   - team: 43
     event: Road Scholar
-    place: 1
+    participated: true
   - team: 43
     event: Science Clue
     place: 30
@@ -3187,7 +3187,7 @@ Placings:
     place: 28
   - team: 44
     event: Chemistry Lab
-    place: 1
+    participated: true
   - team: 44
     event: Don't Bug Me
     place: 36
@@ -3199,7 +3199,7 @@ Placings:
     place: 13
   - team: 44
     event: Mission Possible
-    place: 1
+    participated: true
   - team: 44
     event: Nature Quest
     place: 23
@@ -3208,10 +3208,10 @@ Placings:
     place: 15
   - team: 44
     event: Polymer Detective
-    place: 1
+    participated: true
   - team: 44
     event: Practical Data Gathering
-    place: 1
+    participated: true
   - team: 44
     event: Reach for the Stars
     place: 10
@@ -3241,13 +3241,13 @@ Placings:
     place: 14
   - team: 45
     event: Bio Process Lab
-    place: 1
+    participated: true
   - team: 45
     event: Bottle Rockets
     place: 15
   - team: 45
     event: Bungee Egg Drop
-    place: 1
+    participated: true
   - team: 45
     event: Can't Judge a Powder
     place: 16
@@ -3256,7 +3256,7 @@ Placings:
     place: 4
   - team: 45
     event: Chemistry Lab
-    place: 1
+    participated: true
   - team: 45
     event: Don't Bug Me
     place: 2
@@ -3271,7 +3271,7 @@ Placings:
     place: 10
   - team: 45
     event: Nature Quest
-    place: 1
+    participated: true
   - team: 45
     event: Physics Lab
     place: 28
@@ -3289,7 +3289,7 @@ Placings:
     place: 3
   - team: 45
     event: Road Scholar
-    place: 1
+    participated: true
   - team: 45
     event: Science Clue
     place: 23
@@ -3301,13 +3301,13 @@ Placings:
     place: 10
   - team: 45
     event: Towers
-    place: 1
+    participated: true
   - team: 45
     event: Water Quality
     place: 17
   - team: 45
     event: Write It Do It
-    place: 1
+    participated: true
   - team: 46
     event: Bio Process Lab
     place: 27
@@ -3316,7 +3316,7 @@ Placings:
     place: 38
   - team: 46
     event: Bungee Egg Drop
-    place: 1
+    participated: true
   - team: 46
     event: Can't Judge a Powder
     place: 33
@@ -3337,7 +3337,7 @@ Placings:
     place: 23
   - team: 46
     event: Mission Possible
-    place: 1
+    participated: true
   - team: 46
     event: Nature Quest
     place: 29
@@ -3358,7 +3358,7 @@ Placings:
     place: 8
   - team: 46
     event: Road Scholar
-    place: 1
+    participated: true
   - team: 46
     event: Science Clue
     place: 27
@@ -3397,7 +3397,7 @@ Placings:
     place: 37
   - team: 47
     event: Don't Bug Me
-    place: 1
+    participated: true
   - team: 47
     event: Earth, Sea, & Sky
     place: 7
@@ -3409,7 +3409,7 @@ Placings:
     place: 26
   - team: 47
     event: Nature Quest
-    place: 1
+    participated: true
   - team: 47
     event: Physics Lab
     place: 36
@@ -3418,22 +3418,22 @@ Placings:
     place: 32
   - team: 47
     event: Practical Data Gathering
-    place: 1
+    participated: true
   - team: 47
     event: Reach for the Stars
-    place: 1
+    participated: true
   - team: 47
     event: Redesigned Genes
     place: 26
   - team: 47
     event: Road Scholar
-    place: 1
+    participated: true
   - team: 47
     event: Science Clue
     place: 31
   - team: 47
     event: Scrambler
-    place: 1
+    participated: true
   - team: 47
     event: Surfing the Net
     place: 11
@@ -3451,10 +3451,10 @@ Placings:
     place: 24
   - team: 48
     event: Bottle Rockets
-    place: 1
+    participated: true
   - team: 48
     event: Bungee Egg Drop
-    place: 1
+    participated: true
   - team: 48
     event: Can't Judge a Powder
     place: 32
@@ -3469,7 +3469,7 @@ Placings:
     place: 39
   - team: 48
     event: Earth, Sea, & Sky
-    place: 1
+    participated: true
   - team: 48
     event: Experimental Design
     place: 19
@@ -3496,7 +3496,7 @@ Placings:
     place: 31
   - team: 48
     event: Road Scholar
-    place: 1
+    participated: true
   - team: 48
     event: Science Clue
     place: 28
@@ -3508,7 +3508,7 @@ Placings:
     place: 8
   - team: 48
     event: Towers
-    place: 1
+    participated: true
   - team: 48
     event: Water Quality
     place: 14
@@ -3523,7 +3523,7 @@ Placings:
     place: 24
   - team: 49
     event: Bungee Egg Drop
-    place: 1
+    participated: true
   - team: 49
     event: Can't Judge a Powder
     place: 36
@@ -3532,19 +3532,19 @@ Placings:
     place: 27
   - team: 49
     event: Chemistry Lab
-    place: 1
+    participated: true
   - team: 49
     event: Don't Bug Me
     place: 13
   - team: 49
     event: Earth, Sea, & Sky
-    place: 1
+    participated: true
   - team: 49
     event: Experimental Design
     place: 8
   - team: 49
     event: Mission Possible
-    place: 1
+    participated: true
   - team: 49
     event: Nature Quest
     place: 17
@@ -3553,10 +3553,10 @@ Placings:
     place: 10
   - team: 49
     event: Polymer Detective
-    place: 1
+    participated: true
   - team: 49
     event: Practical Data Gathering
-    place: 1
+    participated: true
   - team: 49
     event: Reach for the Stars
     place: 9
@@ -3568,7 +3568,7 @@ Placings:
     place: 24
   - team: 49
     event: Science Clue
-    place: 1
+    participated: true
   - team: 49
     event: Scrambler
     place: 33
@@ -3577,10 +3577,10 @@ Placings:
     place: 19
   - team: 49
     event: Towers
-    place: 1
+    participated: true
   - team: 49
     event: Water Quality
-    place: 1
+    participated: true
   - team: 49
     event: Write It Do It
     place: 20
@@ -3589,22 +3589,22 @@ Placings:
     place: 2
   - team: 50
     event: Bottle Rockets
-    place: 1
+    participated: true
   - team: 50
     event: Bungee Egg Drop
     place: 3
   - team: 50
     event: Can't Judge a Powder
-    place: 1
+    participated: true
   - team: 50
     event: Cell Biology
     place: 14
   - team: 50
     event: Chemistry Lab
-    place: 1
+    participated: true
   - team: 50
     event: Don't Bug Me
-    place: 1
+    participated: true
   - team: 50
     event: Earth, Sea, & Sky
     place: 11
@@ -3613,40 +3613,40 @@ Placings:
     place: 9
   - team: 50
     event: Mission Possible
-    place: 0
+    participated: false
   - team: 50
     event: Nature Quest
     place: 11
   - team: 50
     event: Physics Lab
-    place: 1
+    participated: true
   - team: 50
     event: Polymer Detective
-    place: 1
+    participated: true
   - team: 50
     event: Practical Data Gathering
-    place: 1
+    participated: true
   - team: 50
     event: Reach for the Stars
-    place: 1
+    participated: true
   - team: 50
     event: Redesigned Genes
     place: 2
   - team: 50
     event: Road Scholar
-    place: 1
+    participated: true
   - team: 50
     event: Science Clue
     place: 2
   - team: 50
     event: Scrambler
-    place: 0
+    participated: false
   - team: 50
     event: Surfing the Net
-    place: 1
+    participated: true
   - team: 50
     event: Towers
-    place: 1
+    participated: true
   - team: 50
     event: Water Quality
     place: 25
@@ -3655,7 +3655,7 @@ Placings:
     place: 2
   - team: 51
     event: Bio Process Lab
-    place: 1
+    participated: true
   - team: 51
     event: Bottle Rockets
     place: 4
@@ -3664,7 +3664,7 @@ Placings:
     place: 20
   - team: 51
     event: Can't Judge a Powder
-    place: 1
+    participated: true
   - team: 51
     event: Cell Biology
     place: 23
@@ -3682,7 +3682,7 @@ Placings:
     place: 4
   - team: 51
     event: Mission Possible
-    place: 1
+    participated: true
   - team: 51
     event: Nature Quest
     place: 5
@@ -3694,16 +3694,16 @@ Placings:
     place: 8
   - team: 51
     event: Practical Data Gathering
-    place: 1
+    participated: true
   - team: 51
     event: Reach for the Stars
-    place: 1
+    participated: true
   - team: 51
     event: Redesigned Genes
     place: 10
   - team: 51
     event: Road Scholar
-    place: 1
+    participated: true
   - team: 51
     event: Science Clue
     place: 24
@@ -3715,85 +3715,85 @@ Placings:
     place: 9
   - team: 51
     event: Towers
-    place: 1
+    participated: true
   - team: 51
     event: Water Quality
-    place: 1
+    participated: true
   - team: 51
     event: Write It Do It
     place: 18
   - team: 52
     event: Bio Process Lab
-    place: 1
+    participated: true
   - team: 52
     event: Bottle Rockets
-    place: 1
+    participated: true
   - team: 52
     event: Bungee Egg Drop
-    place: 0
+    participated: false
   - team: 52
     event: Can't Judge a Powder
-    place: 1
+    participated: true
   - team: 52
     event: Cell Biology
-    place: 1
+    participated: true
   - team: 52
     event: Chemistry Lab
-    place: 1
+    participated: true
   - team: 52
     event: Don't Bug Me
     place: 5
   - team: 52
     event: Earth, Sea, & Sky
-    place: 0
+    participated: false
   - team: 52
     event: Experimental Design
-    place: 1
+    participated: true
   - team: 52
     event: Mission Possible
-    place: 0
+    participated: false
   - team: 52
     event: Nature Quest
-    place: 0
+    participated: false
   - team: 52
     event: Physics Lab
-    place: 0
+    participated: false
   - team: 52
     event: Polymer Detective
-    place: 0
+    participated: false
   - team: 52
     event: Practical Data Gathering
-    place: 1
+    participated: true
   - team: 52
     event: Reach for the Stars
-    place: 1
+    participated: true
   - team: 52
     event: Redesigned Genes
-    place: 1
+    participated: true
   - team: 52
     event: Road Scholar
-    place: 1
+    participated: true
   - team: 52
     event: Science Clue
-    place: 1
+    participated: true
   - team: 52
     event: Scrambler
-    place: 0
+    participated: false
   - team: 52
     event: Surfing the Net
     place: 23
   - team: 52
     event: Towers
-    place: 0
+    participated: false
   - team: 52
     event: Water Quality
-    place: 1
+    participated: true
   - team: 52
     event: Write It Do It
     place: 3
   - team: 53
     event: Bio Process Lab
-    place: 1
+    participated: true
   - team: 53
     event: Bottle Rockets
     place: 6
@@ -3802,13 +3802,13 @@ Placings:
     place: 19
   - team: 53
     event: Can't Judge a Powder
-    place: 1
+    participated: true
   - team: 53
     event: Cell Biology
-    place: 1
+    participated: true
   - team: 53
     event: Chemistry Lab
-    place: 1
+    participated: true
   - team: 53
     event: Don't Bug Me
     place: 11
@@ -3817,46 +3817,46 @@ Placings:
     place: 19
   - team: 53
     event: Experimental Design
-    place: 1
+    participated: true
   - team: 53
     event: Mission Possible
     place: 9
   - team: 53
     event: Nature Quest
-    place: 1
+    participated: true
   - team: 53
     event: Physics Lab
-    place: 1
+    participated: true
   - team: 53
     event: Polymer Detective
-    place: 1
+    participated: true
   - team: 53
     event: Practical Data Gathering
     place: 11
   - team: 53
     event: Reach for the Stars
-    place: 1
+    participated: true
   - team: 53
     event: Redesigned Genes
-    place: 1
+    participated: true
   - team: 53
     event: Road Scholar
-    place: 1
+    participated: true
   - team: 53
     event: Science Clue
-    place: 1
+    participated: true
   - team: 53
     event: Scrambler
     place: 17
   - team: 53
     event: Surfing the Net
-    place: 1
+    participated: true
   - team: 53
     event: Towers
-    place: 1
+    participated: true
   - team: 53
     event: Water Quality
-    place: 1
+    participated: true
   - team: 53
     event: Write It Do It
     place: 34
@@ -3883,7 +3883,7 @@ Placings:
     place: 25
   - team: 54
     event: Earth, Sea, & Sky
-    place: 1
+    participated: true
   - team: 54
     event: Experimental Design
     place: 32
@@ -3895,13 +3895,13 @@ Placings:
     place: 4
   - team: 54
     event: Physics Lab
-    place: 1
+    participated: true
   - team: 54
     event: Polymer Detective
     place: 12
   - team: 54
     event: Practical Data Gathering
-    place: 1
+    participated: true
   - team: 54
     event: Reach for the Stars
     place: 32
@@ -3925,7 +3925,7 @@ Placings:
     place: 33
   - team: 54
     event: Water Quality
-    place: 1
+    participated: true
   - team: 54
     event: Write It Do It
     place: 19
