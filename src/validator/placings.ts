@@ -50,13 +50,16 @@ export default yup.object().shape({
 					? schema.oneOf([undefined], "having a place does not make sense")
 					: schema,
 		),
-	trackPlace: yup
+	"track place": yup
 		.number()
 		.integer()
 		.optional()
 		.when("explicit", ([explicit], schema) =>
 			!explicit
-				? schema.oneOf([undefined], "explicit must be set to allow trackPlace")
+				? schema.oneOf(
+						[undefined],
+						"explicit must be set to allow 'track place'",
+					)
 				: schema,
 		),
 	explicit: yup.boolean().optional(),

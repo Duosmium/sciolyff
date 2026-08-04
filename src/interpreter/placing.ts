@@ -59,7 +59,7 @@ export default class Placing implements Model<PlacingRep> {
 		this.exempt = rep.exempt ?? false;
 		this.unknown = rep.unknown ?? false;
 		this.explicit = rep.explicit ?? false;
-		this.trackPlace = this.explicit ? rep.trackPlace : undefined;
+		this.trackPlace = this.explicit ? rep["track place"] : undefined;
 
 		this.hasRaw = rep.raw !== undefined;
 		this.didNotParticipate = !this.participated;
