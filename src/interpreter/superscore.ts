@@ -5,8 +5,9 @@
 // the exported function returns a `rep` object, which
 // can be passed back into the interpreter class for handling.
 
-import {
+import type {
 	Interpreter,
+	Placing,
 	PlacingRep,
 	SciOlyFF,
 	Team,
@@ -41,56 +42,47 @@ export default (interpreter: Interpreter): SciOlyFF => {
 		return acc;
 	}, new Map<string, number>());
 
-	const eventMaxPlacings = interpreter.events.reduce((acc, e) => {
-		acc.set(e.name, e.maximumPlace as number);
-		return acc;
-	}, new Map<string, number>());
-
 	// best place of all teams of a school, by event
-	const bestPlacingsBySchool = new Map<number, Map<string, number>>();
+	const bestPlacingsBySchool = new Map<number, Map<string, Placing>>();
 	interpreter.placings.forEach((placing) => {
-		const compare = interpreter.tournament.reverseScoring ? Math.max : Math.min;
+		const better = (a: Placing, b: Placing) =>
+			(
+				interpreter.tournament.reverseScoring
+					? (a.isolatedPoints ?? 0) > (b.isolatedPoints ?? 0)
+					: (a.isolatedPoints ?? 0) < (b.isolatedPoints ?? 0)
+			)
+				? a
+				: b;
 		const event = placing.event?.name as string;
 		const school = teamNumbers.get(fsn(placing.team as Team)) as number;
 		if (!bestPlacingsBySchool.has(school)) {
 			bestPlacingsBySchool.set(school, new Map());
 		}
 		if (!bestPlacingsBySchool.get(school)?.has(event)) {
-			bestPlacingsBySchool
-				.get(school)
-				?.set(event, placing.isolatedPoints as number);
+			bestPlacingsBySchool.get(school)?.set(event, placing);
 		} else {
 			bestPlacingsBySchool
 				.get(school)
 				?.set(
 					event,
-					compare(
-						bestPlacingsBySchool.get(school)?.get(event) as number,
-						placing.isolatedPoints as number,
-					),
+					better(bestPlacingsBySchool.get(school)!.get(event)!, placing),
 				);
 		}
 	});
 
 	const placingsRep: PlacingRep[] = [];
 	for (const [teamNumber, eventPlacings] of bestPlacingsBySchool) {
-		for (const [event, place] of eventPlacings) {
-			const n =
-				(eventMaxPlacings.get(event) as number) +
-				interpreter.tournament?.nOffset;
+		for (const place of eventPlacings.values()) {
 			const rep: PlacingRep = {
-				event,
+				event: place.rep.event,
 				team: teamNumber,
-			} as PlacingRep;
-			if (place === n) {
-				rep.participated = true;
-			} else if (place === n + 1) {
-				rep.participated = false;
-			} else if (place === n + 2) {
-				rep.disqualified = true;
-			} else {
-				rep.place = place;
-			}
+				participated: place.rep.participated,
+				disqualified: place.rep.disqualified,
+				exempt: place.rep.exempt,
+				unknown: place.rep.unknown,
+				place: place.isolatedPoints,
+				explicit: true,
+			};
 
 			placingsRep.push(rep);
 		}
@@ -99,10 +91,6 @@ export default (interpreter: Interpreter): SciOlyFF => {
 	const tournamentRep: TournamentRep = {
 		...interpreter.tournament.rep,
 	};
-
-	tournamentRep["n offset"] =
-		interpreter.tournament.nOffset +
-		((interpreter.tournament.teams?.length as number) - teamNumbers.size);
 
 	tournamentRep["bids"] = 0;
 

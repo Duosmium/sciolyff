@@ -37,6 +37,9 @@ export default class Tournament implements Model<TournamentRep> {
 	maximumPlace?: number;
 	perEventN?: string;
 	nOffset: number;
+	poOffset?: number;
+	nsOffset?: number;
+	dqOffset?: number;
 	date?: Date;
 	startDate?: Date;
 	endDate?: Date;
@@ -82,6 +85,9 @@ export default class Tournament implements Model<TournamentRep> {
 
 		this.perEventN = rep["per-event n"];
 		this.nOffset = rep["n offset"] ?? 0;
+		this.poOffset = rep["po offset"];
+		this.nsOffset = rep["ns offset"];
+		this.dqOffset = rep["dq offset"];
 
 		this.date = rep.date ? new Date(rep.date) : undefined;
 		this.startDate = rep["start date"]

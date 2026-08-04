@@ -330,6 +330,39 @@ export default yup.object().shape({
 				? schema.oneOf([undefined], "no n offset with reverse scoring")
 				: schema,
 		),
+	"po offset": yup
+		.number()
+		.integer()
+		.optional()
+		.test(
+			"po-offset-minimum",
+			"po offset is too small",
+			(value, context) =>
+				!value ||
+				value + (context.parent["n offset"] || 0) > -teamCount(context),
+		),
+	"ns offset": yup
+		.number()
+		.integer()
+		.optional()
+		.test(
+			"ns-offset-minimum",
+			"ns offset is too small",
+			(value, context) =>
+				!value ||
+				value + (context.parent["n offset"] || 0) > -teamCount(context),
+		),
+	"dq offset": yup
+		.number()
+		.integer()
+		.optional()
+		.test(
+			"dq-offset-minimum",
+			"dq offset is too small",
+			(value, context) =>
+				!value ||
+				value + (context.parent["n offset"] || 0) > -teamCount(context),
+		),
 	date: yup
 		.mixed<Date | string>()
 		.test(

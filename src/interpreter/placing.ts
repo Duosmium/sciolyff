@@ -125,14 +125,20 @@ export default class Placing implements Model<PlacingRep> {
 							this.didNotParticipate ||
 							this.participationOnly)
 					) {
-						return this.participationOnly ? 1 : 0;
+						return this.participationOnly
+							? (this.tournament.poOffset ?? 1)
+							: this.didNotParticipate
+								? (this.tournament.nsOffset ?? 0)
+								: (this.tournament.dqOffset ?? 0);
 					}
 
 					const maxPlace = this.event.maximumPlace as number;
 					const n = maxPlace + this.tournament.nOffset;
-					if (this.disqualified) return n + 2;
-					if (this.didNotParticipate) return n + 1;
-					if (this.participationOnly) return n;
+					if (this.disqualified) return n + (this.tournament.dqOffset ?? 2);
+					if (this.didNotParticipate)
+						return n + (this.tournament.nsOffset ?? 1);
+					if (this.participationOnly)
+						return n + (this.tournament.poOffset ?? 0);
 					if (this.unknown) return maxPlace;
 					return Math.min(
 						this.calculatePoints(false),
@@ -190,15 +196,21 @@ export default class Placing implements Model<PlacingRep> {
 							this.participationOnly ||
 							this.unknown)
 					) {
-						return this.participationOnly ? 1 : 0;
+						return this.participationOnly
+							? (this.tournament.poOffset ?? 1)
+							: this.didNotParticipate
+								? (this.tournament.nsOffset ?? 0)
+								: (this.tournament.dqOffset ?? 0);
 					}
 
 					if (!this.team.track) return 0;
 					const maxPlace = this.team.track.maximumPlace as number;
 					const n = maxPlace + (this.team.track.nOffset as number);
-					if (this.disqualified) return n + 2;
-					if (this.didNotParticipate) return n + 1;
-					if (this.participationOnly) return n;
+					if (this.disqualified) return n + (this.tournament.dqOffset ?? 2);
+					if (this.didNotParticipate)
+						return n + (this.tournament.nsOffset ?? 1);
+					if (this.participationOnly)
+						return n + (this.tournament.poOffset ?? 0);
 					if (this.unknown) return maxPlace;
 					return Math.min(
 						this.calculatePoints(true),
