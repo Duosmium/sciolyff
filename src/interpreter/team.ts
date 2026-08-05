@@ -88,10 +88,13 @@ export default class Team implements Model<TeamRep> {
 						.filter((p) => p.initiallyConsideredForTeamPoints)
 						.sort(
 							(a, b) =>
-								(a.isolatedPoints as number) - (b.isolatedPoints as number) ||
-								(a.unknown ? 1 : b.unknown ? -1 : 0),
+								(b.isolatedPoints as number) - (a.isolatedPoints as number) ||
+								(a.unknown
+									? -1
+									: b.unknown
+										? 1
+										: (a.event?.name.localeCompare(b.event?.name ?? "") ?? 0)),
 						)
-						.reverse()
 						.slice(0, this.tournament.worstPlacingsDropped);
 
 		if (this.track) {
@@ -102,11 +105,15 @@ export default class Team implements Model<TeamRep> {
 							.filter((p) => p.initiallyConsideredForTeamPoints)
 							.sort(
 								(a, b) =>
-									(a.isolatedTrackPoints as number) -
-										(b.isolatedTrackPoints as number) ||
-									(a.unknown ? 1 : b.unknown ? -1 : 0),
+									(b.isolatedTrackPoints as number) -
+										(a.isolatedTrackPoints as number) ||
+									(a.unknown
+										? -1
+										: b.unknown
+											? 1
+											: (a.event?.name.localeCompare(b.event?.name ?? "") ??
+												0)),
 							)
-							.reverse()
 							.slice(0, this.tournament.worstPlacingsDropped);
 		}
 	}
