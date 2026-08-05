@@ -40,6 +40,7 @@ export default class Team implements Model<TeamRep> {
 	trackPoints?: number;
 	earnedBid?: boolean;
 	worstPlacingsToBeDropped?: Placing[];
+	trackWorstPlacingsToBeDropped?: Placing[];
 	trialEventPoints?: number;
 	trackTrialEventPoints?: number;
 	medalCounts?: number[];
@@ -87,10 +88,27 @@ export default class Team implements Model<TeamRep> {
 						.filter((p) => p.initiallyConsideredForTeamPoints)
 						.sort(
 							(a, b) =>
-								(a.isolatedPoints as number) - (b.isolatedPoints as number),
+								(a.isolatedPoints as number) - (b.isolatedPoints as number) ||
+								(a.unknown ? 1 : b.unknown ? -1 : 0),
 						)
 						.reverse()
 						.slice(0, this.tournament.worstPlacingsDropped);
+
+		if (this.track) {
+			this.trackWorstPlacingsToBeDropped =
+				this.tournament.worstPlacingsDropped === 0
+					? []
+					: this.placings
+							.filter((p) => p.initiallyConsideredForTeamPoints)
+							.sort(
+								(a, b) =>
+									(a.isolatedTrackPoints as number) -
+										(b.isolatedTrackPoints as number) ||
+									(a.unknown ? 1 : b.unknown ? -1 : 0),
+							)
+							.reverse()
+							.slice(0, this.tournament.worstPlacingsDropped);
+		}
 	}
 
 	computePoints(): void {
@@ -175,7 +193,7 @@ export default class Team implements Model<TeamRep> {
 					(_, i) =>
 						this.placings?.filter(
 							(p) =>
-								p.consideredForTeamPoints &&
+								p.trackConsideredForTeamPoints &&
 								(this.tournament?.reverseScoring
 									? p.trackPoints ===
 										(this.tournament?.largestPlace as number) - i

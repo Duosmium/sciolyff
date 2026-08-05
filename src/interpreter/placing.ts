@@ -30,12 +30,14 @@ export default class Placing implements Model<PlacingRep> {
 	didNotParticipate: boolean;
 	participationOnly?: boolean;
 	droppedAsPartOfWorstPlacings?: boolean;
+	trackDroppedAsPartOfWorstPlacings?: boolean;
 	raw?: Raw;
 	tie?: boolean;
 	place?: number;
 
 	initiallyConsideredForTeamPoints?: boolean;
 	consideredForTeamPoints?: boolean;
+	trackConsideredForTeamPoints?: boolean;
 
 	isolatedPoints?: number;
 	isolatedTrackPoints?: number;
@@ -254,6 +256,13 @@ export default class Placing implements Model<PlacingRep> {
 		this.consideredForTeamPoints =
 			this.initiallyConsideredForTeamPoints &&
 			!this.droppedAsPartOfWorstPlacings;
+
+		this.trackDroppedAsPartOfWorstPlacings =
+			this.team.trackWorstPlacingsToBeDropped?.includes(this) ??
+			this.droppedAsPartOfWorstPlacings;
+		this.trackConsideredForTeamPoints =
+			this.initiallyConsideredForTeamPoints &&
+			!this.trackDroppedAsPartOfWorstPlacings;
 	}
 
 	computePoints(): void {
@@ -262,7 +271,7 @@ export default class Placing implements Model<PlacingRep> {
 		}
 
 		this.points = !this.consideredForTeamPoints ? 0 : this.isolatedPoints;
-		this.trackPoints = !this.consideredForTeamPoints
+		this.trackPoints = !this.trackConsideredForTeamPoints
 			? 0
 			: this.isolatedTrackPoints;
 
