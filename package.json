@@ -6,7 +6,7 @@
 	"author": "Duosmium Results (https://www.duosmium.org/results/)",
 	"type": "module",
 	"engines": {
-		"node": "^14.0.0 || >=16.0.0"
+		"node": "^22.0.0 || ^24.0.0 || ^26.0.0"
 	},
 	"files": [
 		"dist/**/*"
@@ -35,7 +35,7 @@
 		"format": "prettier --check .",
 		"fix": "prettier --write . && eslint --fix .",
 		"build": "npm run clean && tsc",
-		"prepare": "husky install",
+		"prepare": "husky",
 		"release": "npm test; npm run build && release-it",
 		"test": "c8 ava",
 		"make-coverage": "c8 report -r lcovonly",
@@ -48,33 +48,32 @@
 		"duosmium"
 	],
 	"dependencies": {
-		"@vanillaes/csv": "^3.0.4",
-		"chalk": "^5.4.1",
-		"commander": "^13.1.0",
+		"@vanillaes/csv": "^4.1.3",
+		"chalk": "^6.0.0",
+		"commander": "^15.0.0",
 		"fetch-retry": "^6.0.0",
-		"js-yaml": "^4.1.0",
+		"js-yaml": "^4.3.1",
 		"js-yaml-source-map": "^0.2.2",
 		"node-fetch": "^3.3.2",
-		"yup": "^1.6.1"
+		"yup": "^1.7.1"
 	},
 	"devDependencies": {
-		"@eslint/compat": "^1.2.8",
+		"@eslint/compat": "^2.1.0",
 		"@types/js-yaml": "^4.0.9",
-		"@types/node-fetch": "^2.6.12",
-		"@types/yup": "^0.29.14",
-		"@typescript-eslint/eslint-plugin": "^8.30.1",
-		"@typescript-eslint/parser": "^8.30.1",
-		"ava": "^6.2.0",
-		"c8": "^10.1.3",
-		"eslint": "^9.24.0",
-		"eslint-config-prettier": "^10.1.2",
-		"eslint-plugin-ava": "^15.0.1",
+		"@types/node-fetch": "^2.6.13",
+		"@typescript-eslint/eslint-plugin": "^8.66.0",
+		"@typescript-eslint/parser": "^8.66.0",
+		"ava": "^8.0.1",
+		"c8": "^12.0.0",
+		"eslint": "^10.8.0",
+		"eslint-config-prettier": "^10.1.8",
+		"eslint-plugin-ava": "^17.0.1",
 		"husky": "^9.1.7",
-		"lint-staged": "^15.5.1",
-		"prettier": "3.5.3",
-		"release-it": "^18.1.2",
+		"lint-staged": "^17.3.0",
+		"prettier": "3.9.6",
+		"release-it": "^21.0.1",
 		"tsimp": "^2.0.12",
-		"typescript": "^5.8.3"
+		"typescript": "^5.9.3"
 	},
 	"lint-staged": {
 		"*.{js,ts,json,yaml,yml,md}": "prettier --write",
@@ -85,9 +84,9 @@
 			"tests/**/*",
 			"!tests/helpers.ts"
 		],
-		"extensions": {
-			"ts": "module"
-		},
+		"extensions": [
+			"ts"
+		],
 		"nodeArguments": [
 			"--import=tsimp"
 		],
