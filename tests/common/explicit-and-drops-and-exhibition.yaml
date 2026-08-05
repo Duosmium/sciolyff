@@ -2549,6 +2549,7 @@ Placings:
   - team: 18
     explicit: true
     event: Gravity Vehicle
+    place: 21
     participated: true
   - team: 18
     explicit: true
@@ -2582,6 +2583,7 @@ Placings:
   - team: 18
     explicit: true
     event: Robo-Cross
+    place: 21
     participated: true
   - team: 18
     explicit: true
