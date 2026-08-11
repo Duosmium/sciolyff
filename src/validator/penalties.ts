@@ -13,5 +13,5 @@ export default yup.object().shape({
 			(value, context) =>
 				root(context)["Teams"].some((team) => team.number === value),
 		),
-	points: yup.number().integer().required(),
+	points: yup.number().required(),
 });

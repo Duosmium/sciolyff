@@ -97,7 +97,7 @@ export function genPenalties(teams: ReturnType<typeof genTeams>) {
 		if (!team["penalty points"]) return [];
 		const penalty: { team: number; points: number } = {
 			team: team.number,
-			points: parseInt(team["penalty points"]),
+			points: parseFloat(team["penalty points"]),
 		};
 		team["penalty points"] = undefined;
 		return [penalty];
@@ -257,7 +257,7 @@ export function genPlacings(
 					// rewrite placings
 					.map((p, i) => {
 						p.place = i + 1;
-						return p as Placing;
+						return p;
 					}),
 			)
 			.concat(nonPlacePlacings);
