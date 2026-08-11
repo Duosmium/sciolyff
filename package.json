@@ -32,8 +32,9 @@
 	"scripts": {
 		"clean": "rm -rf dist",
 		"lint": "eslint .",
+		"check": "tsc --noEmit",
 		"format": "prettier --check .",
-		"fix": "prettier --write . && eslint --fix .",
+		"fix": "prettier --write . ; eslint --fix .",
 		"build": "npm run clean && tsc",
 		"prepare": "husky",
 		"release": "npm test; npm run build && release-it",
@@ -58,22 +59,22 @@
 		"yup": "^1.7.1"
 	},
 	"devDependencies": {
-		"@eslint/compat": "^2.1.0",
+		"@eslint/js": "^10.0.1",
 		"@types/js-yaml": "^4.0.9",
 		"@types/node-fetch": "^2.6.13",
-		"@typescript-eslint/eslint-plugin": "^8.66.0",
-		"@typescript-eslint/parser": "^8.66.0",
 		"ava": "^8.0.1",
 		"c8": "^12.0.0",
 		"eslint": "^10.8.0",
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-ava": "^17.0.1",
+		"globals": "^17.9.0",
 		"husky": "^9.1.7",
 		"lint-staged": "^17.3.0",
 		"prettier": "3.9.6",
 		"release-it": "^21.0.1",
 		"tsimp": "^2.0.12",
-		"typescript": "^5.9.3"
+		"typescript": "^5.9.3",
+		"typescript-eslint": "^8.67.0"
 	},
 	"lint-staged": {
 		"*.{js,ts,json,yaml,yml,md}": "prettier --write",
