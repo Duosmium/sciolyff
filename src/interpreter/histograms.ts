@@ -28,7 +28,7 @@ export class HistoData implements Model<HistoDataRep> {
 		this.width = rep.width;
 		this.counts = rep.counts;
 		if (rep.info) {
-			this.info = rep.info as Record<string, string | number>;
+			this.info = rep.info;
 		}
 	}
 

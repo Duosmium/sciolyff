@@ -62,9 +62,9 @@ export default async function valid(
 	let rep = repOrYaml;
 	if (typeof repOrYaml === "string") {
 		try {
-			const loadedArr = (yaml.loadAll(repOrYaml, undefined, {
+			const loadedArr = yaml.loadAll(repOrYaml, undefined, {
 				listener: sourceMap.listen(),
-			}) as Record<string, unknown>[]) ?? [{}];
+			}) as Record<string, unknown>[];
 			const loaded = loadedArr[0] ?? {};
 			if (typeof loaded === "number" || typeof loaded === "string") {
 				throw new Error("Invalid YAML");

@@ -1,24 +1,27 @@
 import * as yup from "yup";
 
 import canonical from "./canonical.js";
-import { root } from "./helpers.js";
+import { parent, root } from "./helpers.js";
 
 // helper functions
 const placingsByPlace = (
 	context: yup.TestContext,
 	eventName: string,
 ): Record<string, any> =>
-	root(context)["Placings"].reduce((acc: Record<string, any>, placing) => {
-		// match undefined/null with non-strict equality
-		if (placing.place != null && placing.event === eventName) {
-			if (acc[placing.place.toString()]) {
-				acc[placing.place.toString()].push(placing);
-			} else {
-				acc[placing.place.toString()] = [placing];
+	(root(context)["Placings"] ?? []).reduce(
+		(acc: Record<string, any>, placing) => {
+			// match undefined/null with non-strict equality
+			if (placing.place != null && placing.event === eventName) {
+				if (acc[placing.place.toString()]) {
+					acc[placing.place.toString()].push(placing);
+				} else {
+					acc[placing.place.toString()] = [placing];
+				}
 			}
-		}
-		return acc;
-	}, {});
+			return acc;
+		},
+		{},
+	);
 const placesWithExpandedTies = (context: yup.TestContext, eventName: string) =>
 	// e.g. [6, 6, 8] -> [6, 7, 8]
 	Object.entries(placingsByPlace(context, eventName))
@@ -37,15 +40,14 @@ export default yup.object().shape({
 			"unique-event-name",
 			"duplicate event name: ${value}",
 			(value, context) =>
-				root(context)["Events"].filter((event) => event.name === value)
-					.length === 1,
+				parent(context).filter((event) => event.name === value).length === 1,
 		)
 		.test(
 			"placings-for-all-teams",
 			"event: ${value} has incorrect number of placings",
 			(value, context) =>
-				root(context)["Placings"].filter((place) => place.event === value)
-					.length === root(context)["Teams"].length,
+				root(context)["Placings"]?.filter((place) => place.event === value)
+					.length === root(context)["Teams"]?.length,
 		)
 		.test(
 			"ties-marked",
@@ -117,12 +119,12 @@ export default yup.object().shape({
 			(value, context) =>
 				root(context)["Tournament"]["reverse scoring"]
 					? true
-					: root(context)["Placings"].some((placing) => placing.raw) ||
+					: root(context)["Placings"]?.some((placing) => placing.raw) ||
 						Math.min(
-							...root(context)
-								["Placings"].filter((placing) => placing.event === value)
-								.map((placing) => placing.place as number)
-								.filter((p) => p !== undefined),
+							...(root(context)
+								["Placings"]?.filter((placing) => placing.event === value)
+								.map((placing) => placing.place as number | undefined)
+								.filter((p) => p !== undefined) ?? []),
 						) === 1,
 		)
 		.test(
@@ -131,7 +133,7 @@ export default yup.object().shape({
 			(value, context) => {
 				// only test when using reverse scoring
 				if (!root(context)["Tournament"]["reverse scoring"]) return true;
-				const maxes = root(context)["Placings"].reduce(
+				const maxes = parent(context).reduce(
 					(acc: { total: number; event: number }, placing) => {
 						if (placing.event === value) {
 							acc.event = Math.max(acc.event, (placing.place as number) || 0);
@@ -149,7 +151,7 @@ export default yup.object().shape({
 			"canonical-event",
 			"$$warn$$ non-canonical event: ${value}",
 			async (value, context) =>
-				context.options?.context?.canonical
+				context.options.context?.canonical
 					? await canonical([value], "events.csv")
 					: true,
 		)
@@ -157,7 +159,8 @@ export default yup.object().shape({
 			"event-no-histogram",
 			"'event: ${value}' does not have a Histogram entry",
 			(value, context) => {
-				const data: any[] = (root(context)["Histograms"] as any)?.data;
+				const data: any[] | undefined = (root(context)["Histograms"] as any)
+					?.data;
 				if (data == undefined || data.length === 0) {
 					return true;
 				}
@@ -167,8 +170,8 @@ export default yup.object().shape({
 		.required(),
 
 	// optional
-	trial: yup.boolean().optional().default(false),
-	trialed: yup.boolean().optional().default(false),
+	trial: yup.boolean().optional(),
+	trialed: yup.boolean().optional(),
 	scoring: yup.string().oneOf(["high", "low"]).optional(),
 	medals: yup
 		.number()
@@ -181,7 +184,7 @@ export default yup.object().shape({
 				value
 					? value <=
 						Math.min(
-							root(context)["Teams"].length,
+							root(context)["Teams"]?.length ?? 0,
 							(root(context)["Tournament"]["maximum place"] as number) ||
 								Infinity,
 						)

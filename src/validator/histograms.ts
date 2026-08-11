@@ -9,7 +9,7 @@ export const histoData = yup.object().shape({
 			"matching-event",
 			"'event: ${value}' in Histograms does not match any event in Events",
 			(value, context) =>
-				root(context)["Events"].some((event) => event.name === value),
+				root(context)["Events"]?.some((event) => event.name === value),
 		)
 		.test(
 			"unique-event",
@@ -25,22 +25,19 @@ export const histoData = yup.object().shape({
 	width: yup.number().min(0).required(),
 	counts: yup.array().of(yup.number().min(0).required()).required(),
 
-	info: yup.lazy((obj: Record<string, any>) => {
+	info: yup.lazy((obj: Record<string, any> | undefined) => {
 		if (!obj) return yup.object().optional();
 		return yup
 			.object()
 			.shape(
-				Object.keys(obj).reduce(
-					(acc, key) => {
-						if (typeof obj[key] === "number") {
-							acc[key] = yup.number();
-						} else {
-							acc[key] = yup.string();
-						}
-						return acc;
-					},
-					{} as Record<string, yup.AnySchema>,
-				),
+				Object.keys(obj).reduce<Record<string, yup.AnySchema>>((acc, key) => {
+					if (typeof obj[key] === "number") {
+						acc[key] = yup.number();
+					} else {
+						acc[key] = yup.string();
+					}
+					return acc;
+				}, {}),
 			)
 			.optional();
 	}),

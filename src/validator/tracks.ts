@@ -1,12 +1,12 @@
 import * as yup from "yup";
 
-import { root } from "./helpers.js";
+import { parent, root } from "./helpers.js";
 
 // helper functions
 const teamCount = (context: yup.TestContext, trackName: string) =>
-	root(context)["Teams"].filter(
+	root(context)["Teams"]?.filter(
 		(team) => team.track === trackName && !team.exhibition,
-	).length;
+	).length ?? 0;
 
 export default yup.object().shape({
 	// always required
@@ -16,15 +16,14 @@ export default yup.object().shape({
 			"unique-track-name",
 			"duplicate track name: ${value}",
 			(value, context) =>
-				root(context)["Tracks"].filter((track) => track.name === value)
-					.length === 1,
+				parent(context).filter((track) => track.name === value).length === 1,
 		)
 		.test(
 			"matching-teams",
 			"track with 'name: ${value}' has no teams",
 			(value, context) =>
-				root(context)["Teams"].filter((team) => team.track === value).length >
-				0,
+				(root(context)["Teams"] ?? []).filter((team) => team.track === value)
+					.length > 0,
 		)
 		.test(
 			"no-tracks-when-reverse",

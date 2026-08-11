@@ -27,7 +27,7 @@ export default class Interpreter {
 
 	constructor(rep: string | SciOlyFF) {
 		if (typeof rep === "string") {
-			const loadedArr = yaml.loadAll(rep) ?? [{}];
+			const loadedArr = yaml.loadAll(rep);
 			const loaded = loadedArr[0] ?? {};
 			if (typeof loaded === "number" || typeof loaded === "string") {
 				throw new Error("Invalid YAML");
@@ -51,14 +51,26 @@ export default class Interpreter {
 		}
 
 		// link models
-		this.penalties.forEach((penalty) => penalty.link(this));
-		this.placings.forEach((placing) => placing.link(this));
-		this.teams.forEach((team) => team.link(this));
-		this.tracks.forEach((track) => track.link(this));
+		this.penalties.forEach((penalty) => {
+			penalty.link(this);
+		});
+		this.placings.forEach((placing) => {
+			placing.link(this);
+		});
+		this.teams.forEach((team) => {
+			team.link(this);
+		});
+		this.tracks.forEach((track) => {
+			track.link(this);
+		});
 		if (this.histograms?.type === "data") {
-			this.histograms?.data?.forEach((data) => data.link(this));
+			this.histograms.data?.forEach((data) => {
+				data.link(this);
+			});
 		}
-		this.events.forEach((event) => event.link(this));
+		this.events.forEach((event) => {
+			event.link(this);
+		});
 		this.histograms?.link(this);
 		this.tournament.link(this);
 
@@ -73,27 +85,49 @@ export default class Interpreter {
 
 		// link computed properties
 		this.tournament.computeProperties();
-		this.tracks.forEach((track) => track.computeMaximumPlace());
-		this.placings.forEach((placing) => placing.computePlaces());
+		this.tracks.forEach((track) => {
+			track.computeMaximumPlace();
+		});
+		this.placings.forEach((placing) => {
+			placing.computePlaces();
+		});
 		this.tournament.computeLargestPlace();
-		this.events.forEach((event) => event.computeMaximumPlace());
-		this.placings.forEach((placing) => placing.computeIsolatedPoints());
+		this.events.forEach((event) => {
+			event.computeMaximumPlace();
+		});
+		this.placings.forEach((placing) => {
+			placing.computeIsolatedPoints();
+		});
 		if (this.tournament.hasTracks) {
-			this.placings.forEach((placing) => placing.computeTrackPlaces());
+			this.placings.forEach((placing) => {
+				placing.computeTrackPlaces();
+			});
 		}
-		this.teams.forEach((team) => team.computeWorstPlacings());
-		this.placings.forEach((placing) => placing.computeDrops());
-		this.placings.forEach((placing) => placing.computePoints());
-		this.teams.forEach((team) => team.computePoints());
+		this.teams.forEach((team) => {
+			team.computeWorstPlacings();
+		});
+		this.placings.forEach((placing) => {
+			placing.computeDrops();
+		});
+		this.placings.forEach((placing) => {
+			placing.computePoints();
+		});
+		this.teams.forEach((team) => {
+			team.computePoints();
+		});
 		this.sortEvents();
 		this.sortTeamsByRank(this.teams, false);
 		if (this.tournament.hasTracks) {
-			this.tracks.forEach((track) =>
-				this.sortTeamsByRank(track.teams ?? [], true),
-			);
+			this.tracks.forEach((track) => {
+				this.sortTeamsByRank(track.teams ?? [], true);
+			});
 		}
-		this.teams.forEach((team) => team.computeRanks());
-		this.teams.forEach((team) => team.computeEarnedBid());
+		this.teams.forEach((team) => {
+			team.computeRanks();
+		});
+		this.teams.forEach((team) => {
+			team.computeEarnedBid();
+		});
 	}
 
 	private sortEvents() {
@@ -156,11 +190,10 @@ export default class Interpreter {
 		);
 	}
 
-	private mapArrayToModels<
-		Rep,
-		Constructor extends new (rep: Rep) => Model,
-		Model,
-	>(array: Rep[], objectClass: Constructor): Model[] {
+	private mapArrayToModels<Rep, Model>(
+		array: Rep[] | undefined,
+		objectClass: new (rep: Rep) => Model,
+	): Model[] {
 		if (!array || array.length === 0) {
 			return [];
 		}

@@ -5,13 +5,13 @@ import { root } from "./helpers.js";
 
 // helper functions
 const teamCount = (context: yup.TestContext) =>
-	root(context)["Teams"].filter((team) => !team.exhibition).length;
+	root(context)["Teams"]?.filter((team) => !team.exhibition).length ?? 0;
 
 const schoolsCount = (context: yup.TestContext) =>
-	root(context)["Teams"].reduce((acc, team) => {
+	root(context)["Teams"]?.reduce((acc, team) => {
 		acc.add(`${team.school}|${team.city ?? ""}|${team.state}`);
 		return acc;
-	}, new Set()).size;
+	}, new Set()).size ?? 0;
 
 const existingTournament = async (name?: string) =>
 	!!name &&
@@ -151,7 +151,7 @@ export default yup.object().shape({
 			(value, context) =>
 				Array.isArray(value)
 					? value.every((t) =>
-							root(context)["Teams"].some((team) => team.number === t),
+							root(context)["Teams"]?.some((team) => team.number === t),
 						)
 					: true,
 		)
@@ -190,7 +190,7 @@ export default yup.object().shape({
 					),
 		)
 		.when("name", ([name]: [string | undefined], schema) =>
-			name !== undefined && name !== null
+			name != undefined
 				? schema.max(
 						name.length,
 						`short name for Tournament is longer than normal 'name: ${name}'`,
@@ -339,7 +339,8 @@ export default yup.object().shape({
 			"po offset is too small",
 			(value, context) =>
 				!value ||
-				value + (context.parent["n offset"] || 0) > -teamCount(context),
+				value + ((context.parent["n offset"] ?? 0) as number) >
+					-teamCount(context),
 		),
 	"ns offset": yup
 		.number()
@@ -350,7 +351,8 @@ export default yup.object().shape({
 			"ns offset is too small",
 			(value, context) =>
 				!value ||
-				value + (context.parent["n offset"] || 0) > -teamCount(context),
+				value + ((context.parent["n offset"] ?? 0) as number) >
+					-teamCount(context),
 		),
 	"dq offset": yup
 		.number()
@@ -361,7 +363,8 @@ export default yup.object().shape({
 			"dq offset is too small",
 			(value, context) =>
 				!value ||
-				value + (context.parent["n offset"] || 0) > -teamCount(context),
+				value + ((context.parent["n offset"] ?? 0) as number) >
+					-teamCount(context),
 		),
 	date: yup
 		.mixed<Date | string>()
@@ -369,7 +372,7 @@ export default yup.object().shape({
 			"valid-date",
 			"field 'date:' must be a date object or string following ISO8601 (no timestamp)",
 			(value) => {
-				if (value === undefined || value === null) return true;
+				if (value == undefined) return true;
 				if (typeof value === "string") {
 					return /^\d{4}-[0-1]\d-[0-3]\d$/.test(value);
 				}
@@ -414,7 +417,7 @@ export default yup.object().shape({
 			"valid-date",
 			"start date must be a date object or string following ISO8601 (no timestamp)",
 			(value) => {
-				if (value === undefined || value === null) return true;
+				if (value == undefined) return true;
 				if (typeof value === "string") {
 					return /^\d{4}-[0-1]\d-[0-3]\d$/.test(value);
 				}
@@ -455,7 +458,7 @@ export default yup.object().shape({
 			"valid-date",
 			"end date must be a date object or string following ISO8601 (no timestamp)",
 			(value) => {
-				if (value === undefined || value === null) return true;
+				if (value == undefined) return true;
 				if (typeof value === "string") {
 					return /^\d{4}-[0-1]\d-[0-3]\d$/.test(value);
 				}
@@ -498,7 +501,7 @@ export default yup.object().shape({
 			"valid-date",
 			"awards date must be a date object or string following ISO8601 (no timestamp)",
 			(value) => {
-				if (value === undefined || value === null) return true;
+				if (value == undefined) return true;
 				if (typeof value === "string") {
 					return /^\d{4}-[0-1]\d-[0-3]\d$/.test(value);
 				}

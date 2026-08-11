@@ -50,7 +50,7 @@ export default class Track implements Model<TrackRep> {
 
 		this.medals = this.rep.medals ?? this.tournament.medals;
 		this.trophies = this.rep.trophies ?? this.tournament.trophies;
-		this.nOffset = this.rep["n offset"] ?? this.tournament.nOffset ?? 0;
+		this.nOffset = this.rep["n offset"] ?? this.tournament.nOffset;
 
 		this.maximumPlace = Math.min(
 			this.teams.filter((t) => !t.exhibition).length,

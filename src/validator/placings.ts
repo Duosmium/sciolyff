@@ -1,7 +1,7 @@
 import * as yup from "yup";
 
 import rawsSchema from "./raws.js";
-import { root } from "./helpers.js";
+import { parent, root } from "./helpers.js";
 
 export default yup.object().shape({
 	// always required
@@ -11,13 +11,13 @@ export default yup.object().shape({
 			"matching-event",
 			"'event: ${value}' in Placings does not match any event in Events",
 			(value, context) =>
-				root(context)["Events"].some((event) => event.name === value),
+				root(context)["Events"]?.some((event) => event.name === value),
 		)
 		.test(
 			"unique-event-and-team",
 			"duplicate placing",
 			(value, context) =>
-				root(context)["Placings"].filter(
+				parent(context).filter(
 					(place) =>
 						place.event === value && place.team === context.parent.team,
 				).length === 1,
@@ -30,7 +30,7 @@ export default yup.object().shape({
 			"matching-team",
 			"'team: ${value}' in Placings does not match any team number in Teams",
 			(value, context) =>
-				root(context)["Teams"].some((team) => team.number === value),
+				root(context)["Teams"]?.some((team) => team.number === value),
 		)
 		.required(),
 
@@ -108,13 +108,13 @@ export default yup.object().shape({
 				root(context)["Tournament"]["maximum place"] !== undefined ||
 				context.parent.exempt ||
 				// below checks if the current event is trial or trialed
-				root(context)["Events"].some(
+				root(context)["Events"]?.some(
 					(event) =>
 						event.name === context.parent.event &&
 						(event.trial || event.trialed),
 				) ||
 				// below checks if the team is an exhibition team
-				root(context)["Teams"].some(
+				root(context)["Teams"]?.some(
 					(team) => team.number === context.parent.team && team.exhibition,
 				),
 		),
@@ -139,8 +139,6 @@ export default yup.object().shape({
 			"cannot mix 'raw:' and 'place:' in same file",
 			(value: any, context: yup.TestContext) =>
 				!value ||
-				root(context)["Placings"].every(
-					(placing) => placing.place === undefined,
-				),
+				parent(context).every((placing) => placing.place === undefined),
 		),
 });

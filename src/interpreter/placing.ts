@@ -56,7 +56,7 @@ export default class Placing implements Model<PlacingRep> {
 	constructor(rep: PlacingRep) {
 		this.rep = rep;
 
-		this.participated = rep.participated ?? rep.participated === undefined;
+		this.participated = rep.participated ?? true;
 		this.disqualified = rep.disqualified ?? false;
 		this.exempt = rep.exempt ?? false;
 		this.unknown = rep.unknown ?? false;
@@ -80,7 +80,8 @@ export default class Placing implements Model<PlacingRep> {
 		this.team = interpreter.teams.find((t) => t.number === this.rep.team);
 
 		this.raw = this.hasRaw
-			? new Raw(this.rep.raw!, this.event.lowScoreWins)
+			? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+				new Raw(this.rep.raw!, this.event.lowScoreWins)
 			: undefined;
 
 		this.initiallyConsideredForTeamPoints = !(
@@ -96,7 +97,7 @@ export default class Placing implements Model<PlacingRep> {
 		}
 
 		this.tie = this.hasRaw
-			? (this.event.raws?.filter((r) => Raw.eq(r, this.raw as Raw))?.length ??
+			? (this.event.raws?.filter((r) => Raw.eq(r, this.raw as Raw)).length ??
 					0) > 1
 			: this.rep.tie === true;
 
@@ -181,12 +182,12 @@ export default class Placing implements Model<PlacingRep> {
 		this.trackPlace ||=
 			(this.team.track?.placings
 				?.filter((p) => p.event === this.event)
-				?.sort(
+				.sort(
 					(a, b) =>
 						((a.isolatedPoints as number) - (b.isolatedPoints as number)) *
 						(this.tournament?.reverseScoring ? -1 : 1),
 				)
-				?.findIndex((p) => p.isolatedPoints === this.isolatedPoints) ?? 0) + 1;
+				.findIndex((p) => p.isolatedPoints === this.isolatedPoints) ?? 0) + 1;
 
 		this.isolatedTrackPoints = this.explicit
 			? this.trackPlace
@@ -224,7 +225,6 @@ export default class Placing implements Model<PlacingRep> {
 
 		if (!this.tournament.reverseScoring) {
 			if (
-				this.isolatedTrackPoints != undefined &&
 				this.isolatedTrackPoints > 0 &&
 				this.isolatedTrackPoints <=
 					((this.event.medals as number) || (this.team.track?.medals as number))
@@ -233,7 +233,6 @@ export default class Placing implements Model<PlacingRep> {
 			}
 		} else {
 			if (
-				this.isolatedTrackPoints != undefined &&
 				this.isolatedTrackPoints !== 0 &&
 				this.isolatedTrackPoints >
 					(this.event.bestScore as number) -
@@ -281,7 +280,7 @@ export default class Placing implements Model<PlacingRep> {
 			!(this.exhibitionPlacingsBehind(false) === 0);
 
 		this.pointsLimitedByMaximumPlace =
-			this.tournament?.hasCustomMaximumPlace &&
+			this.tournament.hasCustomMaximumPlace &&
 			(this.unknown ||
 				(this.place === undefined &&
 					(this.calculatePoints(false) > (this.event.maximumPlace as number) ||

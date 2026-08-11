@@ -130,12 +130,12 @@ export default class Team implements Model<TeamRep> {
 
 		this.points =
 			this.placings.reduce((sum, p) => sum + (p.points ?? 0), 0) +
-			this.penalties.reduce((sum, p) => sum + (p.points ?? 0), 0);
+			this.penalties.reduce((sum, p) => sum + p.points, 0);
 
 		if (this.track) {
 			this.trackPoints =
 				this.placings.reduce((sum, p) => sum + (p.trackPoints ?? 0), 0) +
-				this.penalties.reduce((sum, p) => sum + (p.points ?? 0), 0);
+				this.penalties.reduce((sum, p) => sum + p.points, 0);
 		}
 
 		this.trialEventPoints = this.placings.reduce(
@@ -157,7 +157,7 @@ export default class Team implements Model<TeamRep> {
 		this.medalCounts = Array(
 			this.tournament.reverseScoring
 				? this.tournament.largestPlace
-				: (this.tournament?.teams?.length as number) + 1,
+				: (this.tournament.teams?.length as number) + 1,
 		)
 			.fill(0)
 			// this Array.fill.map thing just generates increasing numbers from 0-n
@@ -167,14 +167,14 @@ export default class Team implements Model<TeamRep> {
 						(p) =>
 							p.consideredForTeamPoints &&
 							(this.tournament?.reverseScoring
-								? p.points === (this.tournament?.largestPlace as number) - i
+								? p.points === (this.tournament.largestPlace as number) - i
 								: p.points === i + 1),
 					).length as number,
 			);
 		this.trialEventMedalCounts = Array(
 			this.tournament.reverseScoring
 				? this.tournament.largestPlace
-				: (this.tournament?.teams?.length as number) + 1,
+				: (this.tournament.teams?.length as number) + 1,
 		)
 			.fill(0)
 			.map(
@@ -184,7 +184,7 @@ export default class Team implements Model<TeamRep> {
 							p.event?.trial &&
 							(this.tournament?.reverseScoring
 								? p.isolatedPoints ===
-									(this.tournament?.largestPlace as number) - i
+									(this.tournament.largestPlace as number) - i
 								: p.isolatedPoints === i + 1),
 					).length as number,
 			);
@@ -193,7 +193,7 @@ export default class Team implements Model<TeamRep> {
 			this.trackMedalCounts = Array(
 				this.tournament.reverseScoring
 					? this.tournament.largestPlace
-					: (this.track?.teams?.length as number) + 1,
+					: (this.track.teams?.length as number) + 1,
 			)
 				.fill(0)
 				.map(
@@ -203,14 +203,14 @@ export default class Team implements Model<TeamRep> {
 								p.trackConsideredForTeamPoints &&
 								(this.tournament?.reverseScoring
 									? p.trackPoints ===
-										(this.tournament?.largestPlace as number) - i
+										(this.tournament.largestPlace as number) - i
 									: p.trackPoints === i + 1),
 						).length as number,
 				);
 			this.trackTrialEventMedalCounts = Array(
 				this.tournament.reverseScoring
 					? this.tournament.largestPlace
-					: (this.track?.teams?.length as number) + 1,
+					: (this.track.teams?.length as number) + 1,
 			)
 				.fill(0)
 				.map(
@@ -220,7 +220,7 @@ export default class Team implements Model<TeamRep> {
 								p.event?.trial &&
 								(this.tournament?.reverseScoring
 									? p.isolatedTrackPoints ===
-										(this.tournament?.largestPlace as number) - i
+										(this.tournament.largestPlace as number) - i
 									: p.isolatedTrackPoints === i + 1),
 						).length as number,
 				);
@@ -274,7 +274,7 @@ export default class Team implements Model<TeamRep> {
 			throw new Error("things are undefined");
 		}
 		if (typeof this.tournament.bids === "number") {
-			const rank = this.tournament.teamsEligibleForBids?.findIndex(
+			const rank = this.tournament.teamsEligibleForBids.findIndex(
 				(t) => t === this,
 			);
 			this.earnedBid = rank !== -1 && rank < this.tournament.bids;

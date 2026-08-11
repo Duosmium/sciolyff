@@ -229,22 +229,22 @@ export function genPlacings(
 	if (teams.some((t) => t.exhibition)) {
 		const nonPlacePlacings = placings.filter((p) => p.place === undefined);
 		placings = [
-			// convert placings to an array of an array of placings, by event
-			...placings
-				.reduce((acc, p) => {
-					if (p.place) {
-						const eventPlacings = acc.get(p.event);
-						if (eventPlacings) {
-							eventPlacings.push(p as PlacingHasPlace);
-						} else {
-							acc.set(p.event, [p as PlacingHasPlace]);
+			...[
+				// convert placings to an array of an array of placings, by event
+				...placings
+					.reduce((acc, p) => {
+						if (p.place) {
+							const eventPlacings = acc.get(p.event);
+							if (eventPlacings) {
+								eventPlacings.push(p as PlacingHasPlace);
+							} else {
+								acc.set(p.event, [p as PlacingHasPlace]);
+							}
 						}
-					}
-					return acc;
-				}, new Map<string, PlacingHasPlace[]>())
-				.values(),
-		]
-			.flatMap((arr) =>
+						return acc;
+					}, new Map<string, PlacingHasPlace[]>())
+					.values(),
+			].flatMap((arr) =>
 				arr
 					// sort placings based on place, then exhibition, then exempt
 					.sort(
@@ -259,8 +259,9 @@ export function genPlacings(
 						p.place = i + 1;
 						return p;
 					}),
-			)
-			.concat(nonPlacePlacings);
+			),
+			...nonPlacePlacings,
+		];
 	}
 
 	// automatically mark ties (make sure to check for PO/NS/DQ first!)

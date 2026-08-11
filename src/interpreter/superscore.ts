@@ -58,15 +58,13 @@ export default (interpreter: Interpreter): SciOlyFF => {
 		if (!bestPlacingsBySchool.has(school)) {
 			bestPlacingsBySchool.set(school, new Map());
 		}
-		if (!bestPlacingsBySchool.get(school)?.has(event)) {
-			bestPlacingsBySchool.get(school)?.set(event, placing);
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		const bestPlacingsMap = bestPlacingsBySchool.get(school)!;
+		const bestEvent = bestPlacingsMap.get(event);
+		if (!bestEvent) {
+			bestPlacingsMap.set(event, placing);
 		} else {
-			bestPlacingsBySchool
-				.get(school)
-				?.set(
-					event,
-					better(bestPlacingsBySchool.get(school)!.get(event)!, placing),
-				);
+			bestPlacingsMap.set(event, better(bestEvent, placing));
 		}
 	});
 

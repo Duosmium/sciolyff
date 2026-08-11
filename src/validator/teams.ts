@@ -1,7 +1,7 @@
 import * as yup from "yup";
 
 import canonical from "./canonical.js";
-import { root } from "./helpers.js";
+import { parent, root } from "./helpers.js";
 
 export default yup.object().shape({
 	// always required
@@ -12,17 +12,16 @@ export default yup.object().shape({
 			"unique-number",
 			"duplicate team number: ${value}",
 			(value, context) =>
-				root(context)["Teams"].filter((team) => team.number === value)
-					.length === 1,
+				parent(context).filter((team) => team.number === value).length === 1,
 		)
 		.test(
 			"correct-number-of-exempt-placings",
 			"team ${value} has incorrect number of exempt placings",
 			(value, context) =>
 				context.parent.exhibition ||
-				root(context)["Placings"].filter(
+				root(context)["Placings"]?.filter(
 					(placing) => placing.team === value && placing.exempt,
-				).length === (root(context)["Tournament"]["exempt placings"] || 0),
+				).length === (root(context)["Tournament"]["exempt placings"] ?? 0),
 		)
 		.required(),
 	school: yup
@@ -31,7 +30,7 @@ export default yup.object().shape({
 			"canonical-school-name",
 			"$$warn$$ non-canonical school ${value}",
 			async (value, context) =>
-				context.options?.context?.canonical
+				context.options.context?.canonical
 					? await canonical(
 							[
 								value,
@@ -60,10 +59,10 @@ export default yup.object().shape({
 		.test(
 			"in-track-if-possible",
 			"$$warn$$ missing track for team",
-			(value, context) =>
-				!!value ||
-				!root(context)["Tracks"] ||
-				root(context)["Tracks"].length === 0,
+			(value, context) => {
+				const tracks = root(context)["Tracks"];
+				return !!value || !tracks || tracks.length === 0;
+			},
 		)
 		.test(
 			"no-tracks-when-reverse",
@@ -79,7 +78,7 @@ export default yup.object().shape({
 			"duplicate suffix from same school: ${value}",
 			(value, context) =>
 				value
-					? root(context)["Teams"].filter(
+					? parent(context).filter(
 							(team) =>
 								team.school === context.parent.school &&
 								team.city === context.parent.city &&
@@ -93,7 +92,7 @@ export default yup.object().shape({
 			"$$warn$$ possible unnecessary suffix: ${value}",
 			(value, context) =>
 				value
-					? root(context)["Teams"].filter(
+					? parent(context).filter(
 							(team) =>
 								team.school === context.parent.school &&
 								team.city === context.parent.city &&
@@ -108,7 +107,7 @@ export default yup.object().shape({
 		.test("unambiguous-city", "city for team is ambiguous", (value, context) =>
 			value
 				? true
-				: !root(context)["Teams"].some(
+				: !parent(context).some(
 						(team) =>
 							team.city &&
 							team.school === context.parent.school &&

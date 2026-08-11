@@ -21,7 +21,9 @@ program
 					.then((res) => {
 						console.log(sciolyff.format(res.errors, file, true));
 					})
-					.catch((err) => console.error(err));
+					.catch((err: unknown) => {
+						console.error(err);
+					});
 			}
 		});
 	})

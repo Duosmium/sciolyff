@@ -20,14 +20,14 @@ The default entrypoint exports a `Interpreter` class and a `valid()` function.
 
 ```ts
 async function valid(
-  repOrYaml: string | Record<string, unknown>,
-  options: { abortEarly?: boolean; canonical?: boolean } = {}
+	repOrYaml: string | Record<string, unknown>,
+	options: { abortEarly?: boolean; canonical?: boolean } = {},
 ): Promise<{
-  valid: boolean;
-  success: boolean;
-  validWithWarnings: boolean;
-  status: string;
-  errors?: Error[];
+	valid: boolean;
+	success: boolean;
+	validWithWarnings: boolean;
+	status: string;
+	errors?: Error[];
 }>;
 ```
 

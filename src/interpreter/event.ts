@@ -60,7 +60,7 @@ export default class Event implements Model<EventRep> {
 			.sort(Raw.sortKey);
 
 		if (interpreter.histograms?.type === "data") {
-			this.histograms = interpreter.histograms?.data?.find(
+			this.histograms = interpreter.histograms.data?.find(
 				(d) => d.event === this,
 			);
 		}
@@ -101,10 +101,10 @@ export default class Event implements Model<EventRep> {
 	private competingTeamsCount(): number {
 		return (
 			(this.trial
-				? this.placings?.filter((p) => p.participated)?.length
+				? this.placings?.filter((p) => p.participated).length
 				: this.placings?.filter(
 						(p) => p.participated && !(p.team?.exhibition || p.exempt),
-					)?.length) ?? 0
+					).length) ?? 0
 		);
 	}
 }

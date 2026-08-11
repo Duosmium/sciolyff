@@ -19,8 +19,7 @@ export default function v3convertScoring(csv: string[][], markTies: boolean) {
 	const tracks = genTracks(csv.slice(11, 61));
 	const teams = genTeams(csv.slice(61, 1061));
 
-	const hasPlacements =
-		csv[1061]?.length !== undefined && csv[1061].length !== 0;
+	const hasPlacements = csv[1061]?.length > 0;
 
 	if (hasPlacements) {
 		const histos = genHistos(events, csv.slice(4, 11));

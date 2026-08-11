@@ -171,7 +171,7 @@ export default class Tournament implements Model<TournamentRep> {
 					}
 					return acc;
 				}, new Map<string, Team[]>())
-				?.values() as IterableIterator<Team[]>,
+				.values() as IterableIterator<Team[]>,
 			(teams) =>
 				teams
 					.sort((a, b) => (a.rank as number) - (b.rank as number))
