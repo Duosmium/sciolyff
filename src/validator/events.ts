@@ -8,20 +8,17 @@ const placingsByPlace = (
 	context: yup.TestContext,
 	eventName: string,
 ): Record<string, any> =>
-	(root(context)["Placings"] ?? []).reduce(
-		(acc: Record<string, any>, placing) => {
-			// match undefined/null with non-strict equality
-			if (placing.place != null && placing.event === eventName) {
-				if (acc[placing.place.toString()]) {
-					acc[placing.place.toString()].push(placing);
-				} else {
-					acc[placing.place.toString()] = [placing];
-				}
+	(root(context).Placings ?? []).reduce((acc: Record<string, any>, placing) => {
+		// match undefined/null with non-strict equality
+		if (placing.place != null && placing.event === eventName) {
+			if (acc[placing.place.toString()]) {
+				acc[placing.place.toString()].push(placing);
+			} else {
+				acc[placing.place.toString()] = [placing];
 			}
-			return acc;
-		},
-		{},
-	);
+		}
+		return acc;
+	}, {});
 const placesWithExpandedTies = (context: yup.TestContext, eventName: string) =>
 	// e.g. [6, 6, 8] -> [6, 7, 8]
 	Object.entries(placingsByPlace(context, eventName))
@@ -46,18 +43,18 @@ export default yup.object().shape({
 			"placings-for-all-teams",
 			"event: ${value} has incorrect number of placings",
 			(value, context) =>
-				root(context)["Placings"]?.filter((place) => place.event === value)
-					.length === root(context)["Teams"]?.length,
+				root(context).Placings?.filter((place) => place.event === value)
+					.length === root(context).Teams?.length,
 		)
 		.test(
 			"ties-marked",
 			"event: ${value} has unmarked ties",
 			(value, context) => {
 				const failing = Object.entries(
-					placingsByPlace(context, value as string),
+					placingsByPlace(context, value!),
 				).flatMap(([place, placings]: [string, any[]]) =>
 					// ignore places with 1 or 0 if using reverse scoring
-					root(context)["Tournament"]["reverse scoring"] &&
+					root(context).Tournament["reverse scoring"] &&
 					(place === "1" || place === "0")
 						? []
 						: placings.filter((p) => !p.tie).length <= 1
@@ -80,7 +77,7 @@ export default yup.object().shape({
 			"event: ${value} has unpaired ties",
 			(value, context) => {
 				const failing = Object.entries(
-					placingsByPlace(context, value as string),
+					placingsByPlace(context, value!),
 				).flatMap(([place, placings]: [string, any[]]) =>
 					placings.filter((p) => p.tie).length === 1 ? [place] : [],
 				);
@@ -100,7 +97,7 @@ export default yup.object().shape({
 			"no-gaps-in-places",
 			"event: ${value} has gaps in place",
 			(value, context) => {
-				const places = placesWithExpandedTies(context, value as string);
+				const places = placesWithExpandedTies(context, value!);
 				if (places.length === 0) return true;
 
 				const sequential = Array(Math.max(...places) - Math.min(...places) + 1)
@@ -117,12 +114,12 @@ export default yup.object().shape({
 			"places-start-at-one",
 			"places for event: ${value} don't start at one",
 			(value, context) =>
-				root(context)["Tournament"]["reverse scoring"]
+				root(context).Tournament["reverse scoring"]
 					? true
-					: root(context)["Placings"]?.some((placing) => placing.raw) ||
+					: (root(context).Placings ?? []).some((placing) => placing.raw) ||
 						Math.min(
 							...(root(context)
-								["Placings"]?.filter((placing) => placing.event === value)
+								.Placings?.filter((placing) => placing.event === value)
 								.map((placing) => placing.place as number | undefined)
 								.filter((p) => p !== undefined) ?? []),
 						) === 1,
@@ -132,7 +129,7 @@ export default yup.object().shape({
 			"places for event: ${value} don't start at the same place",
 			(value, context) => {
 				// only test when using reverse scoring
-				if (!root(context)["Tournament"]["reverse scoring"]) return true;
+				if (!root(context).Tournament["reverse scoring"]) return true;
 				const maxes = parent(context).reduce(
 					(acc: { total: number; event: number }, placing) => {
 						if (placing.event === value) {
@@ -159,8 +156,7 @@ export default yup.object().shape({
 			"event-no-histogram",
 			"'event: ${value}' does not have a Histogram entry",
 			(value, context) => {
-				const data: any[] | undefined = (root(context)["Histograms"] as any)
-					?.data;
+				const data: any[] | undefined = (root(context).Histograms as any)?.data;
 				if (data == undefined || data.length === 0) {
 					return true;
 				}
@@ -184,9 +180,8 @@ export default yup.object().shape({
 				value
 					? value <=
 						Math.min(
-							root(context)["Teams"]?.length ?? 0,
-							(root(context)["Tournament"]["maximum place"] as number) ||
-								Infinity,
+							root(context).Teams?.length ?? 0,
+							(root(context).Tournament["maximum place"] as number) || Infinity,
 						)
 					: true,
 		)

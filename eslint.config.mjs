@@ -16,7 +16,7 @@ export default defineConfig([
 		extends: [
 			js.configs.recommended,
 			tseslint.configs.strictTypeChecked,
-			// tseslint.configs.stylisticTypeChecked,
+			tseslint.configs.stylisticTypeChecked,
 		],
 
 		languageOptions: {
@@ -48,6 +48,7 @@ export default defineConfig([
 					allowBoolean: true,
 				},
 			],
+			"@typescript-eslint/no-non-null-assertion": "off",
 		},
 
 		linterOptions: {

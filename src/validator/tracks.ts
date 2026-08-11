@@ -4,7 +4,7 @@ import { parent, root } from "./helpers.js";
 
 // helper functions
 const teamCount = (context: yup.TestContext, trackName: string) =>
-	root(context)["Teams"]?.filter(
+	root(context).Teams?.filter(
 		(team) => team.track === trackName && !team.exhibition,
 	).length ?? 0;
 
@@ -22,14 +22,14 @@ export default yup.object().shape({
 			"matching-teams",
 			"track with 'name: ${value}' has no teams",
 			(value, context) =>
-				(root(context)["Teams"] ?? []).filter((team) => team.track === value)
+				(root(context).Teams ?? []).filter((team) => team.track === value)
 					.length > 0,
 		)
 		.test(
 			"no-tracks-when-reverse",
 			"cannot use reverse scoring with tracks",
 			(value: any, context: yup.TestContext) =>
-				!(value && root(context)["Tournament"]["reverse scoring"]),
+				!(value && root(context).Tournament["reverse scoring"]),
 		)
 		.required(),
 

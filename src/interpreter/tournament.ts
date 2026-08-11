@@ -139,7 +139,7 @@ export default class Tournament implements Model<TournamentRep> {
 		}
 
 		if (this.reverseScoring) {
-			this.largestPlace = Math.max(...this.placings.map((p) => p.place || 0));
+			this.largestPlace = Math.max(...this.placings.map((p) => p.place ?? 0));
 		}
 	}
 
@@ -165,29 +165,26 @@ export default class Tournament implements Model<TournamentRep> {
 				?.reduce((acc, t) => {
 					const k = `${t.school}|${t.city ?? ""}|${t.state}`;
 					if (acc.has(k)) {
-						(acc.get(k) as Team[]).push(t);
+						acc.get(k)!.push(t);
 					} else {
 						acc.set(k, [t]);
 					}
 					return acc;
 				}, new Map<string, Team[]>())
 				.values() as IterableIterator<Team[]>,
-			(teams) =>
-				teams
-					.sort((a, b) => (a.rank as number) - (b.rank as number))
-					.slice(0, n),
+			(teams) => teams.sort((a, b) => a.rank! - b.rank!).slice(0, n),
 		)
 			.flat()
-			.sort((a, b) => (a.rank as number) - (b.rank as number));
+			.sort((a, b) => a.rank! - b.rank!);
 	}
 
 	public get topTeamsPerSchool(): Team[] | undefined {
 		// select the first team from each school
-		return (this.#topTeamsPerSchool ||= this.getTopSchoolTeams(1));
+		return (this.#topTeamsPerSchool ??= this.getTopSchoolTeams(1));
 	}
 
 	public get teamsEligibleForBids(): Team[] {
-		return (this.#teamsEligibleForBids ||= this.getTopSchoolTeams(
+		return (this.#teamsEligibleForBids ??= this.getTopSchoolTeams(
 			this.bidsPerSchool,
 		));
 	}

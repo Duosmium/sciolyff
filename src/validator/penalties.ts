@@ -11,7 +11,7 @@ export default yup.object().shape({
 			"team-exists",
 			"penalty: team ${value} does not exist",
 			(value, context) =>
-				root(context)["Teams"]?.some((team) => team.number === value),
+				root(context).Teams?.some((team) => team.number === value),
 		),
 	points: yup.number().required(),
 });

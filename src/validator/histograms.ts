@@ -9,13 +9,13 @@ export const histoData = yup.object().shape({
 			"matching-event",
 			"'event: ${value}' in Histograms does not match any event in Events",
 			(value, context) =>
-				root(context)["Events"]?.some((event) => event.name === value),
+				root(context).Events?.some((event) => event.name === value),
 		)
 		.test(
 			"unique-event",
 			"'event: ${value}' in Histograms has duplicate entries",
 			(value, context) =>
-				(root(context)["Histograms"] as any)?.data.filter(
+				(root(context).Histograms as any)?.data.filter(
 					(histo: any) => histo.event === value,
 				).length === 1,
 		)

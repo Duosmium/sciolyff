@@ -5,7 +5,6 @@ export function root(context: yup.TestContext): {
 	[key: string]: any[] | undefined;
 	Tournament: any;
 } {
-	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 	return context.from!.slice(-1)[0].value;
 }
 

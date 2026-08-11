@@ -74,14 +74,11 @@ export default class Placing implements Model<PlacingRep> {
 		this.interpreter = interpreter;
 		this.tournament = interpreter.tournament;
 
-		this.event = interpreter.events.find(
-			(e) => e.name === this.rep.event,
-		) as Event;
+		this.event = interpreter.events.find((e) => e.name === this.rep.event)!;
 		this.team = interpreter.teams.find((t) => t.number === this.rep.team);
 
 		this.raw = this.hasRaw
-			? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-				new Raw(this.rep.raw!, this.event.lowScoreWins)
+			? new Raw(this.rep.raw!, this.event.lowScoreWins)
 			: undefined;
 
 		this.initiallyConsideredForTeamPoints = !(
@@ -97,15 +94,13 @@ export default class Placing implements Model<PlacingRep> {
 		}
 
 		this.tie = this.hasRaw
-			? (this.event.raws?.filter((r) => Raw.eq(r, this.raw as Raw)).length ??
-					0) > 1
+			? (this.event.raws?.filter((r) => Raw.eq(r, this.raw!)).length ?? 0) > 1
 			: this.rep.tie === true;
 
 		this.place =
 			this.explicit || !this.hasRaw
 				? this.rep.place
-				: (this.event.raws?.findIndex((r) => Raw.eq(r, this.raw as Raw)) ?? 0) +
-					1;
+				: (this.event.raws?.findIndex((r) => Raw.eq(r, this.raw!)) ?? 0) + 1;
 	}
 
 	computeIsolatedPoints(): void {
@@ -135,7 +130,7 @@ export default class Placing implements Model<PlacingRep> {
 								: (this.tournament.dqOffset ?? 0);
 					}
 
-					const maxPlace = this.event.maximumPlace as number;
+					const maxPlace = this.event.maximumPlace!;
 					const n = maxPlace + this.tournament.nOffset;
 					if (this.disqualified) return n + (this.tournament.dqOffset ?? 2);
 					if (this.didNotParticipate)
@@ -155,8 +150,7 @@ export default class Placing implements Model<PlacingRep> {
 			if (
 				this.isolatedPoints != undefined &&
 				this.isolatedPoints > 0 &&
-				this.isolatedPoints <=
-					((this.event.medals as number) || (this.tournament.medals as number))
+				this.isolatedPoints <= (this.event.medals! || this.tournament.medals!)
 			) {
 				this.medal = this.isolatedPoints;
 			}
@@ -165,11 +159,10 @@ export default class Placing implements Model<PlacingRep> {
 				this.isolatedPoints != undefined &&
 				this.isolatedPoints !== 0 &&
 				this.isolatedPoints >
-					(this.event.bestScore as number) -
-						((this.event.medals as number) ||
-							(this.tournament.medals as number))
+					this.event.bestScore! -
+						(this.event.medals! || this.tournament.medals!)
 			) {
-				this.medal = (this.event.bestScore as number) - this.isolatedPoints + 1;
+				this.medal = this.event.bestScore! - this.isolatedPoints + 1;
 			}
 		}
 	}
@@ -179,12 +172,12 @@ export default class Placing implements Model<PlacingRep> {
 			throw new Error("things are undefined");
 		}
 
-		this.trackPlace ||=
+		this.trackPlace ??=
 			(this.team.track?.placings
 				?.filter((p) => p.event === this.event)
 				.sort(
 					(a, b) =>
-						((a.isolatedPoints as number) - (b.isolatedPoints as number)) *
+						(a.isolatedPoints! - b.isolatedPoints!) *
 						(this.tournament?.reverseScoring ? -1 : 1),
 				)
 				.findIndex((p) => p.isolatedPoints === this.isolatedPoints) ?? 0) + 1;
@@ -207,8 +200,8 @@ export default class Placing implements Model<PlacingRep> {
 					}
 
 					if (!this.team.track) return 0;
-					const maxPlace = this.team.track.maximumPlace as number;
-					const n = maxPlace + (this.team.track.nOffset as number);
+					const maxPlace = this.team.track.maximumPlace!;
+					const n = maxPlace + this.team.track.nOffset!;
 					if (this.disqualified) return n + (this.tournament.dqOffset ?? 2);
 					if (this.didNotParticipate)
 						return n + (this.tournament.nsOffset ?? 1);
@@ -227,7 +220,10 @@ export default class Placing implements Model<PlacingRep> {
 			if (
 				this.isolatedTrackPoints > 0 &&
 				this.isolatedTrackPoints <=
-					((this.event.medals as number) || (this.team.track?.medals as number))
+					(this.event.medals ??
+						this.team.track?.medals ??
+						this.tournament.medals ??
+						0)
 			) {
 				this.trackMedal = this.isolatedTrackPoints;
 			}
@@ -235,12 +231,13 @@ export default class Placing implements Model<PlacingRep> {
 			if (
 				this.isolatedTrackPoints !== 0 &&
 				this.isolatedTrackPoints >
-					(this.event.bestScore as number) -
-						((this.event.medals as number) ||
-							(this.tournament.medals as number))
+					this.event.bestScore! -
+						(this.event.medals ??
+							this.team.track?.medals ??
+							this.tournament.medals ??
+							0)
 			) {
-				this.medal =
-					(this.event.bestScore as number) - this.isolatedTrackPoints + 1;
+				this.medal = this.event.bestScore! - this.isolatedTrackPoints + 1;
 			}
 		}
 	}
@@ -283,7 +280,7 @@ export default class Placing implements Model<PlacingRep> {
 			this.tournament.hasCustomMaximumPlace &&
 			(this.unknown ||
 				(this.place === undefined &&
-					(this.calculatePoints(false) > (this.event.maximumPlace as number) ||
+					(this.calculatePoints(false) > this.event.maximumPlace! ||
 						(this.calculatePoints(false) === this.event.maximumPlace &&
 							this.tie))));
 	}
@@ -294,32 +291,32 @@ export default class Placing implements Model<PlacingRep> {
 			this.event?.trial
 				? place
 				: this.tournament?.reverseScoring
-					? (place as number) + this.exhibitionPlacingsBehind(inTrack)
-					: (place as number) - this.exhibitionPlacingsBehind(inTrack)
-		) as number;
+					? place! + this.exhibitionPlacingsBehind(inTrack)
+					: place! - this.exhibitionPlacingsBehind(inTrack)
+		)!;
 	}
 
 	private exhibitionPlacingsBehind(inTrack: boolean): number {
 		if (inTrack) {
-			return (this.#trackExhibitonPlacingsBehind ||=
+			return (this.#trackExhibitonPlacingsBehind ??=
 				this.event?.placings?.filter(
 					(p) =>
 						(p.exempt || p.team?.exhibition) &&
 						p.team?.track === this.team?.track &&
 						p.trackPlace &&
 						(this.tournament?.reverseScoring
-							? p.trackPlace > (this.trackPlace as number)
-							: p.trackPlace < (this.trackPlace as number)),
-				).length) as number;
+							? p.trackPlace > this.trackPlace!
+							: p.trackPlace < this.trackPlace!),
+				).length)!;
 		} else {
-			return (this.#exhibitionPlacingsBehind ||= this.event?.placings?.filter(
+			return (this.#exhibitionPlacingsBehind ??= this.event?.placings?.filter(
 				(p) =>
 					(p.exempt || p.team?.exhibition) &&
 					p.place &&
 					(this.tournament?.reverseScoring
-						? p.place > (this.place as number)
-						: p.place < (this.place as number)),
-			).length) as number;
+						? p.place > this.place!
+						: p.place < this.place!),
+			).length)!;
 		}
 	}
 }

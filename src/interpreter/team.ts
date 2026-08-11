@@ -71,7 +71,7 @@ export default class Team implements Model<TeamRep> {
 		this.placings = interpreter.placings.filter((p) => p.team === this);
 		this.penalties = interpreter.penalties.filter((p) => p.team === this);
 		this.placingsByEvent = this.placings.reduce((acc, p) => {
-			acc.set(p.event as Event, p);
+			acc.set(p.event!, p);
 			return acc;
 		}, new Map<Event, Placing>());
 	}
@@ -88,7 +88,7 @@ export default class Team implements Model<TeamRep> {
 						.filter((p) => p.initiallyConsideredForTeamPoints)
 						.sort(
 							(a, b) =>
-								(b.isolatedPoints as number) - (a.isolatedPoints as number) ||
+								b.isolatedPoints! - a.isolatedPoints! ||
 								(a.unknown
 									? -1
 									: b.unknown
@@ -105,8 +105,7 @@ export default class Team implements Model<TeamRep> {
 							.filter((p) => p.initiallyConsideredForTeamPoints)
 							.sort(
 								(a, b) =>
-									(b.isolatedTrackPoints as number) -
-										(a.isolatedTrackPoints as number) ||
+									b.isolatedTrackPoints! - a.isolatedTrackPoints! ||
 									(a.unknown
 										? -1
 										: b.unknown
@@ -139,15 +138,13 @@ export default class Team implements Model<TeamRep> {
 		}
 
 		this.trialEventPoints = this.placings.reduce(
-			(sum, p) =>
-				(p.event as Event).trial ? sum + (p.isolatedPoints ?? 0) : sum,
+			(sum, p) => (p.event!.trial ? sum + (p.isolatedPoints ?? 0) : sum),
 			0,
 		);
 
 		if (this.track) {
 			this.trackTrialEventPoints = this.placings.reduce(
-				(sum, p) =>
-					(p.event as Event).trial ? sum + (p.isolatedTrackPoints ?? 0) : sum,
+				(sum, p) => (p.event!.trial ? sum + (p.isolatedTrackPoints ?? 0) : sum),
 				0,
 			);
 		}
@@ -157,7 +154,7 @@ export default class Team implements Model<TeamRep> {
 		this.medalCounts = Array(
 			this.tournament.reverseScoring
 				? this.tournament.largestPlace
-				: (this.tournament.teams?.length as number) + 1,
+				: (this.tournament.teams?.length ?? 0) + 1,
 		)
 			.fill(0)
 			// this Array.fill.map thing just generates increasing numbers from 0-n
@@ -167,14 +164,14 @@ export default class Team implements Model<TeamRep> {
 						(p) =>
 							p.consideredForTeamPoints &&
 							(this.tournament?.reverseScoring
-								? p.points === (this.tournament.largestPlace as number) - i
+								? p.points === this.tournament.largestPlace! - i
 								: p.points === i + 1),
-					).length as number,
+					).length ?? 0,
 			);
 		this.trialEventMedalCounts = Array(
 			this.tournament.reverseScoring
 				? this.tournament.largestPlace
-				: (this.tournament.teams?.length as number) + 1,
+				: (this.tournament.teams?.length ?? 0) + 1,
 		)
 			.fill(0)
 			.map(
@@ -183,17 +180,16 @@ export default class Team implements Model<TeamRep> {
 						(p) =>
 							p.event?.trial &&
 							(this.tournament?.reverseScoring
-								? p.isolatedPoints ===
-									(this.tournament.largestPlace as number) - i
+								? p.isolatedPoints === this.tournament.largestPlace! - i
 								: p.isolatedPoints === i + 1),
-					).length as number,
+					).length ?? 0,
 			);
 
 		if (this.track) {
 			this.trackMedalCounts = Array(
 				this.tournament.reverseScoring
 					? this.tournament.largestPlace
-					: (this.track.teams?.length as number) + 1,
+					: (this.track.teams?.length ?? 0) + 1,
 			)
 				.fill(0)
 				.map(
@@ -202,15 +198,14 @@ export default class Team implements Model<TeamRep> {
 							(p) =>
 								p.trackConsideredForTeamPoints &&
 								(this.tournament?.reverseScoring
-									? p.trackPoints ===
-										(this.tournament.largestPlace as number) - i
+									? p.trackPoints === this.tournament.largestPlace! - i
 									: p.trackPoints === i + 1),
-						).length as number,
+						).length ?? 0,
 				);
 			this.trackTrialEventMedalCounts = Array(
 				this.tournament.reverseScoring
 					? this.tournament.largestPlace
-					: (this.track.teams?.length as number) + 1,
+					: (this.track.teams?.length ?? 0) + 1,
 			)
 				.fill(0)
 				.map(
@@ -219,10 +214,9 @@ export default class Team implements Model<TeamRep> {
 							(p) =>
 								p.event?.trial &&
 								(this.tournament?.reverseScoring
-									? p.isolatedTrackPoints ===
-										(this.tournament.largestPlace as number) - i
+									? p.isolatedTrackPoints === this.tournament.largestPlace! - i
 									: p.isolatedTrackPoints === i + 1),
-						).length as number,
+						).length ?? 0,
 				);
 		}
 	}

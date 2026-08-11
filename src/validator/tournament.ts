@@ -5,10 +5,10 @@ import { root } from "./helpers.js";
 
 // helper functions
 const teamCount = (context: yup.TestContext) =>
-	root(context)["Teams"]?.filter((team) => !team.exhibition).length ?? 0;
+	root(context).Teams?.filter((team) => !team.exhibition).length ?? 0;
 
 const schoolsCount = (context: yup.TestContext) =>
-	root(context)["Teams"]?.reduce((acc, team) => {
+	root(context).Teams?.reduce((acc, team) => {
 		acc.add(`${team.school}|${team.city ?? ""}|${team.state}`);
 		return acc;
 	}, new Set()).size ?? 0;
@@ -58,7 +58,7 @@ export default yup.object().shape({
 				return words.every(
 					(word) =>
 						["at", "of", "and", ""].includes(word) ||
-						word[0] === word[0].toUpperCase(),
+						word.startsWith(word[0].toUpperCase()),
 				);
 			},
 		)
@@ -151,7 +151,7 @@ export default yup.object().shape({
 			(value, context) =>
 				Array.isArray(value)
 					? value.every((t) =>
-							root(context)["Teams"]?.some((team) => team.number === t),
+							root(context).Teams?.some((team) => team.number === t),
 						)
 					: true,
 		)
@@ -200,7 +200,7 @@ export default yup.object().shape({
 		.test(
 			"different-short-name",
 			"field 'short name' should be different from field 'name'",
-			(value, context) => (!value ? true : value !== context.parent["name"]),
+			(value, context) => (!value ? true : value !== context.parent.name),
 		)
 		.test(
 			"style-guide",
@@ -213,7 +213,7 @@ export default yup.object().shape({
 				return words.every(
 					(word) =>
 						["at", "of", "and", ""].includes(word) ||
-						word[0] === word[0].toUpperCase(),
+						word.startsWith(word[0].toUpperCase()),
 				);
 			},
 		)
@@ -224,7 +224,7 @@ export default yup.object().shape({
 				const data = await fetchData("tournament_names.csv");
 				const foundNames: string[] = [];
 				for (const row of data) {
-					if (row[0] === context.parent["name"]) {
+					if (row[0] === context.parent.name) {
 						if (row[1] === value) return true;
 						foundNames.push(row[1]);
 					}
@@ -244,7 +244,7 @@ export default yup.object().shape({
 			"$$warn$$ field 'short name:' could be changed to a recommended name",
 			async (value, context) => {
 				if (
-					!context.parent["name"] ||
+					!context.parent.name ||
 					(await existingTournament(context.parent.name as string))
 				) {
 					return true;
@@ -261,7 +261,7 @@ export default yup.object().shape({
 					["University"],
 					[" at "],
 				];
-				let name: string = context.parent["name"];
+				let name: string = context.parent.name;
 				subs.forEach((str) => (name = name.replace(str[0], str[1] || "")));
 				name = name
 					.split(" ")

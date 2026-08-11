@@ -110,8 +110,8 @@ export default async function valid(
 				(err): SciolyFFError => ({
 					warning: err.errors[0].startsWith("$$warn$$"),
 					message: err.errors[0].replace("$$warn$$", "").trimStart(),
-					location: sourceMap.lookup(err.path || ""),
-					context: getIn(sciolyffSchema, err.path || "", rep).parent as unknown,
+					location: sourceMap.lookup(err.path ?? ""),
+					context: getIn(sciolyffSchema, err.path ?? "", rep).parent as unknown,
 				}),
 			);
 

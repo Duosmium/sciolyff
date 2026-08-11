@@ -21,11 +21,11 @@ export const fetchData = (() => {
 	};
 
 	// cache fetched data
-	const cache: Map<string, Promise<string[][]>> = new Map();
+	const cache = new Map<string, Promise<string[][]>>();
 
 	return (file: string) => {
 		if (cache.has(file)) {
-			return cache.get(file) as Promise<string[][]>;
+			return cache.get(file)!;
 		}
 		const result = inner(file);
 		cache.set(file, result);
@@ -39,7 +39,7 @@ export default async function canonical(
 ): Promise<boolean> {
 	const data = await fetchData(file);
 	const res = data.some(
-		(row) => row.length > 0 && row.every((el, i) => el === (name[i] || "")),
+		(row) => row.length > 0 && row.every((el, i) => el === (name[i] ?? "")),
 	);
 	return res;
 }

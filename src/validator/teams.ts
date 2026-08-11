@@ -18,10 +18,10 @@ export default yup.object().shape({
 			"correct-number-of-exempt-placings",
 			"team ${value} has incorrect number of exempt placings",
 			(value, context) =>
-				context.parent.exhibition ||
-				root(context)["Placings"]?.filter(
+				context.parent.exhibition === true ||
+				root(context).Placings?.filter(
 					(placing) => placing.team === value && placing.exempt,
-				).length === (root(context)["Tournament"]["exempt placings"] ?? 0),
+				).length === (root(context).Tournament["exempt placings"] ?? 0),
 		)
 		.required(),
 	school: yup
@@ -53,14 +53,13 @@ export default yup.object().shape({
 			"matching-track",
 			"'track ${value}' does not match any name in 'section Track'",
 			(value, context) =>
-				!value ||
-				root(context)["Tracks"]?.some((track) => track.name === value),
+				!value || root(context).Tracks?.some((track) => track.name === value),
 		)
 		.test(
 			"in-track-if-possible",
 			"$$warn$$ missing track for team",
 			(value, context) => {
-				const tracks = root(context)["Tracks"];
+				const tracks = root(context).Tracks;
 				return !!value || !tracks || tracks.length === 0;
 			},
 		)
@@ -68,7 +67,7 @@ export default yup.object().shape({
 			"no-tracks-when-reverse",
 			"cannot use reverse scoring with tracks",
 			(value: any, context: yup.TestContext) =>
-				!(value && root(context)["Tournament"]["reverse scoring"]),
+				!(value && root(context).Tournament["reverse scoring"]),
 		),
 	suffix: yup
 		.string()

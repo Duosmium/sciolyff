@@ -50,13 +50,13 @@ export default class Event implements Model<EventRep> {
 		this.placings = interpreter.placings.filter((p) => p.event === this);
 
 		this.placingsByTeam = this.placings.reduce((acc, p) => {
-			acc.set(p.team as Team, p);
+			acc.set(p.team!, p);
 			return acc;
 		}, new Map<Team, Placing>());
 
 		this.raws = this.placings
 			.filter((p) => p.raw !== undefined)
-			.map((p) => p.raw as Raw)
+			.map((p) => p.raw!)
 			.sort(Raw.sortKey);
 
 		if (interpreter.histograms?.type === "data") {
@@ -66,7 +66,7 @@ export default class Event implements Model<EventRep> {
 		}
 
 		this.bestScore = this.tournament.reverseScoring
-			? Math.max(...this.placings.map((p) => p.rep.place || 0))
+			? Math.max(...this.placings.map((p) => p.rep.place ?? 0))
 			: 1;
 	}
 
@@ -103,7 +103,7 @@ export default class Event implements Model<EventRep> {
 			(this.trial
 				? this.placings?.filter((p) => p.participated).length
 				: this.placings?.filter(
-						(p) => p.participated && !(p.team?.exhibition || p.exempt),
+						(p) => p.participated && !(p.team?.exhibition === true || p.exempt),
 					).length) ?? 0
 		);
 	}

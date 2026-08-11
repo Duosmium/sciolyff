@@ -10,7 +10,6 @@ import type {
 	Placing,
 	PlacingRep,
 	SciOlyFF,
-	Team,
 	TeamRep,
 	TournamentRep,
 } from "./types.js";
@@ -53,12 +52,11 @@ export default (interpreter: Interpreter): SciOlyFF => {
 			)
 				? a
 				: b;
-		const event = placing.event?.name as string;
-		const school = teamNumbers.get(fsn(placing.team as Team)) as number;
+		const event = placing.event!.name;
+		const school = teamNumbers.get(fsn(placing.team!))!;
 		if (!bestPlacingsBySchool.has(school)) {
 			bestPlacingsBySchool.set(school, new Map());
 		}
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		const bestPlacingsMap = bestPlacingsBySchool.get(school)!;
 		const bestEvent = bestPlacingsMap.get(event);
 		if (!bestEvent) {
@@ -90,7 +88,7 @@ export default (interpreter: Interpreter): SciOlyFF => {
 		...interpreter.tournament.rep,
 	};
 
-	tournamentRep["bids"] = 0;
+	tournamentRep.bids = 0;
 
 	return {
 		superscore: true,

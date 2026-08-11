@@ -78,7 +78,7 @@ export default class Interpreter {
 		this.teams.forEach((team) => {
 			if (team.trackName) {
 				team.addTrack(
-					this.tracks.find((track) => track.name === team.trackName) as Track,
+					this.tracks.find((track) => track.name === team.trackName)!,
 				);
 			}
 		});
@@ -171,7 +171,7 @@ export default class Interpreter {
 							},
 						}[str(t.exhibition)][str(t.disqualified)];
 						if (acc.has(key)) {
-							(acc.get(key) as Team[]).push(t);
+							acc.get(key)!.push(t);
 						} else {
 							acc.set(key, [t]);
 						}
@@ -223,7 +223,7 @@ export default class Interpreter {
 		const result = aCounts
 			.map((aCount, i) => bCounts[i] - aCount)
 			.find((diff) => diff !== 0);
-		return result ? result : this.breakSecondTie(a, b, track);
+		return result ?? this.breakSecondTie(a, b, track);
 	}
 
 	// break tie based on trial events
@@ -247,7 +247,7 @@ export default class Interpreter {
 		const result = aCounts
 			.map((aCount, i) => bCounts[i] - aCount)
 			.find((diff) => diff !== 0);
-		return result ? result : a.number - b.number;
+		return result ?? a.number - b.number;
 	}
 
 	// superscore this interpreter
@@ -258,7 +258,7 @@ export default class Interpreter {
 			return this;
 		}
 
-		this.#superscored ||= new Interpreter(superscore(this));
+		this.#superscored ??= new Interpreter(superscore(this));
 		if (toInterpreter) {
 			return this.#superscored;
 		} else {

@@ -33,9 +33,7 @@ export class HistoData implements Model<HistoDataRep> {
 	}
 
 	link(interpreter: Interpreter): void {
-		this.event = interpreter.events.find(
-			(e) => e.name === this.rep.event,
-		) as Event;
+		this.event = interpreter.events.find((e) => e.name === this.rep.event)!;
 	}
 }
 

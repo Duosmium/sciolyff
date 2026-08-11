@@ -11,7 +11,7 @@ export default yup.object().shape({
 			"matching-event",
 			"'event: ${value}' in Placings does not match any event in Events",
 			(value, context) =>
-				root(context)["Events"]?.some((event) => event.name === value),
+				root(context).Events?.some((event) => event.name === value),
 		)
 		.test(
 			"unique-event-and-team",
@@ -30,7 +30,7 @@ export default yup.object().shape({
 			"matching-team",
 			"'team: ${value}' in Placings does not match any team number in Teams",
 			(value, context) =>
-				root(context)["Teams"]?.some((team) => team.number === value),
+				root(context).Teams?.some((team) => team.number === value),
 		)
 		.required(),
 
@@ -105,16 +105,16 @@ export default yup.object().shape({
 			(value, context) =>
 				// this is kind of mess, sorry!
 				!value ||
-				root(context)["Tournament"]["maximum place"] !== undefined ||
-				context.parent.exempt ||
+				root(context).Tournament["maximum place"] !== undefined ||
+				context.parent.exempt === true ||
 				// below checks if the current event is trial or trialed
-				root(context)["Events"]?.some(
+				(root(context).Events ?? []).some(
 					(event) =>
 						event.name === context.parent.event &&
-						(event.trial || event.trialed),
+						(event.trial === true || event.trialed === true),
 				) ||
 				// below checks if the team is an exhibition team
-				root(context)["Teams"]?.some(
+				root(context).Teams?.some(
 					(team) => team.number === context.parent.team && team.exhibition,
 				),
 		),
@@ -132,7 +132,7 @@ export default yup.object().shape({
 			"no-raws-when-reverse",
 			"cannot use reverse scoring with raws",
 			(value: any, context: yup.TestContext) =>
-				!(value && root(context)["Tournament"]["reverse scoring"]),
+				!(value && root(context).Tournament["reverse scoring"]),
 		)
 		.test(
 			"no-mix-of-raws-and-places",
