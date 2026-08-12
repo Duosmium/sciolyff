@@ -130,7 +130,7 @@ export default yup.object().shape({
 			(value, context) => {
 				// only test when using reverse scoring
 				if (!root(context).Tournament["reverse scoring"]) return true;
-				const maxes = parent(context).reduce(
+				const maxes = (root(context).Placings ?? []).reduce(
 					(acc: { total: number; event: number }, placing) => {
 						if (placing.event === value) {
 							acc.event = Math.max(acc.event, (placing.place as number) || 0);
