@@ -113,16 +113,19 @@ export default yup.object().shape({
 		.test(
 			"places-start-at-one",
 			"places for event: ${value} don't start at one",
-			(value, context) =>
-				root(context).Tournament["reverse scoring"]
-					? true
-					: (root(context).Placings ?? []).some((placing) => placing.raw) ||
-						Math.min(
-							...(root(context)
-								.Placings?.filter((placing) => placing.event === value)
-								.map((placing) => placing.place as number | undefined)
-								.filter((p) => p !== undefined) ?? []),
-						) === 1,
+			(value, context) => {
+				const places =
+					root(context)
+						.Placings?.filter((placing) => placing.event === value)
+						.map((placing) => placing.place as number | undefined)
+						.filter((p) => p !== undefined) ?? [];
+				return (
+					root(context).Tournament["reverse scoring"] === true ||
+					(root(context).Placings ?? []).some((placing) => placing.raw) ||
+					places.length === 0 ||
+					Math.min(...places) === 1
+				);
+			},
 		)
 		.test(
 			"reverse-places-start-at-same-place",
