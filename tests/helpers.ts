@@ -1,4 +1,4 @@
-import type Interpreter from "../src/interpreter";
+import type Interpreter from "../src/interpreter/index.js";
 
 export function dumpInterpreter(interpreter: Interpreter) {
 	return {

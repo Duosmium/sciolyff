@@ -36,11 +36,12 @@
 		"format": "prettier --check .",
 		"fix": "prettier --write . ; eslint --fix .",
 		"build": "npm run clean && tsc",
+		"build:tests": "tsc -p tsconfig.tests.json",
 		"prepare": "husky",
 		"release": "npm test; npm run build && release-it",
-		"test": "c8 ava",
+		"test": "npm run build:tests && c8 ava",
 		"make-coverage": "c8 report -r lcovonly",
-		"update-snapshots": "ava --update-snapshots"
+		"update-snapshots": "npm run build:tests && ava --update-snapshots"
 	},
 	"keywords": [
 		"sciolyff",
@@ -59,6 +60,7 @@
 		"yup": "^1.7.1"
 	},
 	"devDependencies": {
+		"@ava/typescript": "^7.0.0",
 		"@eslint/js": "^10.0.1",
 		"@types/js-yaml": "^4.0.9",
 		"@types/node-fetch": "^2.6.13",
@@ -72,7 +74,6 @@
 		"lint-staged": "^17.3.0",
 		"prettier": "3.9.6",
 		"release-it": "^21.0.1",
-		"tsimp": "^2.0.12",
 		"typescript": "^5.9.3",
 		"typescript-eslint": "^8.67.0"
 	},
@@ -82,15 +83,14 @@
 	},
 	"ava": {
 		"files": [
-			"tests/**/*",
-			"!tests/helpers.ts"
+			"tests/**/test.ts"
 		],
-		"extensions": [
-			"ts"
-		],
-		"nodeArguments": [
-			"--import=tsimp"
-		],
+		"typescript": {
+			"rewritePaths": {
+				"tests/": "tests/dist/tests/"
+			},
+			"compile": false
+		},
 		"timeout": "3m"
 	},
 	"c8": {
